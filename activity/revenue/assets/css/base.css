@@ -1,0 +1,65 @@
+/* reset */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%;}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:normal;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+body,textarea,input,button,select,keygen,legend{font-size:12px; font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif; color:#000000;outline:0;}
+body{background:#f9f9f9;}
+a,a:hover{color:#000000;}
+input,button,select,textarea{outline:none;}textarea{resize:none;border:1px solid #d7d8dd ;}
+i{display: inline-block;}
+/*��ͨ����*/
+/* public style */
+.fl { float: left; }
+.fr { float: right; }
+.tl{text-align: left;}
+.tr{text-align: right;}
+.tc{text-align: center;}
+.vt{vertical-align: top;}
+.vm{vertical-align: middle;}
+.cl{clear: both;}
+.owh{overflow: hidden;}
+.owa{overflow: auto;}
+.mgauto{ margin: 0 auto;}
+.dn{display: none;}
+.db{display:block;}
+.dinb{display:inline-block;}
+.bdno{border: none;}
+.h42{height: 42px;}
+.cor-ff{color: #fff;}
+.por{position: relative;}
+.mt8{margin-top: 8px;}
+.mg10{margin: 10px;}
+.mt22{margin-top: 22px;}
+.mt30{margin-top: 30px;}
+.mr20{margin-right: 20px;}
+.mr40{margin-right: 40px;}
+.mb40{margin-bottom: 40px;}
+.mb30{margin-bottom: 30px;}
+.mb15{margin-bottom: 15px;}
+.ml10{margin-left: 10px;}
+.ml8{margin-left: 8px;}
+.mt10{margin-top: 10px;}
+.curs{cursor: pointer}
+.ellipsis{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.br{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

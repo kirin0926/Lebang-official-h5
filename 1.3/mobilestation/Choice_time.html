@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选择服务时间</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <!--App自定义的css-->
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+    <style>
+        .t_ul{
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            overflow-x: auto;
+            height: 69px;
+            width: 100%;
+            /*overflow: scroll;*/
+            overflow-y: hidden;
+            /*overflow-x: scroll;*/
+        }
+        .t_ul li{
+            float: left;
+            width: 20%;
+        }
+        .t_li_active{
+            border-bottom: 1px solid #ff6600;
+        }
+        .t_li_active div{
+            color: #ff6600;
+        }
+        .t_lin{
+            text-align: center;
+            color: #9e9e9e;
+            margin-top: 10px;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .t_lit{
+            text-align: center;
+            color: #636363;
+            padding-bottom: 10px;
+            font-size: 16px;
+        }
+        .t_b{
+            background: #ffffff;
+        }
+        .b_li_active{
+            background: #ff6600;
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+        .b_ul{
+            padding-bottom: 10px;
+            overflow: hidden;
+        }
+        .b_ul li{
+            float: left;
+            margin-top: 10px;
+            margin-left: 10px;
+            border: 1px solid #e7e7e7;
+            border-radius: 4px;
+            color: #333;
+            width: 0.52rem;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 15px;
+        }
+        .pay_button{
+            line-height: inherit;
+            border: navajowhite;
+            width: 94%;
+        }
+        .pay_box{
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul class="t_ul">
+            <!--<li class="t_li_active"><div class="t_lin">今天</div><div class="t_lit">4月7日</div></li>-->
+            <!--<li><div class="t_lin">明天</div><div class="t_lit">4月8日</div></li>-->
+        </ul>
+        <div class="t_b">
+            <ul class="b_ul"></ul>
+        </div>
+        <div class="pay_box"><button class="pay_button">确定选择</button></div>
+    </div>
+</body>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/mui.min.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<script>
+    var now = new Date();
+    var y = now.getFullYear();  //年
+    var m = now.getMonth()+1; //月
+    var d = now.getDate();   //日
+    var h = now.getHours();  //时
+    var t = now.getDay();   ////获取当前星期X(0-6,0代表星期天)
+    var mint = now.getMinutes();  //分钟
+    var nowcho = Date.parse(new Date()) / 1000;   //当前时间戳
+
+    top_banner();
+    function top_banner(){
+        for(var i=0;i<5;i++){
+            if(t == 0){
+                var t_lin = "星期天";
+            }else if(t == 1){
+                var t_lin = "星期一";
+                t++;
+            }else if(t == 2){
+                var t_lin = "星期二";
+                t++;
+            }else if(t == 3){
+                var t_lin = "星期三";
+                t++;
+            }else if(t == 4){
+                var t_lin = "星期四";
+                t++;
+            }else if(t == 5){
+                var t_lin = "星期五";
+                t++;
+            }else if(t == 6){
+                var t_lin = "星期六";
+                t++;
+            }else if(t == 7){
+                var t_lin = "星期天";
+                t = 1
+            }
+            var li = '<li data-time="'+nowcho+'" id="day'+i+'"><div class="t_lin">'+t_lin+'</div><div class="t_lit">'+m+'月'+d+'日</div></li>';
+            $(".t_ul").append(li);
+            d++;
+            nowcho=nowcho+86400;
+            if(d>30){
+                d = 1;
+                m++
+            }
+        }
+        for(var shijt = 18 ;shijt<24;shijt++){
+            if( 0<mint<30 ){
+                var word = "30";
+            }else if(30<mint<59){
+                var word = "00";
+            }
+            var box = '<li>'+h+':'+word+'</li>';
+//            $(".b_ul").append(box);
+            h++
+        }
+    }
+
+    $(".t_ul li:first-child").addClass("t_li_active");
+
+
+    nowDay();
+    $("#day0").click(function(){
+        nowDay();
+    });
+
+    function nowDay(){
+        
+
+        var sss= new Date(now).toLocaleString().replace(/:\d{1,2}$/,'').replace(/上午/g,"").replace(/下午/g,"");
+        var ds = y+'/' +(now.getMonth()+1)+'/'+now.getDate() +' '+new Date().toTimeString().substr(0, 3)+"00";
+        var ed = y+'/' +(now.getMonth()+1)+'/'+now.getDate() +' '+localStorage.getItem('endTime');
+        var edtimeshijianchuo = (Date.parse(ed)/1000)-1800; //半小时
+        var endtimenow = new Date(parseInt(edtimeshijianchuo) * 1000).toLocaleDateString() +" "+new Date(parseInt(edtimeshijianchuo) * 1000).toTimeString().substr(0, 8);
+
+        var date1 = new Date(ds);
+        var endData = new Date(endtimenow);
+        time1 = Date.parse(date1);
+        date1.setDate(date1.getDate()+1);
+        date1.setUTCHours('-8','0','0');
+        time2 = Date.parse(endData);
+        var ok = 1;
+        while(ok){
+            time1 = time1 + 1000*60*30;
+            if(time1 > time2){
+                ok=0;
+            }else{
+                date2 = new Date(time1);
+                if(0<=date2.getMinutes()&&date2.getMinutes()<9){
+                    var m = "0"+date2.getMinutes();
+                }else{
+                    var m = date2.getMinutes();
+                }
+                $(".b_ul").append("<li data-time="+Date.parse(date2)/1000+">"+date2.getHours()+":"+m+"</li>");
+            }
+        }
+        $(".b_ul li").click(function(){
+            $(".b_ul li").removeClass("b_li_active");
+            $(this).addClass("b_li_active");
+        });
+        let test = new Date().toTimeString().substr(3, 2);
+        if(test>=30){
+            $(".b_ul li:first-child").remove();
+        }
+    }
+
+
+    function otherDay(){
+//    固定时间循环
+        let tr = new Date(parseInt($(".t_li_active").data("time")) * 1000).toLocaleDateString();
+
+
+        var ds = tr +' '+localStorage.getItem('startTime');  //开始时间
+        var edtimeOther = tr +' '+localStorage.getItem('endTime');//结束时间
+        var edtimeshijianchuo = (Date.parse(edtimeOther)/1000)-1800; //半小时
+        var endtimenow = new Date(parseInt(edtimeshijianchuo) * 1000).toLocaleDateString() +" "+new Date(parseInt(edtimeshijianchuo) * 1000).toTimeString().substr(0, 8);
+
+        var date1 = new Date(ds);
+        var endData = new Date(endtimenow);
+        time1 = Date.parse(date1);
+        date1.setDate(date1.getDate()+1);
+        date1.setUTCHours('-8','0','0');
+        time2 = Date.parse(endData);
+        var ok = 1;
+        while(ok){
+            time1 = time1 + 1000*60*30;
+            if(time1 > time2){
+                ok=0;
+            }else{
+                date2 = new Date(time1);
+                if(0<=date2.getMinutes()&&date2.getMinutes()<9){
+                    var m = "0"+date2.getMinutes();
+                }else{
+                    var m = date2.getMinutes();
+                }
+                $(".b_ul").append("<li data-time="+Date.parse(date2)/1000+">"+date2.getHours()+":"+m+"</li>");
+            }
+        }
+        $(".b_ul li").click(function(){
+            $(".b_ul li").removeClass("b_li_active");
+            $(this).addClass("b_li_active");
+        });
+    }
+
+
+    //    切换时间
+    $(".t_ul li").click(function(){
+        $(".t_ul li").removeClass("t_li_active");
+        $(this).addClass("t_li_active");
+        if($(this).attr("id")!="day0"){
+            $(".b_ul").html("");
+            otherDay()
+        }else{
+            $(".b_ul").html("");
+            nowDay();
+        }
+    });
+
+
+
+    $(".pay_button").click(function(){
+        let time=$(".b_li_active").data("time");
+        if(time ==null){
+            alert("请选择服务时间");
+        }else{
+
+            localStorage.setItem('online_time',time);
+//        var xinxianshiarry = localStorage.getItem('shanghu_arry');  //
+            window.location.href = "online_order.html"
+        }
+    })
+
+
+</script>
+</html>

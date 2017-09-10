@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>服务项目</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+</head>
+<style>
+    #shopsevice{
+        padding: 0 13px;
+    }
+    .project_li:last-child, .clerklist_li:last-child{
+        padding-bottom: 13px;
+    }
+</style>
+<body>
+<div id="item1" class="mui-control-content mui-active">
+    <div class="mui-scroll" style="margin-bottom: 0.4rem;">
+        <ul class="mui-table-view" id="shopsevice"></ul>
+    </div>
+</div>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<!--下拉刷新-->
+<link rel="stylesheet" href="../asset/js/pullToRefresh/dropload.css">
+<script src="../asset/js/pullToRefresh/dropload.js"></script>
+<script>
+    var storeId = localStorage.getItem('storeId');  //店铺ID
+    var openid = localStorage.getItem('openid');  //用户的openid
+    //    服务详情
+    $.ajax({
+        type:"post",
+        url: fixurl + "bianminfuwu.php",
+        async:true,
+        dataType:"json",
+        data:{
+            bs:"shanghuxiangqing",
+            id:storeId,
+            openid:openid   //用户的openid
+        },
+        success:function(json){
+            if(json.code==200){
+//                    console.log(json)
+//                    服务项目
+                var fuwu = json.obj.fuwu;
+                if(fuwu !=null){
+                    for(var i=0;i<fuwu.length;i++){
+                        if(fuwu[i].cuxiao==0){  //未促销
+                            var money = fuwu[i].jine;
+                        }else if(fuwu[i].cuxiao==1){
+                            var money = fuwu[i].cuxiaojia;
+                        }
+                        if(fuwu[i].photo==""){
+                            var src = "../asset/image/moren.png";
+                        }else{
+                            var src = fuwuhoto+fuwu[i].photo;
+                        }
+                        var li ='<li class="project_li" data-id="'+fuwu[i].id+'" data-name="'+fuwu[i].name+'"><a href="javascript:;"><img class="mui-pull-left project_img" src="'+src+'"><div class="mui-media-body project_shop_content"><h3 class="mui-ellipsis project_name">'+fuwu[i].name+'</h3><p class="mui-ellipsis project_content">'+fuwu[i].jianjie+'</p><div class="project_price"><i class="fs16" style="color: #ff6600">'+money+'</i> <i class="fs12">'+fuwu[i].danwei+'</i></div></div></a></li>';
+                        $("#shopsevice").append(li);
+                    }
+                    $(".project_li").click(function(){
+                        localStorage.setItem('fuwuid', $(this).data("id"));
+                        localStorage.setItem('fuwuname', $(this).data("name"));
+                        window.location.href = "online_order.html?chios=fuwu";
+                    })
+                }else{
+                    $(".fuwubox").css("display","none");
+                }
+                $("body").css("display","block");
+            }else{
+                alert("暂无服务");
+                window.location.href = "online_order.html?chios=fuwu";
+            }
+        }
+    });
+</script>
+</body>
+</html>

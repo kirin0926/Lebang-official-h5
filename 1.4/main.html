@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="asset/css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="asset/css/feedback.css" />
+    <link rel="stylesheet" type="text/css" href="asset/css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="asset/js/need/layer.css"/>
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- 适应移动端end -->
+</head>
+<style>
+    .mui-media-body span{
+        width: inherit;
+    }
+    .leifeng-icon{
+        display: block;
+    }
+</style>
+<body>
+    <div class="mui-content">
+        <!-- 单页面-->
+        <div id="tabbar" class="mui-control-content mui-active" style="margin-bottom: 0.6rem;">
+            <!-- 顶部导航-->
+            <header class="mui-bar mui-bar-nav header">
+                <h1 class="mui-title"><a href="#local" id="openlocal">体验小区<span class="mui-icon mui-icon-arrowdown" style="font-size: 0.15rem;color: #828282;"></span></a></h1>
+                <!--http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang-->
+            </header>
+            <!--更换地址-->
+            <div id="local" class="mui-popover" style="top: inherit;left: inherit;width: 3.18rem;">
+                <ul class="mui-table-view area" style="max-height: inherit;background-color: #fff;"></ul>
+            </div>
+            <!-- 发布新鲜事-->
+            <div id="popover" class="mui-popover" style="top: inherit;left: inherit;width: 3.18rem;">
+                <ul class="mui-table-view mui-grid-view mui-grid-9" style="background: inherit;overflow: hidden;">
+                    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+                        <a href="newthings.html">
+                            <img src="asset/image/Top_text@3x.png" alt="" style="width: 0.6rem;">
+                            <div class="mui-media-body">文字新鲜事</div></a>
+                    </li>
+                    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+                        <a href="javascript:;">
+                            <img src="asset/image/Top_Photograph@3x.png" alt="" style="width: 0.6rem;">
+                            <div class="mui-media-body">拍照发图</div></a>
+                    </li>
+                    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+                        <a href="javascript:;">
+                            <img src="asset/image/Top_picture@3x.png" alt="" style="width: 0.6rem;">
+                            <div class="mui-media-body">相册选图</div></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 屏蔽-->
+            <div id="report" class="mui-popover mui-popover-action mui-popover-bottom">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a href="#reportwo">举报</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a id="info" href="javascript:;">不看他/她的新鲜事</a>
+                    </li>
+                </ul>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a href="#report"><b>取消</b></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 举报-->
+            <div id="reportwo" class="mui-popover mui-popover-action mui-popover-bottom" style="bottom: 1.55rem;">
+                <ul class="mui-table-view repored" style="overflow: hidden;">
+                    <li class="mui-table-view-cell">
+                        <a class="witnesses" id="1" href="#reportwo">垃圾营销</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a class="witnesses" id="2" href="#reportwo">不实信息</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a class="witnesses" id="3" href="#reportwo">有害信息</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a class="witnesses" id="4" href="#reportwo">人身攻击</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a class="witnesses" id="5" href="#reportwo">淫秽色情</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a class="witnesses" id="6" href="#reportwo">违法信息</a>
+                    </li>
+                </ul>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a href="#reportwo"><b>取消</b></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="title" style="margin-top: 43px;"></div>
+            <!--新鲜事卡片 -->
+            <!-- 分类栏-->
+            <div class="mui-content">
+                <ul id="StoreListHead" class="mui-table-view mui-grid-view mui-grid-9">
+
+                </ul>
+            </div>
+            <!--<div class="cards"></div>-->
+            <div id="wrapper">
+                <div id="scroller">
+                    <div class="cards" id="thelist">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tabbar-with-chat" class="mui-control-content">
+            <!-- 顶部导航-->
+            <header class="mui-bar mui-bar-nav header">
+                <h1 class="mui-title">消息中心</h1>
+                <!--<a class="mui-icon mui-icon-bars mui-pull-right"></a>-->
+                <a class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="    margin-right: 0;font-size: 12px;">全部已读</a>
+            </header>
+            <div class="title" style="margin-top: 45px;"></div>
+            <div class="mui-content">
+                <ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-bottom: 0;border-bottom: 1px solid hsla(0, 0%, 93%, 0.5);padding-bottom: 0;">
+                    <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a href="#">
+                        <img src="asset/image/pinglun@2x.png" style="width: 47px;"/>
+                        <div class="mui-media-body">评论</div></a></li>
+                    <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a href="#">
+                        <img src="asset/image/dianzan@2x.png" style="width: 47px;"/>
+                            <!--<span class="mui-badge">5</span>-->
+                        <div class="mui-media-body">点赞</div></a></li>
+                    <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a href="#">
+                        <img src="asset/image/xuanshang@2x.png" style="width: 47px;"/>
+                        <div class="mui-media-body">悬赏</div></a></li>
+                    <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"><a href="#">
+                        <img src="asset/image/tiwen@2x.png" style="width: 47px;"/>
+                        <div class="mui-media-body">问答</div></a></li>
+                </ul>
+            </div>
+            <!-- 最新联系人-->
+            <!--<ul class="mui-table-view" style="margin-top: 0.1rem;">-->
+                <!--<li class="mui-table-view-cell mui-media" style="    border-top: 1px solid hsla(0, 0%, 93%, 0.6);border-bottom: 1px solid hsla(0, 0%, 93%, 0.6);">-->
+                    <!--<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang">-->
+                        <!--<img class="mui-media-object mui-pull-left chat-li-img" src="http://www.quanminlebang.com/photo/shanghu/1478864832192.jpg">-->
+                        <!--<div class="mui-media-body">-->
+                            <!--系统消息 <span style="float: right;color: #8e8e8e;margin-right: 0.05rem;">19:14</span>-->
+                            <!--<p class="mui-ellipsis chat-li-cont">你刚刚发布的新鲜事被人举报了，可能含有不健康信息</p>-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        </div>
+        <div id="tabbar-with-conts" class="mui-control-content">
+            <header class="mui-bar mui-bar-nav header">
+                <h1 class="mui-title">选择发布类型</h1>
+            </header>
+            <div class="title" style="margin-top: 45px;"></div>
+            <div class="mui-content" style="background: #FFffff;margin-bottom: 40px;">
+                <ul>
+                    <li class="brb1">
+                        <h3 class="release_title"><i class="release_fir">小区</i>事早知道，邻里之间互相通告</h3>
+                        <ul class="release_li">
+                            <li><img src="asset/image/Release_03.png" alt=""/><h3>通告通知</h3></li>
+                            <li><img src="asset/image/Release_05.png" alt=""/><h3>逸闻趣事</h3></li>
+                            <li><img src="asset/image/Release_07.png" alt=""/><h3>爆料求证</h3></li>
+                            <li><img src="asset/image/Release_09.png" alt=""/><h3>体验活动</h3></li>
+                            <li><img src="asset/image/Release_15.png" alt=""/><h3>技能展示</h3></li>
+                        </ul>
+                    </li>
+                    <li class="brb1">
+                        <h3 class="release_title"><i class="release_fir">跑腿</i>帮忙，远亲不如近邻</h3>
+                        <ul class="release_li">
+                            <li><img src="asset/image/Release_17.png" alt=""/><h3>代跑腿</h3></li>
+                            <li><img src="asset/image/Release_19.png" alt=""/><h3>借东西</h3></li>
+                            <li><img src="asset/image/Release_21.png" alt=""/><h3>代排队</h3></li>
+                        </ul>
+                    </li>
+                    <li class="brb1">
+                        <h3 class="release_title"><i class="release_fir">问答</i>问题，来问问邻居吧</h3>
+                        <ul class="release_li">
+                            <li><img src="asset/image/Release_26.png" alt=""/><h3>宠物健康</h3></li>
+                            <li><img src="asset/image/Release_27.png" alt=""/><h3>花卉养殖</h3></li>
+                            <li><img src="asset/image/Release_28.png" alt=""/><h3>小区的事</h3></li>
+                        </ul>
+                    </li>
+                    <li class="brb1">
+                        <h3 class="release_title"><i class="release_fir">悬赏</i>有偿，邻居帮忙更方便</h3>
+                        <ul class="release_li">
+                            <li><img src="asset/image/Release_32.png" alt=""/><h3>找宠物</h3></li>
+                            <li><img src="asset/image/Release_33.png" alt=""/><h3>找人</h3></li>
+                            <li><img src="asset/image/Release_34.png" alt=""/><h3>找东西</h3></li>
+                            <li><img src="asset/image/Release_36.png" alt=""/><h3>找房子</h3></li>
+                        </ul>
+                    </li>
+                    <li class="brb1">
+                        <h3 class="release_title"><i class="release_fir">约伴</i>邻居，约个志同道合的她一起嗨</h3>
+                        <ul class="release_li">
+                            <li><img src="asset/image/Release_42.png" alt=""/><h3>约运动</h3></li>
+                            <li><img src="asset/image/Release_43.png" alt=""/><h3>约唱歌</h3></li>
+                            <li><img src="asset/image/Release_44.png" alt=""/><h3>约电影</h3></li>
+                            <li><img src="asset/image/Release_45.png" alt=""/><h3>约吃饭</h3></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="tabbar-with-contact" class="mui-control-content">
+            <!-- 顶部导航-->
+            <header class="mui-bar mui-bar-nav header">
+                <!--<a class="mui-btn mui-btn-link mui-btn-nav mui-pull-left select-btn" id="openstoreToplist" href="#storeToplist">筛选</a>-->
+                <h1 class="mui-title">便民服务</h1>
+                <a class="mui-icon mui-icon-search mui-pull-right" href="mysearch.html" style="padding: 0.08rem"></a>
+            </header>
+            <div id="storeToplist" class="mui-popover" style="height: inherit;width: 3.15rem;">
+                <ul class="mui-table-view selectlist"><!-- 商户筛选--></ul>
+                <div class="selectTwoAll"></div>
+            </div>
+            <!-- 导航文字-->
+            <div class="title" style="margin-top: 43px;"></div>
+
+            <ul class="mui-table-view" style="margin-top: 0.1rem;margin-bottom: 0.4rem;border-top: 1px solid hsla(0, 0%, 93%, 0.6);">
+                <div id="wrapper4">
+                    <div id="scroller4">
+                        <div id="StoreList"></div>
+                    </div>
+                </div>
+            </ul>
+
+        </div>
+        <div id="tabbar-with-PersonalCenter" class="mui-control-content" style="background: #fff;">
+            <!-- 头像-->
+                <div class="heads">
+                    <div class="head-box">
+                        <img class="avatar" src="asset/image/512.png" alt=""/>
+                        <h3 class="nickname">天之娇吊炸了</h3>
+                        <div class="star-list" style="margin-bottom: 5px;"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i></div>
+                    </div>
+                    <div class="mui-content">
+                        <div class="mui-row"style="background: #FFFFFF;    border-top: 1px solid hsla(0, 0%, 93%, 0.6);border-bottom: 1px solid hsla(0, 0%, 93%, 0.6);">
+                            <div class="mui-col-sm-4 mui-col-xs-4">
+                                <li class="mui-table-view-cell">
+                                    <a href="javascript:;">
+                                    <h4 class="tac mtb xiadanshu">345</h4>
+                                    <h3 class="tac">订单</h3>
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="mui-col-sm-4 mui-col-xs-4">
+                                <li class="mui-table-view-cell">
+                                    <a href="mytask.html">
+                                        <h4 class="tac mtb ordernum">3</h4>
+                                        <h3 class="tac">任务</h3>
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="mui-col-sm-4 mui-col-xs-4">
+                                <li class="mui-table-view-cell">
+                                    <a href="myfreshthing.html">
+                                        <h4 class="tac mtb">2</h4>
+                                        <h3 class="tac">新鲜事</h3>
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="mui-content" style="overflow: hidden;margin-bottom: 0.8rem;background-color: #F9F9F9;">
+                <ul class="mui-table-view" style="margin-top: 10px;">
+                    <li class="mui-table-view-cell">
+                        <a class="mui-navigate-right" href="mywallet.html">
+                            <i class="Personal_wallet mui-navigate-left"></i>我的钱包
+                            <!--<i class="mui-pull-right update money" style="margin-right: 0.12rem;">200.00元</i>-->
+                        </a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a class="mui-navigate-right" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang">
+                            <i class="Personal_star mui-navigate-left"></i>客服中心
+                        </a>
+                    </li>
+                </ul>
+                <!--<ul class="mui-table-view" style="margin-top: 10px;">-->
+                    <!--<li class="mui-table-view-cell">-->
+                        <!--<a class="mui-navigate-right" href="mysetting.html">-->
+                            <!--<i class="Personal_Set-up mui-navigate-left"></i>设置-->
+                        <!--</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <ul class="mui-table-view" style="margin-top: 10px;">
+                    <li class="mui-table-view-cell">
+                        <a class="mui-navigate-right" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang">
+                            <i class="Personal_join mui-navigate-left"></i>申请身份认证
+                            <i class="mui-pull-right update" style="font-size: 13px;margin-right: 13px;">认证通过才能提供有偿服务</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 单页面-->
+    </div>
+    <footer>
+        <nav id="footers" class="mui-bar mui-bar-tab" style="    box-shadow: 0 0 1px #e7e7e7;    background-color: #fff;">
+            <a class="mui-tab-item mui-active" href="#tabbar">
+                <span class="mui-icon">
+                    <img id="botimg1" class="bottom-img" src="asset/image/Bottomtool_selected_03.png"/>
+                </span>
+                <span class="mui-tab-label">生活圈</span>
+            </a>
+            <a class="mui-tab-item" href="#tabbar-with-chat">
+                <span class="mui-icon">
+                    <img id="botimg2" class="bottom-img" src="asset/image/Home_bottom_05.png"/>
+                </span>
+                <span class="mui-tab-label">消息</span>
+            </a>
+            <a class="mui-tab-item conts" href="#tabbar-with-conts">
+                <span class="mui-tab-label"><img id="conts" style="margin: 0 13px; width: 30px !important ;" src="asset/image/fabu@3x.png" /></span>
+            </a>
+            <a class="mui-tab-item" href="#tabbar-with-contact">
+                <span class="mui-icon">
+                    <img id="botimg3" class="bottom-img" src="asset/image/Home_bottom_07.png"/>
+                </span>
+                <span class="mui-tab-label">便民服务</span>
+            </a>
+            <a class="mui-tab-item" href="#tabbar-with-PersonalCenter">
+                <span class="mui-icon positioncenter">
+                    <img id="botimg4" class="bottom-img" src="asset/image/Home_bottom_09.png"/>
+                </span>
+                <span class="mui-tab-label">个人中心</span>
+            </a>
+        </nav>
+    </footer>
+</body>
+    <script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+    <!-- 适配移动端-->
+    <script type="text/javascript" src="asset/js/rem.js"></script>
+    <!-- mui框架js-->
+    <script src="asset/js/mui.min.js"></script>
+    <!--<script src="asset/js/feedback.js" type="text/javascript" charset="utf-8"></script>-->
+    <!-- url地址-->
+    <script src="asset/js/common.js"></script>
+
+    <!--上拉刷新下拉加载 start-->
+    <link rel="stylesheet" href="asset/js/pullToRefresh/dropload.css">
+    <script src="asset/js/pullToRefresh/dropload.js"></script>
+    <!--上拉刷新下拉加载 end-->
+
+    <script type="text/javascript">
+        $(function(){
+            var openid = sessionStorage.getItem('openid');  //
+            var shequid = sessionStorage.getItem('shequid'); //社区ID
+//            选择小区内容
+            var local = sessionStorage.getItem('local'); //选择小区
+            if(local==null){
+                $("#openlocal").html("体验小区"+'<span class="mui-icon mui-icon-arrowdown" style="font-size: 0.15rem;color: #828282;"></span>');
+            }else{
+                $("#openlocal").html(local+'<span class="mui-icon mui-icon-arrowdown" style="font-size: 0.15rem;color: #828282;"></span>');
+            }
+            var page = 1;
+            main();
+            function main(){
+                function getData(page,callback){
+                    $.ajax({
+                        type: "get",
+                        async: true,
+                        url: fixurl + "shequ.php",
+                        dataType: "json",
+                        data:{
+                            bs:"xinxianshiliebiao",
+                            page:page,
+                            shequid:shequid,
+                            openid:openid
+                        },
+                        timeout: 0,
+                        success: function(data, status, xhr){
+                            callback(data);
+                        },
+                        error: function(xhr, errorType, error){
+                            callback({data:[]});
+                        }
+                    });
+                }
+                var dropload = $('#wrapper').dropload({
+                    domUp : {
+                        domClass   : 'dropload-up',
+                        domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+                        domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+                        domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+                    },
+                    domDown: {
+                        domClass: 'dropload-down',
+                        domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+                        domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+                        domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+                    },
+                    scrollArea : window,
+                    loadDownFn:function(me){//下拉加载
+                        getData(page,function(result){
+                            appendList(result);
+                            if(result.obj.zongyeshu < 10){
+                                me.lock();
+                                me.noData();
+                            }else if(result.obj.zongyeshu == 10 || result.obj.zongyeshu != 0){
+                                page++;
+                            }else {
+                                me.lock();
+                                me.noData();
+                            }
+                            dropload.resetload();
+                        });
+                    },
+                    loadUpFn : function(me){//上拉刷新
+//                    window.onload.reload();
+                        dropload.resetload();
+                    }
+                });
+                //新鲜事列表
+                function appendList(json){
+                    if(json.code==200){
+                        var list = json.obj;
+                        var xinxianshi = list.xinxianshi;
+                        var xinxianshizongshu = list.xinxianshizongshu;
+                        for (var i=0;i<xinxianshi.length;i++){
+                            var id = xinxianshi[i].id;          //新鲜事id
+                            var dianzanshu = xinxianshi[i].dianzanshu;      //点赞数
+                            var money = xinxianshi[i].money;        //金钱
+                            var openids = xinxianshi[i].openid;      //发布者openid
+                            var pinglunshu = xinxianshi[i].pinglunshu;      //评论数
+                            var shijian = xinxianshi[i].shijian;        //时间
+                            var zhaopianshu = xinxianshi[i].zhaopianshu;        //照片数
+                            var zhuanfashu = xinxianshi[i].zhuanfashu;      //转发数
+                            var user = xinxianshi[i].user;          //用户信息组
+                            var logo = user.avatar; //用户头像
+                            if(logo ==""){
+                                var logo = "avatar.png"
+                            }
+                            var nickname = user.nickname;
+                            if(user.location == null){
+                                var location = "首城国际";
+                            }else{
+                                var location =user.location;
+                            }
+                            var status = user.status;
+                            if(status == 3){    //雷锋
+                                var leifengclass="cf60";
+                                var lficon = "leifeng-icon";
+                            }else{
+                                var leifengclass="";
+                                var lficon = "";
+                            }
+                            if(xinxianshi[i].leixing == 1){//1新鲜事 2悬赏 3提问
+                                var leixing = '<div class="mui-card-footer"><a class="mui-card-link ml2 forward"><i class="icon-send"></i>转发 '+zhuanfashu+'</a><i class="icon-shu"></i><a class="mui-card-link" href="Freshthing.html?id='+id+'"><i class="icon-pull"></i>评论 '+pinglunshu+'</a><i class="icon-shu"></i><a data-index="'+openids+'" id="'+id+'" class="mui-card-link mr2 like-btn"><i class="icon-like"></i>赞 '+dianzanshu+'</a></div>';
+                            }else if(xinxianshi[i].leixing == 2){
+                                var leixing = '<div class="mui-card-footer"><a class="ml025 cf60"><i class="icon-gold"></i>悬赏金 '+money+'</a><i class="icon-shu"></i><a class="mr025 cf60" href="Freshthing.html?id='+id+'"><i class="icon-answer"></i>我来回答</a></div>';
+                            }else if(xinxianshi[i].leixing == 3){
+                                var leixing = '<div class="mui-card-footer"><a class="ml025 cf60"><i class="icon-gold"></i>答谢金 '+money+'</a><i class="icon-shu"></i><a class="mr025 cf60" href="Freshthing.html?id='+id+'"><i class="icon-answer"></i>我来回答</a></div>';
+                            }else{
+                                var leixing = '<div class="mui-card-footer"><a class="mui-card-link ml2 forward"><i class="icon-send"></i>转发 '+zhuanfashu+'</a><i class="icon-shu"></i><a class="mui-card-link" href="Freshthing.html?id='+id+'"><i class="icon-pull"></i>评论 '+pinglunshu+'</a><i class="icon-shu"></i><a data-index="'+openids+'" id="'+id+'" class="mui-card-link mr2 like-btn"><i class="icon-like"></i>赞 '+dianzanshu+'</a></div>';
+                            }
+                            if(zhaopianshu !=0){
+                                var photo ='<ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul>';
+                            }else{
+                                var photo = '';
+                            }
+                            var card= '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><i class="'+lficon+'"></i><div class="mui-media-body card-tit"><h3 class="'+leifengclass+'">'+nickname+'<a id="'+id+'" class="report" href="#report"><span class="mui-icon mui-icon-arrowdown  mui-pull-right" style="    font-size: 0.15rem;    margin-right: 0;"></span></a></h3><p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'"><i class="cf60">#'+xinxianshi[i].title+'# </i>'+xinxianshi[i].neirong+'</a></h3>'+photo+'</div>'+leixing+'</div>';
+                            card=+
+                                    $(".cards").append(card);
+                            var zhaopians = xinxianshi [i].zhaopian;
+                            if(zhaopians !=undefined){
+                                for(var s = 0;s < zhaopians.length;s++){
+                                    var zhaopianlist = zhaopians[s].zhaopian;
+                                    if(zhaopians.length==1){
+                                        var cardlist='<li><a href="Freshthing.html?id='+id+'"><img style="width: 60%;height: 60%;margin-left: 0.1rem;" src="'+xinxianphoto+zhaopianlist + '"/></a></li>';
+                                    }else if(zhaopians.length == 4){
+                                        var cardlist='<li class="life_imge"><a href="Freshthing.html?id='+id+'"><div class="card-img-list card-img-l-ist-four" style="background-image: url('+xinxianphoto+zhaopianlist+')"></div></a></li>';
+                                    }
+                                    else{
+                                        var cardlist='<li class="life_imge"><a href="Freshthing.html?id='+id+'"><div class="card-img-list" style="background-image: url('+xinxianphoto+zhaopianlist+')"></div></a></li>';
+                                    }
+                                    cardlist=+
+                                            $(".cardlist"+id).append(cardlist);
+                                }
+                            }
+                        }
+                        if(openid ==null){
+                            $(".report").css("display","none")
+                        }
+                        //头像跳转
+//                    $(".card-img").click(function(){
+//                        var cardimgid =  $(this).attr("id");
+//                        window.location.href="personhome.html?id="+cardimgid;
+//
+//                    });
+                        //新鲜事点赞
+                        $(".like-btn").click(function(){
+                            var type = $(this).attr("type");
+                            var zhuid = $(this).attr("id");
+                            var beidianzanopenid = $(this).attr("data-index");
+                            if(openid ==null){
+                                window.location.href = "login.html";
+                            }
+                            $.ajax({
+                                type:"get",
+                                url: fixurl + "shequ.php",
+                                async:true,
+                                dataType:"json",
+                                data:{
+                                    bs:"xinxianshidianzan",
+                                    openid:openid,// 点赞用户的openid
+                                    beidianzanid:zhuid, //被点赞信息id
+                                    zhuid:zhuid, //新鲜事id
+                                    beidianzanopenid:beidianzanopenid,  //被点赞用户openid
+                                    leixing:type //  类型1新鲜事 2悬赏  3提问
+                                },
+                                success:function(obj){
+                                    if(obj.code==200){
+                                        var objs = obj.obj;
+                                        var id = objs.zhuid;
+                                        var likenum = $(".mui-card-footer").find("#"+id).text();
+                                        var likenumb = likenum.replace('赞',"");
+                                        var likenums = likenumb++;
+                                        $(".mui-card-footer").find("#"+id).css("color","#ff6600");
+                                        $(".mui-card-footer").find("#"+id).html('<i class="icon-like-well"></i>赞 '+likenums);
+                                        $(".mui-card-footer").find("#"+id).attr("class","mui-card-link mr2");
+                                    }
+                                }
+                            });
+                        });
+                        //商户ID
+                        $(".report").click(function(){
+                            var xinxiid = $(this).attr("id");
+                            sessionStorage.setItem('xinxiid', xinxiid);
+                        });
+
+                        //  举报
+//                    $(".witnesses").click(function(){
+//                        var xinxiid = sessionStorage.getItem('xinxiid');  //
+//                        $.ajax({
+//                            type:"get",
+//                            url: fixnewurl + "shequ.php",
+//                            async:true,
+//                            dataType:"json",
+//                            data:{
+//                                bs:"xinxianshijubao",
+//                                openid: openid,  //服务人员openid
+//                                jubaoid:jubaoid, // 商户id
+//                                xinxiid:xinxiid,
+//                                jubaoleixing:1
+//                            },
+//                            success:function(json){
+//                                if(json.code==200){
+//                                    alert("成功");
+//                                }else{
+//                                    alert("我的任务"+json.code);
+//                                }
+//                            },
+//                            error:function(){
+//                                alert("error");
+//                            }
+//                        });
+//
+//                    });
+                        //屏蔽
+//                    $(".repored li a").click(function(){
+//                        $.ajax({
+//                            type:"get",
+//                            url: fixnewurl + "shequ.php",
+//                            async:true,
+//                            dataType:"json",
+//                            data:{
+//                                bs:"pingbi",
+//                                openid: openid,  //服务人员openid
+//                                pingbiopenid:jubaoid // 商户id
+//                            },
+//                            success:function(json){
+//                                if(json.code==200){
+//                                    alert("成功");
+//                                }else{
+//                                    alert("我的任务"+json.code);
+//                                }
+//                            },
+//                            error:function(){
+//                                alert("error");
+//                            }
+//                        });
+//
+//                    });
+                        //分享
+//                            $(".forward").click(function(){
+//                                layer.open({
+//                                    type: 1
+//                                    ,content: ''
+//                                    ,anim: 'up'
+//                                    ,style: 'position:fixed; bottom:0; left:0; width: 100%; height: 200px; padding:10px 0; border:none;'
+//                                });
+//                            })
+                    }
+                }
+            }
+
+            if(openid ==null){
+               $("#openlocal").attr("href","javascript:;");
+            }
+            //小区
+            $.ajax({
+                type:"get",
+                url: fixurl + "shequ.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"shequliebiao"
+                },
+                success:function(json){
+                    if(json.code==200){
+                        var ovj = json.obj;
+                        var list =ovj.content;
+                        var lastli='<li class="mui-table-view-cell mui-media"><a href="chioseaddress.html"><div class="mui-media-body"><p class="mui-ellipsis" style="text-align: center">更多小区</p></div></a></li>'
+                        for (var i=0;i<3;i++){
+                            var StoreListLi ='<li id="area'+list[i].id+'" class="mui-table-view-cell mui-media"><a href="javascript:;"><div class="mui-media-body"><i class="local">'+list[i].mingcheng+'</i><p class="mui-ellipsis">'+list[i].weizhi+'</p></div></a></li>';
+                            StoreListLi=+
+                            $(".area").append(StoreListLi);
+                        }
+                        $(".area").append(lastli);
+                        //选择小区
+                        $(".area li").click(function(){
+                            var shequids = $(this).attr("id");
+                            var shequid = shequids.replace(/area/,"");
+                            var location = $(this).find(".mui-media-body").text();
+                            var local = $(this).find(".local").text();
+                            sessionStorage.setItem('local', local);
+                            $.ajax({
+                                type:"get",
+                                url: fixurl + "user.php",
+                                async:true,
+                                dataType:"json",
+                                data:{
+                                    bs:"xuanzeshequ",
+                                    openid:openid,
+                                    location:location,
+                                    shequid:shequid
+                                },
+                                success:function(json){
+                                    if(json.code==200){
+                                        sessionStorage.setItem('shequid', shequid);
+                                        window.location.href="main.html"
+                                    }
+                                }
+                            });
+                        })
+                    }
+                }
+            });
+
+            store();
+            function store(){
+                function getData(page,callback){
+                    $.ajax({
+                        type:"get",
+                        url: fixurl + "bianminfuwu.php",
+                        async:true,
+                        dataType:"json",
+                        data:{
+                            bs:"shanghuliebiao",
+                            shequid:shequid,
+                            page:page
+                        },
+                        timeout: 0,
+                        success: function(data, status, xhr){
+                            callback(data);
+                        },
+                        error: function(xhr, errorType, error){
+                            callback({data:[]});
+                        }
+                    });
+                }
+                var dropload = $('#wrapper4').dropload({
+                    domUp : {
+                        domClass   : 'dropload-up',
+                        domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+                        domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+                        domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+                    },
+                    domDown: {
+                        domClass: 'dropload-down',
+                        domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+                        domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+                        domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+                    },
+                    scrollArea : window,
+                    loadDownFn:function(me){//下拉加载
+                        getData(page,function(result){
+                            storelist(result);
+                            if(result.obj.zongyeshu < 10){
+                                me.lock();
+                                me.noData();
+                            }else if(result.obj.zongyeshu == 10 || result.obj.zongyeshu != 0){
+                                page++;
+                            }else {
+                                me.lock();
+                                me.noData();
+                            }
+                            dropload.resetload();
+                        });
+                    }
+                });
+                function storelist(json){
+                    if(json.code==200){
+                        var ovj = json.obj;
+                        var shanghu = ovj.shanghu;
+                        for(var i=0;i<shanghu.length;i++){
+                            var id = shanghu[i].id;    //商户id
+                            var nickname  = shanghu[i].nickname ;    //商户创建用户昵称
+                            var mingcheng = shanghu[i].mingcheng; // 商户名称
+                            var jianjie = shanghu[i].jianjie;      //商户简介
+                            var logo = shanghu[i].logo; //商户logo
+                            sessionStorage.setItem('storeId', id);
+                            var shanghupingfen = shanghu[i].shanghupingfen;
+                            if(shanghupingfen == 0){
+                            }else if(shanghupingfen == 1){
+                                var stars = '<i class="star-i"></i>';
+                            }else if(shanghupingfen == 2){
+                                var stars = '<i class="star-i"></i><i class="star-i"></i>';
+                            }else if(shanghupingfen == 3){
+                                var stars = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                            }else if(shanghupingfen == 4){
+                                var stars = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                            }else if(shanghupingfen == 5){
+                                var stars = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                            }
+                            var StoreListLi ='<li class="mui-table-view-cell mui-media" id="'+id+'"><a href="servicedetails.html?id='+id+'&fuwuopenid='+shanghu[i].openid+'"><img class="mui-media-object mui-pull-left ShopHeadImg" src="'+shanghu[i].avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+nickname+' · '+mingcheng+'</h3><p class="mui-ellipsis shoplistcont">'+jianjie+'</p><div class="star-list">'+stars+'</div></div></a></li>';
+                            StoreListLi=+
+                                    $("#StoreList").append(StoreListLi);
+                        }
+                    }
+                }
+            }
+
+            //便民服务八个列表      便民服务首页8个
+            $.ajax({
+                type:"get",
+                url: fixurl + "bianminfuwu.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"shoucangtuijian",
+                    openid:openid
+                },
+                success:function(json){
+                    var obj =json;
+                    if(json.code==200){
+                        var list = json.obj;
+//                        console.log(list);
+                        var shanghu = list.shoucangtuijian;
+                        for (var i=0;i<8;i++){
+                            var id = shanghu[i].id;                 //类别id
+                            var name = shanghu[i].mingcheng;             //类别（热词）名称
+                            var logo = shanghu[i].fuwulogo;             //图标
+                            var leibies = shanghu[i].leixing;       //类型
+                            var storelist = '<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="StoreListHead'+id+'"><a href="servicedetails.html?id='+id+'"><img class="categories" src="'+leibiephoto+logo+'" alt=""><div class="mui-media-body">'+name+'</div></a> </li>';
+                            storelist=+
+                            $("#StoreListHead").append(storelist);
+                        }
+                    }
+                }
+            });
+
+            //商户筛选下拉菜单
+            $.ajax({
+                type:"get",
+                //简历的阿姨详情
+                url: fixurl + "bianminfuwu.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"fuwuleibie"
+                },
+                success:function(json){
+                    var obj =json;
+                    if(json.code==200){
+                        var ovj = json.obj;
+                        var shanghu = ovj.leibie;
+                        for (var i=0;i<shanghu.length;i++){
+                            var id = shanghu[i].id;                 //类别id
+                            var name = shanghu[i].mingcheng;             //类别（热词）名称
+                            var logo = shanghu[i].logo;             //图标
+                            var leibies = shanghu[i].leibies;       //二级分类数组
+                            //左边一级下拉菜单
+                            var selectTwoLi ='<li class="mui-table-view-cell" id="ListOne'+id+'"><a href="#">'+name+'</a></li>';
+                            selectTwoLi=+
+                            $(".selectlist").append(selectTwoLi);
+                            //
+                            var boxbef = '<ul class="mui-table-view selectTwolist" id="ListTwoUl'+id+'"></ul>';
+                            $(".selectTwoAll").append(boxbef);    ////右边分类盒子
+                            for(var s=0; s<leibies.length;s++){
+                                var ids = leibies[s].id;  //这个Li的ID
+                                var sid = leibies[s].sid; // 上一级id
+                                var names = leibies[s].mingcheng;
+                                var selectTwo ='<li class="mui-table-view-cell" id="ListTwoLi'+ids+'"><a href="#">'+names+'</a></li>';
+                                selectTwo=+
+                                $("#ListTwoUl"+sid).append(selectTwo);
+                            }
+                        }
+                        $(".selectlist li").click(function(){
+                            $(".selectTwolist").css("display","none");
+                            var soc =  $(this).attr("id");
+                            var TwoLi = soc.replace(/One/, 'TwoUl') ;
+                            $("#"+TwoLi).css("display","block");
+                            var isd = $(this).attr("id");
+                            console.log(isd);
+                            $("#selectBg").height();
+                        });
+                    }
+                }
+            });
+
+            //个人中心  查询用户信息
+            $.ajax({
+                type:"get",
+                url: fixurl + "user.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"usersel",
+                    openid:openid
+                },
+                success:function(json){
+                    var obj =json;
+                    if(json.code==200){
+                        var list =obj.obj;
+                        var avatar = list.avatar;//头像
+                        var nickname = list.nickname;//昵称
+                        var money = list.money;
+                        var xiadanshu = list.xiadanshu; //下单数
+                        var ordernum = list.ordernum; //任务书
+                        $(".nickname").text(nickname);
+                        $(".money").text(money+"元");
+                        $(".avatar").attr("src",avater+avatar);
+                        $(".xiadanshu").text(xiadanshu);
+                        $(".ordernum").text(ordernum);
+                    }
+                }
+            });
+
+            //不看他的新鲜事
+            document.getElementById("info").addEventListener('tap', function() {
+                var btnArray = ['取消', '确定'];
+                mui.confirm('确定要屏蔽此人', '温馨提示', btnArray, function(e) {
+                    if (e.index == 0) {//取消
+                    } else { //确定
+                        //屏蔽
+                        $.ajax({
+                            type:"get",
+                            url: fixurl + "shequ.php",
+                            async:true,
+                            dataType:"json",
+                            data:{
+                                bs:"pingbi",
+                                openid:openid,//用户openid
+                                pingbiopenid:1//被屏蔽的openid
+                            },
+                            success:function(json){
+                                var obj =json;
+                                if(json.code==200){
+                                    window.location.href = window.location.href;
+                                }
+                            }
+                        });
+                    }
+                })
+            });
+            mui('#reportwo').on('tap', '.mui-popover-action li>a', function() {
+                var a = this,
+                        parent;
+                //根据点击按钮，反推当前是哪个actionsheet
+                for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+                    if (parent.classList.contains('mui-popover-action')) {
+                        break;
+                    }
+                }
+                //关闭actionsheet
+                mui('#' + parent.id).popover('toggle');
+                var leixingid = a.id;
+                var xinxiid = sessionStorage.getItem('xinxiid');  //
+                $.ajax({
+                    type:"get",
+                    url: fixurl + "shequ.php",
+                    async:true,
+                    dataType:"json",
+                    data:{
+                        bs:"xinxianshijubao",
+                        openid: openid,  //举报用户openid
+                        jubaoid:1, //  举报参数id
+                        xinxiid:xinxiid,    //被举报信息id
+                        jubaoleixing:leixingid  //举报类型（新鲜事类型）
+                    },
+                    success:function(json){
+                        if(json.code==200){
+                            alert("成功");
+                        }
+                    }
+                });
+//                info.innerHTML = "你刚点击了\"" + a.innerHTML + "\"按钮";
+            });
+
+            //底部tab切换
+            mui("#footers").on("tap","a",function(){
+                var openid = sessionStorage.getItem('openid');
+//                if(openid ==null){
+//                    window.location.href = "login.html";
+//                }
+                var botimg1 = $("#botimg1").attr("src");
+                var botimg2 = $("#botimg2").attr("src");
+                var botimg3 = $("#botimg3").attr("src");
+                var botimg4 = $("#botimg4").attr("src");
+                var botimg1n = botimg1.replace(/Bottomtool_selected_/, "Home_bottom_");
+                var botimg2n = botimg2.replace(/Bottomtool_selected_/, "Home_bottom_");
+                var botimg3n = botimg3.replace(/Bottomtool_selected_/, "Home_bottom_");
+                var botimg4n = botimg4.replace(/Bottomtool_selected_/, "Home_bottom_");
+                var botimg1 = $("#botimg1").attr("src",botimg1n);
+                var botimg2 = $("#botimg2").attr("src",botimg2n);
+                var botimg3 = $("#botimg3").attr("src",botimg3n);
+                var botimg4 = $("#botimg4").attr("src",botimg4n);
+                var bottom = $(this);
+                var bottomimg = $(bottom).find(".bottom-img");
+                var bottomimgsrc= bottomimg.attr("src");
+                var change = bottomimgsrc.replace(/Home_bottom_/, "Bottomtool_selected_");
+                $(this).find(".bottom-img").attr("src",change);
+            });
+        });
+    </script>
+</html>

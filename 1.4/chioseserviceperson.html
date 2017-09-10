@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选择服务人员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <!--App自定义的css-->
+    <link rel="stylesheet" href="asset/css/app.css"/>
+</head>
+<body style="background: #FFffff;">
+<div class="mui-content" style="background: #FFffff;"></div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script type="text/javascript">
+    var openid = sessionStorage.getItem('openid');  //shequid  a1bfeb46147d69fdbb114d2e26478d4f
+    function UrlSearch(){
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?");
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                this[name]=value;
+            }
+        }
+    }
+    var Request = new UrlSearch(); //实例化
+    var fuwuid = Request.fuwuid; //获取服务ID
+    $.ajax({
+        type:"get",
+        url: fixurl + "bianminfuwu.php",
+        async:true,
+        dataType:"json",
+        data:{
+            bs:"fuwurenyuan",
+            fuwuid:fuwuid
+        },
+        success:function(json){
+            if(json.code==200){
+                var user = json.obj.user;
+                for(var i = 0;i<user.length;i++){
+                    if(user[i].fuwupingfen ==null){
+                        var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                    }else if(user[i].fuwupingfen ==0){
+                        var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                    }else if(user[i].fuwupingfen ==1){
+                        var listpf = '<i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                    }else if(user[i].fuwupingfen ==2){
+                        var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                    }else if(user[i].fuwupingfen ==3){
+                        var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                    }else if(user[i].fuwupingfen ==4){
+                        var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i>';
+                    }else if(user[i].fuwupingfen ==5){
+                        var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                    }
+                    var clerklist_li = '<li class="clerklist_li"><a href="javascript:;"><img class="mui-pull-left clerklist_img" src="'+avater+user[i].avatar+'"><div class="mui-media-body"><h3 class="clerklist_name mui-ellipsis">'+user[i].name+'<i class="'+user[i].sexs+'"></i></h3><div class="clerklist_content">'+listpf+'<span> 已约'+user[i].jierenwushu+'单</span></div></div></a></li>';
+                    clerklist_li=+
+                    $(".mui-content").append(clerklist_li);
+                }
+
+                $(".clerklist_li").click(function(){
+                    sessionStorage.setItem('fuwurenyuanName', $(this).find(".clerklist_name").text());
+                    mui.back();
+                });
+            }
+        }
+    });
+
+</script>
+</html>
+
+

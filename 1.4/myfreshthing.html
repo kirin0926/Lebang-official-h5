@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的新鲜事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+</head>
+<style>
+    .card-img-list {  max-width: 1.1rem;  max-height: 1rem;  }
+    .likelistli img{  width: 0.3rem;  height: 0.3rem;  border-radius: 0.4rem;  }
+    .card-head{  overflow: hidden;  }
+    .card-img{  width: 0.4rem !important;  height: 0.4rem !important;;  border-radius: 0.4rem;  margin: 0.02rem;  }
+    .card-tit{  margin-left: 0.5rem !important;  margin-top: 0.06rem;  }
+    .card-name{  font-size: 0.17rem;  }
+    .card-content{  margin: 0.05rem;  }
+    .color-red{  color: #ff0000;  }
+    .mui-card-link{  margin: 0.02rem !important;  }
+    .mui-card{  margin: 0.1rem 0;  }
+</style>
+<body>
+<!-- 顶部导航-->
+<!--<header id="header" class="mui-bar mui-bar-nav">-->
+    <!--<a class="mui-icon mui-icon-back mui-pull-left mui-action-back" style="padding: 0.03rem"></a>-->
+    <!--<h1 class="mui-title">我的新鲜事</h1>-->
+<!--</header>-->
+<div class="cards"></div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script>
+    $(function(){
+        var openid = sessionStorage.getItem('openid');  //
+        var shequid = sessionStorage.getItem('shequid'); //社区ID
+        //新鲜事列表
+        $.ajax({
+            type:"get",
+            //简历的阿姨详情
+            url: fixurl + "shequ.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"wodexinxianshi",
+                page:"1",
+                openid:openid
+            },
+            success:function(json){
+                if(json.code==200){
+                    var list = json.obj;
+                    var xinxianshi = list.xinxianshi;
+                    var xinxianshizongshu = list.xinxianshizongshu;
+                    if(xinxianshizongshu !=0){  //有内容
+                        for (var i=0;i<xinxianshi.length;i++){
+                            var id = xinxianshi[i].id;          //新鲜事id
+                            var caina = xinxianshi[i].caina;        // 1没有采纳 2已结采纳答案
+                            var dianzanshu = xinxianshi[i].dianzanshu;      //点赞数
+                            var leixing = xinxianshi[i].leixing;         //类型
+                            var mingcheng = xinxianshi[i].mingcheng;        //名称
+                            var money = xinxianshi[i].money;        //金钱
+                            var neirong = xinxianshi[i].neirong;        //内容
+                            var openid = xinxianshi[i].openid;      //发布者openid
+                            var ordernum = xinxianshi[i].ordernum;      //订单号
+                            var pinglunshu = xinxianshi[i].pinglunshu;      //评论数
+                            var shequid = xinxianshi[i].shequid;        //社区id
+                            var shifoudianzan = xinxianshi[i].shifoudianzan;        //是否点赞
+                            var shijian = xinxianshi[i].shijian;        //时间
+                            var zhaopianshu = xinxianshi[i].zhaopianshu;        //照片数
+                            var zhuanfashu = xinxianshi[i].zhuanfashu;      //转发数
+
+
+
+                            var user = xinxianshi[i].user;          //用户信息组
+                            var logo = user.avatar; //用户头像
+                            var locations = user.location;
+                            var nickname = user.nickname;
+
+                            if(locations == null){
+                                var location = "首城国际";
+                            }else{
+                                var location =locations;
+                            }
+                            console.log(zhaopianshu);
+                            if(zhaopianshu !=0){     //判断照片数量   不等于0 有图片
+                                if(leixing == 1 ){  //1新鲜事
+                                    var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3 class="card-content">'+neirong+'</h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'">'+cardlist+'</ul></div><div class="mui-card-footer"><a class="mui-card-link">转发('+zhuanfashu+')</a><a class="mui-card-link">评论('+pinglunshu+')</a><a class="mui-card-link">喜欢('+dianzanshu+')</a></div></div>';
+                                }else if(leixing == 2 ){  //2悬赏
+                                    var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3 class="card-content"><i class="color-red">#悬赏#</i>'+neirong+'</h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"> </ul></div><div class="mui-card-footer"><a class="mui-card-link">悬赏金:'+money+'</a><a class="mui-card-link">我来回答</a></div></div>';
+                                }else if(leixing == 3 ){  //3提问
+                                    var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3 class="card-content"><i class="color-red">#提问#</i>'+neirong+'</h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"> </ul><div class="mui-card-footer"><a class="mui-card-link">悬赏金:'+money+'</a><a class="mui-card-link">我来回答</a></div></div>';
+                                }
+
+                            }else{       //无图片
+                                if(leixing == 1 ){  //1新鲜事
+                                    var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3 class="card-content">'+neirong+'</h3></div><div class="mui-card-footer"><a class="mui-card-link">转发('+zhuanfashu+')</a><a class="mui-card-link">评论('+pinglunshu+')</a><a class="mui-card-link">喜欢('+dianzanshu+')</a></div></div>';
+
+                                }else if(leixing == 2 ){  //2悬赏
+                                    var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3 class="card-content"><i class="color-red">#悬赏#</i>'+neirong+'</h3></div><div class="mui-card-footer"><a class="mui-card-link">悬赏金:'+money+'</a><a class="mui-card-link">我来回答</a></div></div>';
+
+                                }else if(leixing == 3 ){  //3提问
+                                    var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3 class="card-content"><i class="color-red">#提问#</i>'+neirong+'</h3></div><div class="mui-card-footer"><a class="mui-card-link">悬赏金:'+money+'</a><a class="mui-card-link">我来回答</a></div></div>';
+                                }
+                            }
+                            card=+
+                                    $(".cards").append(card);
+                            var zhaopians = xinxianshi [i].zhaopian;
+                            console.log(zhaopians);
+                            if(zhaopians !=undefined){
+                                for(var s = 0;s < zhaopians.length;s++){
+                                    var zhaopianlist = zhaopians[s].zhaopian;
+                                    console.log(zhaopianlist);
+                                    var cardlist='<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 card-list"><a href="javascript:;"><img class="card-img-list" src="'+xinxianphoto+zhaopianlist+'" alt=""/></a></li>';
+                                    cardlist=+
+                                            $(".cardlist"+id).append(cardlist);
+                                }
+                            }
+                        }
+                    }else{  //没有内容
+                        alert("没有新鲜事");
+                    }
+                }else{
+                    alert(json.code);
+                }
+            },
+            error:function(){
+                alert("error")
+            }
+        });
+    })
+
+</script>
+</html>

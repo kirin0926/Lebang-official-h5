@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+</head>
+<style>
+    #hold{  font-size: 0.15rem;  line-height: 0.28rem;  margin-right: 0.05rem;  color: #F3B500;  }
+    .avatar{  width: 0.25rem;  height: 0.25rem;  border-radius: 0.2rem;  }
+</style>
+<body>
+    <!-- 顶部导航-->
+    <header id="header" class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-icon-back mui-pull-left" href="javascript:history.back(-1)" style="padding: 0.03rem"></a>
+        <h1 class="mui-title">个人信息</h1>
+        <a class="mui-btn mui-btn-link mui-pull-right" href="" style="margin-right: 0;">保存</a>
+    </header>
+    <div class="title" style="margin-top: 0.4rem"></div>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="#picture">
+                头像
+                <img class="mui-pull-right update avatar" src=""/>
+            </a>
+        </li>
+    </ul>
+    <ul class="mui-table-view" style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="#account">
+                昵称
+                <i class="mui-pull-right update nickname"></i>
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="#sex">
+                性别
+                <i class="mui-pull-right update sex"></i>
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="#account">
+                生日
+                <i class="mui-pull-right update date"></i>
+            </a>
+        </li>
+    </ul>
+    <ul class="mui-table-view" style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="#profession">
+                职业
+                <i class="mui-pull-right update profession"></i>
+            </a>
+        </li>
+    </ul>
+    <ul class="mui-table-view" style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="chioseaddress.html">
+                所在小区
+                <i class="mui-pull-right update location"></i>
+            </a>
+        </li>
+    </ul>
+    <div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#">拍照或录像</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">选取现有的</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#picture"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+    <div id="sex" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#">男</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">女</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#sex"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+    <div id="profession" class="mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view" style="max-height: 2rem;">
+            <li class="mui-table-view-cell">
+                <a href="#">公司职员</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">个体户</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">公务员</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">自有职业者</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">企业高管</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#">其他</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#profession"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+    <script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="asset/js/rem.js"></script>
+    <script src="asset/js/mui.min.js"></script>
+    <script src="asset/js/common.js"></script>
+    <script type="text/javascript">
+        $(function(){
+                //do something
+            var openid = sessionStorage.getItem('openid');  //shequid
+            var local = sessionStorage.getItem('local'); //选择小区
+                $.ajax({
+                    type:"post",
+                    url: fixurl + "user.php",
+                    async:true,
+                    dataType:"json",
+                    data:{
+                        bs:"usersel",
+                        openid:openid
+                    },
+                    success:function(json){
+                        var obj =json;
+                        if(json.code==200){
+                            var list =obj.obj;
+                            var avatar = list.avatar;//头像
+                            var nickname = list.nickname;//昵称
+                            var profession = list.profession;//职业
+                            var sex =list.sex;
+                            var location =list.location;
+                            var birthday = list.birthday;
+                            var shequid =list.shequid;
+                            $(".nickname").text(nickname);
+                            $(".avatar").attr("src",avater+avatar);
+                            $(".profession").text(profession);
+                            $(".location").text(local);
+                            $(".date").text(birthday);
+                            if(sex==0){
+                                $(".sex").text("男");
+                            }else if(sex==1){
+                                $(".sex").text("女")
+                            }
+                        }else{
+                            alert(json.code)
+                        }
+                    },
+                    error:function(){
+                        alert("error");
+                    }
+                });
+
+            $("#hold").click(function(){
+                alert("ok");
+                $.ajax({
+                    type:"post",
+                    url: fixurl + "usersel",
+                    async:true,
+                    dataType:"json",
+                    data:{
+                        bs:"wsxx",
+                        openid:"",
+                        nickname :"",
+                        sex:"",
+                        birthday:"",
+                        location:"",
+                        profession:""
+                    },
+                    success:function(json){
+                        var obj =json;
+                        if(json.code==200){
+
+
+                        }else{
+                            alert(json.code)
+                        }
+                    },
+                    error:function(){
+                        alert("error");
+                    }
+                });
+            })
+        })
+    </script>
+
+
+</html>

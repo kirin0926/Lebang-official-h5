@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="feedback">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>申请认证</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <link rel="stylesheet" href="asset/css/feedback.css" />
+</head>
+<style>
+    .feedback .image-list{
+        height: initial;
+    }
+</style>
+<body>
+<!-- 顶部导航-->
+<header class="mui-bar mui-bar-nav header">
+    <a class="mui-icon mui-icon-back mui-pull-left" href="javascript:history.back(-1)"></a>
+    <h1 class="mui-title">申请认证</h1>
+</header>
+<div class="title" style="margin-top: 0.4rem"></div>
+<ul class="mui-table-view">
+    <li class="mui-table-view-cell">
+        <a class="mui-navigate-right" href="#account">
+            真实姓名
+            <i class="mui-pull-right update name">雷锋</i>
+        </a>
+    </li>
+    <li class="mui-table-view-cell">
+        <a class="mui-navigate-right" href="#account">
+            性别
+            <i class="mui-pull-right update sex">男</i>
+        </a>
+    </li>
+    <li class="mui-table-view-cell">
+        <a class="mui-navigate-right" href="#account">
+            生日
+            <i class="mui-pull-right update birthday">2016-12-12</i>
+        </a>
+    </li>
+    <li class="mui-table-view-cell">
+        <a class="mui-navigate-right" href="#account">
+            身份证号码
+            <i class="mui-pull-right update idnumber">142625199611261246</i>
+        </a>
+    </li>
+</ul>
+
+<div id="image-list" class="row image-list" style="margin-top: 6px;">
+    <div class="image-item-tit">
+        身份证拍照
+    </div>
+    <div class="image-item space">
+        <div class="image-close">X</div>
+        <div class="image-up"></div>
+        <div class="file" id="image-1"></div>
+    </div>
+    <!--<div class="image-item space" style="float: right;">-->
+        <!--<div class="image-close">X</div>-->
+        <!--<div class="image-up"></div>-->
+        <!--<div class="file"></div>-->
+    <!--</div>-->
+    <div class="image-item-bottom">
+        本人手持身份证,拍摄上半身照片,请确保信息清晰可见
+    </div>
+</div>
+
+</body>
+<script src="asset/js/mui.min.js"></script>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script src="asset/js/feedback.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script type="text/javascript">
+    mui.init();
+    mui('.mui-scroll-wrapper').scroll();
+</script>
+<script src="asset/js/common.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var openid = sessionStorage.getItem('openid');  //shequid
+        var name = $(".name").text();
+        var sex = $(".sex").text();
+        var birthday = $(".birthday").text();
+        var idnumber = $(".idnumber").text();
+        //申请雷锋
+        $.ajax({
+            type:"post",
+            url: fixurl + "user.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"shenhe",
+                openid:openid,
+                name:name,  //姓名
+                sex:sex, //性别
+                birthday:birthday, //出生日期
+                idnumber:idnumber, //证件号
+                page:1
+            },
+            success:function(obj){
+                if(obj.code==200){
+
+                }else{
+                    alert("超出当天条数");
+                }
+            },
+            error:function(){
+                alert("error");
+            }
+        });
+    });
+</script>
+</html>

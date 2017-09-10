@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- 适应移动端end -->
+</head>
+<style>
+    .buy_again{
+        margin-left: 50px;
+        font-size: 14px;
+    }
+    .chat_shop{
+        margin-right: 50px;
+        font-size: 14px;
+    }
+</style>
+<body>
+    <div class="fix_top" style="display: none">
+        <div class="fix_left">
+            <img src="asset/image/512.png" alt="全民乐帮"/>
+            <div class="fix_data">
+                <h3>全民乐帮</h3>
+                <h3 style="font-size: 12px">小区生活服务APP</h3>
+            </div>
+        </div>
+        <div class="fix_right">
+            <button onclick="openApp()">打开APP</button>
+        </div>
+    </div>
+    <div class="title" style="margin-top:50px;display: none"></div>
+    <div id="wrapper">
+        <div id="scroller">
+            <div id="Div_1" style="background-color: rgb(249, 249, 249);"></div>
+        </div>
+    </div>
+</body>
+<script src="asset/js/common.js"></script>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<!--下拉刷新-->
+<link rel="stylesheet" href="asset/js/pullToRefresh/dropload.css">
+<script src="asset/js/pullToRefresh/dropload.js"></script>
+<script>
+    // 打开APP
+    function openApp(){
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)) {
+            window.location.href = "lebang://type=shanghu&json="+shanghuarry; /***打开app的协议，有ios同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "https://itunes.apple.com/cn/app/quan-min-le-bang/id1131512680?mt=8"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        } else if (/android/.test(ua)) {
+            window.location.href = "qmlb://openapp.com/type=shanghu&json="+shanghuarry; /***打开app的协议，有安卓同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        }
+    }
+//    var openid = sessionStorage.getItem('openid');  //
+    var openid = "e377b1c2c28f2e8ae568fd34018f59a0";
+    var shanghuarry = sessionStorage.getItem('shanghuarry');  //
+    //获取URL栏地址
+    function UrlSearch(){
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?");
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                this[name]=value;
+            }
+        }
+    }
+    var Request=new UrlSearch(); //实例化
+    var share = Request.share;
+    var src = Request.src;
+    var paramValue = Request.id;
+    if(src == "app"){
+        $(".footer_chiose").css("display","none");
+        $(".mui-scroll").css("margin-bottom","0");
+        $(".collection").css("display","none");
+    }
+    if(share == "yes"){
+        $(".fix_top").css("display","block");
+        $(".title").css("display","block");
+    }
+
+
+    //    我的订单列表
+    var page = 1;
+    function getData(page,callback){
+        $.ajax({
+            type:"get",
+            url: fixurl + "order.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"fuwudingdanliebiao",
+                openid:openid,  //用户openid
+                id:paramValue, //商户id（类型3时必须传）
+                leixing:1,   //1下单用户 2服务人员 3商户
+                page:page
+            },
+            timeout: 0,
+            success: function(data, status, xhr){
+                callback(data);
+            },
+            error: function(xhr, errorType, error){
+                callback({data:[]});
+            }
+        });
+    }
+    var dropload = $('#wrapper').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown:{
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+            domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+            domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+        },
+        scrollArea : window,
+        loadDownFn:function(me){//下拉加载
+            getData(page,function(result){
+                appendList(result);
+                if(result.obj.zongyeshu < 10){
+                    me.lock();
+                    me.noData();
+                }else if(result.obj.zongyeshu == 10 || result.obj.zongyeshu != 0){
+                    page++;
+                }else {
+                    me.lock();
+                    me.noData();
+                }
+                dropload.resetload();
+            });
+        },
+        loadUpFn : function(me){//上拉刷新
+            dropload.resetload();
+        }
+    });
+    function appendList(json){
+        if(json.code==200){
+            var obj= json.obj;
+            var content = obj.dingdan;
+            for( var i = 0;i<content.length;i++){
+                var shop = content[i].shanghu;
+                if(content[i].wanchengshijian !=""){
+                    var time = new Date(parseInt(content[i].wanchengshijian) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace(/下午/g, " ").replace(/上午/g, " ").replace(/\//g, "-")
+                }else{
+                    var time = "";
+                }
+                if(content[i].fuwumoshi ==1){ //到家
+                    var go_local = "到家";
+                    var buy ='<a href="placeorder.html?fuwuid='+content[i].fuwuid+'" class="fl buy_again">再次购买</a>';
+                }else if(content[i].fuwumoshi ==2){ //到店
+                    var go_local = "到店";
+                    var buy ='<a href="placeshop.html?fuwuid='+content[i].fuwuid+'" class="fl buy_again">再次购买</a>';
+                }
+                if(content[i].status ==3){  // 0未付款 1已支付2确认3完成4申请取消 5取消
+                    var statu = '<span class="fr"><i class="shop_over"></i>已完成</span>';
+                    if(content[i].shifoupinglun == 0){  //是否评论  0未评论1评论
+                        var chat = '<a href="javascript:;" class="fr chat_shop">评价服务</a>';
+                    }else if(content[i].shifoupinglun == 1){
+                        var chat = '<a href="javascript:;" class="fr chat_shop">查看评价</a>';
+                    }
+                }else if(content[i].status ==5){
+                    var statu = '<span class="fr"><i class="shop_over_null"></i>已取消</span>';
+                    var chat = '<a href="tel:'+shop.dianhua+'" class="fr chat_shop">联系商户</a>';
+                }else if(content[i].status ==4){
+                    var statu = '<span class="fr"><i class="shop_over_null"></i>申请取消</span>';
+                    var chat = '<a href="tel:'+shop.dianhua+'" class="fr chat_shop">联系商户</a>';
+                }
+                var li = '<li class="order_li"><div class="shop_top"><img src="'+avater+content[i].avatar+'"><h3 class="shoptop_name mui-ellipsis">'+content[i].name+' · '+shop.mingcheng+' ( '+go_local+' )</h3>'+statu+'</div><div class="shop_content"><img class="mui-pull-left order_img" src="'+fuwuhoto+content[i].photo+'"><div class="mui-media-body fl order_shop_cont" style="width: inherit"><h3 class="order_name mui-ellipsis fl">'+content[i].fuwumingcheng+'</h3><div class="order_content">实付款：<i class="order_price">'+content[i].yingfujine+'</i></div></div><span class="fr endtime">'+time+'</span></div><div class="shop_buttom" style="text-align: center;">'+buy+chat+'</div></li>';
+                li=+
+                        $("#Div_1").append(li);
+            }
+        }
+    };
+</script>
+</html>

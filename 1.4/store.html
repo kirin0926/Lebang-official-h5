@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <link rel="stylesheet" href="asset/css/store.css"/>
+</head>
+<style>
+    nav .emtop{ background: url("asset/image/zheceng@2x.png") no-repeat;  background-size: 3.2rem 0.3rem;  width: 3.2rem;  height: 0.5rem;  position: absolute;  z-index: 200;  display: block;  }
+    nav .embottom{
+        background: url("asset/image/yun-@3x.png") no-repeat;
+        background-size: 100% 100%;
+        width: 100%;
+        height: 0.5rem;
+        position: absolute;
+        z-index: 5;
+        display: block;
+        bottom: 0;
+    }
+    .huan{  white-space: normal;  width: 97%;  margin: 0 auto;  color: #333;  font-size: 0.12rem;  }
+    .pa15{  padding: 0.05rem; border-bottom: 1px solid #f7f7f7;}
+    .mui-media-body span{     font-size: 0.125rem;  color: #333;  white-space: nowrap;  width: 73%;  }
+    body{  display: none;  }
+    .mui-table-view:after{  background-color: #f7f7f7; }
+    .mui-card-header{
+        overflow: hidden;
+        border-bottom: 1px solid #f7f7f7;
+    }
+    .card-img{
+        width: 0.35rem !important;
+        height: 0.35rem !important;
+        border-radius: 0.4rem;
+        margin-right: 0.1rem;
+        border: 1px solid #ddd;
+        margin-top: 0.07rem;
+    }
+    .mui-table-view-cell{
+        font-size: 0.1rem;
+        text-align: center;
+        padding: 0;
+    }
+    .mui-content{
+        background: #FFFFFF;
+    }
+    .chiose{
+        width: 0.1rem;
+        display: inline-block;
+        margin: 0 0.03rem;
+    }
+    .cq10{
+        font-size: 0.1rem;
+        text-align: center;
+        padding: 5px 0;
+    }
+    .img-box{
+        width: 100%;
+        height: 66%;
+        position: relative;
+    }
+    section {
+        background: #ffffff;
+        overflow: hidden;
+    }
+    .renz_shop{
+        font-size: 0.09rem !important;
+        color: #ff6600 !important;
+    }
+    .mui-card-footer:before, .mui-card-header:after{
+        background-color: inherit;
+    }
+    .mui-table-view:before{
+        background-color: #f7f7f7;
+    }
+    .logo_sex{
+        background: url("asset/image/renzs_sex0.png") no-repeat;
+        width: 0.34rem;
+        display: inline-block;
+        height: 0.18rem;
+        background-size: 0.07rem;
+        background-position-y: 0.04rem;
+        background-position-x: 0.05rem;
+        background-color: RGB(254,93,111);
+        border-radius: 0.04rem;
+        font-size: 0.1rem;
+        text-align: right;
+        padding: 0 0.05rem;
+        color: #fff;
+    }
+    .logo_shop{
+        background: url("asset/image/renz_shop.png") no-repeat;
+        width: 0.42rem;
+        display: inline-block;
+        height: 0.18rem;
+        background-size: 0.19rem;
+        background-color: #F60;
+        border-radius: 0.04rem;
+        font-size: 0.11rem;
+        text-align: right;
+        padding: 0 0.02rem;
+        color: #fff;
+        margin: 0 0.05rem;
+    }
+    .mui-card-header.mui-card-media .mui-media-body p{
+        font-size: 0.12rem;
+    }
+    .jianjie img{
+        width: 100% !important;
+        height: auto !important;
+    }
+</style>
+<body>
+<!--顶部导航-->
+<header id="header" class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-back mui-pull-left" href="javascript:history.back(-1)" style="padding: 0.04rem;"></a>
+    <h1 class="mui-title mingcheng">小二家修</h1>
+</header>
+<div class="title" style="margin-top: 0.3rem"></div>
+<nav>
+    <div class="img-box">
+        <!--http://www.tudangjia.cn/photo/shanghu/20161028161823_328.jpg-->
+        <img class="logo" src="asset/image/bg1.png" alt=""/>
+        <em class="embottom"></em>
+    </div>
+</nav>
+<section>
+    <div class="mui-card-header mui-card-media card-head">
+        <img class="card-img" src="http://www.quanminlebang.com/photo/avatar/1479795920901.jpg">
+        <div class="mui-media-body card-tit" style="    line-height: 0.2rem;">
+            <i class="cf60">
+                <b class="mingcheng">喵喵妹·喵喵美甲</b>
+            </i>
+            <p>
+                <!--<span class="renz_shop" style="">-->
+                <i class="logo_sex">20</i>
+                <i class="logo_shop">商户</i>
+                <!--</span>-->
+            </p>
+        </div>
+    </div>
+    <ul class="mui-table-view">
+        <li class="pa15">
+            <div class="mui-media-body">
+                <i class="icon-biaoq"></i><i>服务时间</i>
+                <div class="huan">
+                    <i><span class="starttime" style="margin-left: 0">08:00</span>-<span class="endtime" style="margin-left: 0">22:00</span></i>
+                </div>
+            </div>
+        </li>
+        <li class="pa15">
+            <div class="mui-media-body">
+                <i class="icon-biaoq"></i><i>服务项目</i>
+                <div class="huan xiangmutext">
+                    管道疏通、油烟机深度清理、灯具修理、空调加氟、直筒洗衣机
+                    清洗、洗衣机维修、普通双门冰箱清洗
+                </div>
+            </div>
+        </li>
+        <li class="pa15">
+            <div class="mui-media-body">
+                <i class="icon-biaoq"></i>门店地址
+                <div class="huan dizhi" style="font-size: 0.12rem;color: #333;">社区名称或大厦名称及详细地址</div>
+            </div>
+        </li>
+        <li class="pa15">
+            <div class="mui-media-body">
+                <i class="icon-biaoq"></i>服务商简介
+                <div class="huan jianjie">
+                    精通各种电脑维修技巧，上门安装系统，清灰，解决电脑蓝屏问题，电脑装机问题，笔记本维修，装硬盘，上硅脂
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var openid = sessionStorage.getItem('openid');  //
+        function UrlSearch(){
+            var name,value;
+            var str=location.href; //取得整个地址栏
+            var num=str.indexOf("?");
+            str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+            var arr=str.split("&"); //各个参数放到数组里
+            for(var i=0;i < arr.length;i++){
+                num=arr[i].indexOf("=");
+                if(num>0){
+                    name=arr[i].substring(0,num);
+                    value=arr[i].substr(num+1);
+                    this[name]=value;
+                }
+            }
+        }
+        var Request=new UrlSearch(); //实例化
+        var app = Request.src;
+        var paramValue = Request.id;
+        if(app == "app"){
+            $("#header").css("display","none");
+            $(".title").css("display","none");
+        }
+        $.ajax({
+            type:"get",
+            url: fixurl + "bianminfuwu.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"shanghuxiangqing",
+                id:paramValue,
+                openid:openid
+            },
+            success:function(json){
+                var obj =json;
+                if(json.code==200){
+                    var ovj = json.obj;
+                    var shanghu = ovj.shanghu;
+                    for (var i=0;i<shanghu.length;i++) {
+                        var id = shanghu[i].id;    //商户id
+                        var mingcheng = shanghu[i].mingcheng; //商户名称
+                        var dianhua = shanghu[i].dianhua;      //电话
+                        var kaishishijian = shanghu[i].kaishishijian;  //服务开始时间
+                        var jieshushijian = shanghu[i].jieshushijian;  //服务结束时间
+                        var xiangmu = shanghu[i].xiangmu;      //服务项目id多个用，隔开
+                        var xiangmutxt = shanghu[i].xiangmutxt;      //服务项目名称多个用，隔开
+                        var dizhi = shanghu[i].dizhi;      //商户地址
+                        var logo = shanghu[i].logo;      //商户logo（封面）
+                        var quyu = shanghu[i].quyu;//商户服务小区id 多个，隔开
+                        var quyutxt = shanghu[i].quyutxt;         //区域
+                        var zhizhao = shanghu[i].zhizhao;      // 商户执照
+                        var jianjie = shanghu[i].jianjie;      //商户简介
+                        var nickname = shanghu[i].nickname;    //小米
+                        var avatar = shanghu[i].avatar;
+                        var birthday = shanghu[i].birthday;//
+                        var d = new Date(birthday * 1000);    //根据时间戳生成的时间对象
+                        var year = d.getFullYear();
+                        //当前时间
+                        var now = new Date();
+                        var yy = now.getFullYear(); //当前时间 年
+                        var birthdays = yy-year;
+                        var sex = shanghu[i].sex;
+                        var openpersonid = shanghu[i].openid;
+                        var if_work = shanghu[i].if_work;
+                        if(if_work==1){//
+                            $(".merchant").attr("href","tel:"+dianhua);
+                        }else if(if_work==2){
+                            $(".merchant").attr("href","merchants.html?id="+paramValue+"&openpersonid="+openpersonid);
+                        }
+                        if(sex ==1){//男
+                            $(".logo_sex").css("background",'url("asset/image/renzs_sex1.png") no-repeat');
+                            $(".logo_sex").css("background-color",'RGB(103,162,250)');
+                            $(".logo_sex").css("background-size",'0.1rem');
+                            $(".logo_sex").css("background-position",'0.04rem 0.05rem');
+                        }else if(sex ==0){//女
+                            $(".logo_sex").css("background",'url("asset/image/renzs_sex0.png") no-repeat');
+                            $(".logo_sex").css("background-color",'RGB(254,93,111)');
+                            $(".logo_sex").css("background-size",'0.1rem');
+                            $(".logo_sex").css("background-position",'0.04rem 0.05rem');
+                        }
+                        $(".logo_sex").text(birthdays);
+                        $(".card-img").attr("src",avater+avatar);
+                        $(".logo").attr("src",shopphoto+logo);
+                        $(".starttime").html(kaishishijian);
+                        $(".endtime").html(jieshushijian);
+                        $(".dizhi").html(dizhi);
+                        $(".jianjie").html(jianjie);
+                        $(".quyutext").html(quyutxt);
+                        var newxiangmutext = xiangmutxt.replace(/\-/g, ",");
+                        $(".xiangmutext").html(newxiangmutext);
+                        $(".mingcheng").html(mingcheng);
+                        $("body").css("display","block");
+                    }
+                }if(json.code==4003 ){
+                    alert("超出当天条数")
+                }
+            },
+            error:function(){
+                alert("error")
+            }
+        });
+    })
+</script>
+
+</html>

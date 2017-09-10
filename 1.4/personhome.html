@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <link rel="stylesheet prefetch" href="asset/css/photoswipe.css">
+    <link rel="stylesheet prefetch" href="asset/css/default-skin.css">
+</head>
+<style>
+    body{
+        background: #Fff;
+    }
+    .heads{
+        background: url("asset/image/center_bg.png") no-repeat;
+        /*width: 100%;  */
+        /*height: 1.9rem;*/
+        background-size: 100% 1.2rem;
+        overflow: hidden;
+    }
+    .head-box img {
+        width: 0.5rem;
+        border-radius: 0.5rem;
+        height: 0.5rem;
+    }
+    .nickname{
+        color: #FF6600;
+    }
+    .head-box{
+        width: 1.5rem;
+        text-align: center;
+        margin: 0 auto;
+        margin-top: 0.9rem;
+    }
+    .card-img-list {
+        width: 1rem;
+        height: 1rem;
+        background-size: 2rem;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    .mui-card {
+        margin: 10px 0;
+        box-shadow: 0 1px 1px #ddd;
+    }
+    .mui-content{
+        overflow: hidden;
+    }
+    .Personal_fresh,.Personal_Order,.Personal_wallet,.Personal_star,.Personal_join,.Personal_Set-up{  width: 0.12rem;  height: 0.12rem;  display: inline-block;  margin: 0.02rem 0.06rem 0 0.02rem;  }
+    .icon-like{  background: url("asset/image/dianzan.png") no-repeat;  width: 0.13rem;  height: 0.13rem;  display: inline-block;  background-size: 0.118rem;  margin: 0.02rem;  }
+    .icon-send{  background: url("asset/image/Home_forward@3x.png") no-repeat;  width: 0.12rem;  height: 0.12rem;  display: inline-block;  background-size: 0.118rem;  margin: 0.02rem;  }
+    .icon-pull{  background: url("asset/image/Order_ChatMessage_Button@2x.png") no-repeat;  width: 0.13rem;  height: 0.12rem;  display: inline-block;  background-size: 0.118rem;  margin: 0.02rem;  }
+    .icon-answer{  background: url("asset/image/Answer@2x.png") no-repeat;  width: 0.12rem;  height: 0.12rem;  display: inline-block;  background-size: 0.118rem;  margin: 0.02rem;  }
+    .icon-gold{  background: url("asset/image/For-gold@2x.png") no-repeat;  width: 0.12rem;  height: 0.12rem;  display: inline-block;  background-size: 0.118rem;  margin: 0.02rem;  }
+    .cf60{  color: #F60; width: 25%;
+        margin: 0 auto; }
+    .mui-card-footer:before, .mui-card-header:after{
+        background-color: inherit;
+    }
+    .mui-table-view:before{
+        background-color: inherit;
+    }
+    .mui-grid-view.mui-grid-9{
+        border: inherit;
+    }
+    .mui-table-view-cell{
+        border-right: inherit !important;
+        border-bottom: inherit !important;
+    }
+    .mui-card-footer{
+        border-top: 1px solid #e7e7e7;
+        padding: 6px 15px;
+    }
+    .mui-card-content h3 {
+        font-size: 0.11rem;
+        margin: 0.035rem;
+        margin-left: 0.1rem;
+        line-height: 1.5;
+        margin-bottom: 0.043rem;
+    }
+    .mui-grid-view.mui-grid-9 .mui-table-view-cell{
+        padding: 10px 7px 10px 7px;
+        /*padding: 10px 9px;*/
+        /*padding: 0px 3px;*/
+    }
+    .mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn){
+        padding: 0 0;
+    }
+    .card-img {
+        width: 0.3rem !important;
+        height: 0.3rem !important;
+        border-radius: 0.4rem;
+    }
+    .sex1{
+        background: url("asset/image/renz_sex1.png") no-repeat;
+        width: 0.15rem;
+        height: 0.15rem;
+        display: inline-block;
+        background-size: 0.12rem;
+        background-position-y: 0.04rem;
+    }
+    .sex0{
+        background: url("asset/image/renz_sex1.png") no-repeat;
+        width: 0.15rem;
+        height: 0.15rem;
+        display: inline-block;
+        background-size: 0.12rem;
+        background-position-y: 0.04rem;
+    }
+    .renz{
+        background: url("asset/image/renz_shop.png") no-repeat;
+        width: 0.15rem;
+        height: 0.15rem;
+        display: inline-block;
+        background-size: 0.12rem;
+        background-position-y: 0.04rem;
+    }
+    .renzlocol{
+        background: url("asset/image/renz_local.png") no-repeat;
+        width: 0.15rem;
+        height: 0.15rem;
+        display: inline-block;
+        background-size: 0.12rem;
+        background-position-y: 0.04rem;
+    }
+    .mui-card-header.mui-card-media .mui-media-body p{
+        margin-top: 0.06rem;
+        font-size: 0.1rem;
+    }
+    .mui-inline{
+        margin-bottom: 0.02rem;
+    }
+    .location{
+        font-size: 0.1rem;
+        color: #8f8f94;
+    }
+    .card-tit{
+        margin-left: 0.36rem !important;
+    }
+    .icon-shu{
+        background: url(asset/image/icon_shu.png) no-repeat;
+        width: 0.005rem;
+        height: 0.2rem;
+        background-size: 0.05rem;
+    }
+    .mr2{
+        margin-right: 0.21rem;
+    }
+    .ml2{
+        margin-left: 0.21rem;
+    }
+</style>
+<body>
+<!-- 顶部导航-->
+<header id="header" class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-back mui-pull-left mui-action-back" style="padding: 0.03rem;padding-left: 0.01rem;"></a>
+    <h1 class="mui-title"></h1>
+    <a class="mui-icon mui-icon-info-filled mui-pull-right" style="padding: 0.06rem"></a>
+</header>
+<section>
+    <div class="title" style="margin-top: 0.3rem"></div>
+    <div class="heads">
+            <div class="head-box">
+                <img class="avatar" src="asset/image/512.png" alt="">
+                <h3 class="nickname">天之娇吊炸了</h3>
+                <div class="icons mui-inline">
+                    <i class="sex1"></i>
+                    <i class="renz"></i>
+                    <i class="renzlocol"></i>
+                    <i class="location">首城国际C座</i>
+                </div>
+            </div>
+    </div>
+    <div class="mui-content">
+        <div class="cards">
+            <!--<div class="my-gallery" data-pswp-uid="1">-->
+                <!--<figure>-->
+                    <!--<a href="http://www.tudangjia.cn/photo/xinxianshi/20161123151017_706.jpg" data-size="670x712">-->
+                        <!--<img src="http://www.tudangjia.cn/photo/xinxianshi/20161123151017_706.jpg">-->
+                    <!--</a>-->
+                <!--</figure>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+
+
+</section>
+
+ <!--Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+         Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed.
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script src="asset/js/photoswipe.js"></script>
+<script src="asset/js/photoswipe-ui-default.min.js"></script>
+
+<script type="text/javascript">
+    var initPhotoSwipeFromDOM = function(gallerySelector) {
+
+        // 解析来自DOM元素幻灯片数据（URL，标题，大小...）
+        // (children of gallerySelector)
+        var parseThumbnailElements = function(el) {
+            var thumbElements = el.childNodes,
+                    numNodes = thumbElements.length,
+                    items = [],
+                    figureEl,
+                    linkEl,
+                    size,
+                    item;
+
+            for(var i = 0; i < numNodes; i++) {
+
+                figureEl = thumbElements[i]; // <figure> element
+
+                // 仅包括元素节点
+                if(figureEl.nodeType !== 1) {
+                    continue;
+                }
+                linkEl = figureEl.children[0]; // <a> element
+
+                size = linkEl.getAttribute('data-size').split('x');
+
+                // 创建幻灯片对象
+                item = {
+                    src: linkEl.getAttribute('href'),
+                    w: parseInt(size[0], 10),
+                    h: parseInt(size[1], 10)
+                };
+                if(figureEl.children.length > 1) {
+                    // <figcaption> content
+                    item.title = figureEl.children[1].innerHTML;
+                }
+
+                if(linkEl.children.length > 0) {
+                    // <img> 缩略图节点, 检索缩略图网址
+                    item.msrc = linkEl.children[0].getAttribute('src');
+                }
+
+                item.el = figureEl; // 保存链接元素 for getThumbBoundsFn
+                items.push(item);
+            }
+
+            return items;
+        };
+
+        // 查找最近的父节点
+        var closest = function closest(el, fn) {
+            return el && ( fn(el) ? el : closest(el.parentNode, fn) );
+        };
+
+        // 当用户点击缩略图触发
+        var onThumbnailsClick = function(e) {
+            e = e || window.event;
+            e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+            var eTarget = e.target || e.srcElement;
+
+            // find root element of slide
+            var clickedListItem = closest(eTarget, function(el) {
+                return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+            });
+
+            if(!clickedListItem) {
+                return;
+            }
+
+            // find index of clicked item by looping through all child nodes
+            // alternatively, you may define index via data- attribute
+            var clickedGallery = clickedListItem.parentNode,
+                    childNodes = clickedListItem.parentNode.childNodes,
+                    numChildNodes = childNodes.length,
+                    nodeIndex = 0,
+                    index;
+
+            for (var i = 0; i < numChildNodes; i++) {
+                if(childNodes[i].nodeType !== 1) {
+                    continue;
+                }
+
+                if(childNodes[i] === clickedListItem) {
+                    index = nodeIndex;
+                    break;
+                }
+                nodeIndex++;
+            }
+
+
+
+            if(index >= 0) {
+                // open PhotoSwipe if valid index found
+                openPhotoSwipe( index, clickedGallery );
+            }
+            return false;
+        };
+
+        // parse picture index and gallery index from URL (#&pid=1&gid=2)
+        var photoswipeParseHash = function() {
+            var hash = window.location.hash.substring(1),
+                    params = {};
+
+            if(hash.length < 5) {
+                return params;
+            }
+
+            var vars = hash.split('&');
+            for (var i = 0; i < vars.length; i++) {
+                if(!vars[i]) {
+                    continue;
+                }
+                var pair = vars[i].split('=');
+                if(pair.length < 2) {
+                    continue;
+                }
+                params[pair[0]] = pair[1];
+            }
+
+            if(params.gid) {
+                params.gid = parseInt(params.gid, 10);
+            }
+
+            return params;
+        };
+
+        var openPhotoSwipe = function(index, galleryElement, disableAnimation, fromURL) {
+            var pswpElement = document.querySelectorAll('.pswp')[0],
+                    gallery,
+                    options,
+                    items;
+
+            items = parseThumbnailElements(galleryElement);
+
+            // 这里可以定义参数
+            options = {
+                barsSize: {
+                    top: 100,
+                    bottom: 100
+                },
+                fullscreenEl : false, // 是否支持全屏按钮
+                shareButtons: [
+                    {id:'wechat', label:'分享微信', url:'#'},
+                    {id:'weibo', label:'新浪微博', url:'#'},
+                    {id:'download', label:'保存图片', url:'{{raw_image_url}}', download:true}
+                ], // 分享按钮
+
+                // define gallery index (for URL)
+                galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+
+                getThumbBoundsFn: function(index) {
+                    // See Options -> getThumbBoundsFn section of documentation for more info
+                    var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
+                            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                            rect = thumbnail.getBoundingClientRect();
+
+                    return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
+                }
+
+            };
+
+            // PhotoSwipe opened from URL
+            if(fromURL) {
+                if(options.galleryPIDs) {
+                    // parse real index when custom PIDs are used
+                    for(var j = 0; j < items.length; j++) {
+                        if(items[j].pid == index) {
+                            options.index = j;
+                            break;
+                        }
+                    }
+                } else {
+                    // in URL indexes start from 1
+                    options.index = parseInt(index, 10) - 1;
+                }
+            } else {
+                options.index = parseInt(index, 10);
+            }
+
+            // exit if index not found
+            if( isNaN(options.index) ) {
+                return;
+            }
+
+            if(disableAnimation) {
+                options.showAnimationDuration = 0;
+            }
+
+            // Pass data to PhotoSwipe and initialize it
+            gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+            gallery.init();
+        };
+
+        // loop through all gallery elements and bind events
+        var galleryElements = document.querySelectorAll( gallerySelector );
+
+        for(var i = 0, l = galleryElements.length; i < l; i++) {
+            galleryElements[i].setAttribute('data-pswp-uid', i+1);
+            galleryElements[i].onclick = onThumbnailsClick;
+        }
+
+        // Parse URL and open gallery if it contains #&pid=3&gid=1
+        var hashData = photoswipeParseHash();
+        if(hashData.pid && hashData.gid) {
+            openPhotoSwipe( hashData.pid ,  galleryElements[ hashData.gid - 1 ], true, true );
+        }
+    };
+
+    // execute above function
+    initPhotoSwipeFromDOM('.my-gallery');
+</script>
+<script>
+    $(function(){
+        function UrlSearch(){
+            var name,value;
+            var str=location.href; //取得整个地址栏
+            var num=str.indexOf("?");
+            str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+            var arr=str.split("&"); //各个参数放到数组里
+            for(var i=0;i < arr.length;i++){
+                num=arr[i].indexOf("=");
+                if(num>0){
+                    name=arr[i].substring(0,num);
+                    value=arr[i].substr(num+1);
+                    this[name]=value;
+                }
+            }
+        }
+        var Request=new UrlSearch(); //实例化
+        var app = Request.src;
+//        var openid = Request.openid;
+//        var shequid = Request.shequid;
+        if(app == "app"){
+            $("#header").css("display","none");
+            $(".title").css("display","none");
+        }
+        var openid = sessionStorage.getItem('openid');  //
+        var shequid = sessionStorage.getItem('shequid'); //社区ID
+        //用户个人信息
+        $.ajax({
+            type:"get",
+            url: fixurl + "user.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"usersel",
+                openid:openid
+            },
+            success:function(json){
+                var obj =json;
+                if(json.code==200){
+                    var list =obj.obj;
+                    var avatar = list.avatar;//头像
+                    var nickname = list.nickname;//昵称
+                    var money = list.money;
+                    var location = list.location;
+                    var sex = list.sex;
+                    if(sex==1){//男
+                    $(".sex").attr("class","sex1")
+                    }else{//女
+                    $(".sex").attr("class","sex0")
+                    }
+                    $(".location").text(location);
+                    $(".nickname").text(nickname);
+                    $(".money").text(money+"元");
+                    $(".avatar").attr("src",avater+avatar);
+                }else{
+                    alert(json.code)
+                }
+            },
+            error:function(){
+                alert("error")
+            }
+        });
+        //新鲜事列表
+        $.ajax({
+            type:"get",
+            //简历的阿姨详情
+            url: fixurl + "shequ.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"xinxianshiliebiao",
+                page:"1",
+                shequid:shequid,
+                openid:openid
+            },
+            success:function(json){
+                var obj =json;
+                if(json.code==200){
+                    var list = json.obj;
+                    var xinxianshi = list.xinxianshi;
+                    var xinxianshizongshu = list.xinxianshizongshu;
+                    for (var i=0;i<xinxianshi.length;i++){
+                        var id = xinxianshi[i].id;          //新鲜事id
+                        var caina = xinxianshi[i].caina;        // 1没有采纳 2已结采纳答案
+                        var dianzanshu = xinxianshi[i].dianzanshu;      //点赞数
+                        var leixing = xinxianshi[i].leixing;         //类型
+                        var mingcheng = xinxianshi[i].mingcheng;        //名称
+                        var money = xinxianshi[i].money;        //金钱
+                        var neirong = xinxianshi[i].neirong;        //内容
+                        var openid = xinxianshi[i].openid;      //发布者openid
+                        var ordernum = xinxianshi[i].ordernum;      //订单号
+                        var pinglunshu = xinxianshi[i].pinglunshu;      //评论数
+                        var shequid = xinxianshi[i].shequid;        //社区id
+                        var shifoudianzan = xinxianshi[i].shifoudianzan;        //是否点赞
+                        var shijian = xinxianshi[i].shijian;        //时间
+                        var zhaopianshu = xinxianshi[i].zhaopianshu;        //照片数
+                        var zhuanfashu = xinxianshi[i].zhuanfashu;      //转发数
+                        var user = xinxianshi[i].user;          //用户信息组
+                        var logo = user.avatar; //用户头像
+                        var locations = user.location;
+                        var nickname = user.nickname;
+                        if(locations == null){
+                            var location = "首城国际";
+                        }else{
+                            var location =locations;
+                        }
+                        console.log(zhaopianshu);
+                        if(zhaopianshu !=0){     //判断照片数量   不等于0 有图片
+                            if(leixing == 1 ){  //1新鲜事
+                                var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'">'+neirong+'</a></h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul><div class="mui-card-footer"><a class="mui-card-link ml2"><i class="icon-send"></i>转发'+zhuanfashu+'</a><i class="icon-shu"></i><a class="mui-card-link"><i class="icon-pull"></i>评论'+pinglunshu+'</a><i class="icon-shu"></i><a class="mui-card-link mr2"><i class="icon-like"></i>喜欢'+dianzanshu+'</a></div></div>';
+                            }else if(leixing == 2 ){  //2悬赏
+                                var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit"><i class="cf60">'+nickname+'</i><p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'"><i class="cf60">#悬赏#</i>'+neirong+'</a></h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul><div class="mui-card-footer"><a class="mui-card-link cf60"><i class="icon-gold"></i>悬赏金:'+money+'</a><i class="icon-shu"></i><a class="mui-card-link cf60"><i class="icon-answer"></i>我来回答</a></div></div>';
+                            }else if(leixing == 3 ){  //3提问<ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul>
+                                var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit"><i class="cf60">'+nickname+'</i><p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'"><i class="cf60">#提问#</i>'+neirong+'</a></h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul><div class="mui-card-footer"><a class="mui-card-link cf60"><i class="icon-gold"></i>悬赏金:'+money+'</a><i class="icon-shu"></i><a class="mui-card-link cf60"><i class="icon-answer"></i>我来回答</a></div></div>';
+                            }
+                        }else{       //无图片
+                            if(leixing == 1 ){  //1新鲜事
+                                var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'">'+neirong+'</a></h3></div><div class="mui-card-footer"><a class="mui-card-link ml2"><i class="icon-send"></i>转发'+zhuanfashu+'</a><i class="icon-shu"></i><a class="mui-card-link"><i class="icon-pull"></i>评论'+pinglunshu+'</a><i class="icon-shu"></i><a class="mui-card-link mr2"><i class="icon-like"></i>喜欢'+dianzanshu+'</a></div></div>';
+
+                            }else if(leixing == 2 ){  //2悬赏
+                                var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit"><i class="cf60">'+nickname+'</i><p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'"><i class="cf60">#悬赏#</i>'+neirong+'</a></h3></div><div class="mui-card-footer"><a class="mui-card-link cf60"><i class="icon-gold"></i>悬赏金:'+money+'</a><i class="icon-shu"></i><a class="mui-card-link cf60"><i class="icon-answer"></i>我来回答</a></div></div>';
+
+                            }else if(leixing == 3 ){  //3提问
+                                var card = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit"><i class="cf60">'+nickname+'</i><p>'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="Freshthing.html?id='+id+'"><i class="cf60">#提问#</i>'+neirong+'</a></h3></div><div class="mui-card-footer"><a class="mui-card-link cf60"><i class="icon-gold"></i>悬赏金:'+money+'</a><i class="icon-shu"></i><a class="mui-card-link cf60"><i class="icon-answer"></i>我来回答</a></div></div>';
+                            }
+                        }
+                        card=+
+                        $(".cards").append(card);
+                        var zhaopians = xinxianshi [i].zhaopian;
+                        if(zhaopians !=undefined){
+                            for(var s = 0;s < zhaopians.length;s++){
+                                var zhaopianlist = zhaopians[s].zhaopian;
+                                var chicun = zhaopians[s].chicun;
+                                var arry =chicun.split(",");
+                                var cardlist='<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 card-li"><a href="javascript:;"><div class="card-img-list" style="background-image: url('+xinxianphoto+zhaopianlist+')"></div></a></li>';
+                                cardlist=+
+                                $(".cardlist"+id).append(cardlist);
+                            }
+                        }
+                    }
+                }else{
+                    alert(json.code);
+                }
+            },
+            error:function(){
+                alert("error")
+            }
+        });
+    })
+
+</script>
+
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>提现</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+</head>
+<style>
+    .mui-input-row{
+        padding: 0.05rem;
+    }
+    .mui-box{
+        height: 1rem;
+        background: -ms-linear-gradient(top, #fe802c,  #0000ff);        /* IE 10 */
+
+        background:-moz-linear-gradient(top,#fe802c,#fc5a58);/*火狐*/
+
+        background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fe802c), to(#fc5a58));/*谷歌*/
+
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fe802c), to(#fc5a58));      /* Safari 4-5, Chrome 1-9*/
+
+        background: -webkit-linear-gradient(left, #fe802c, #fc5a58);   /*Safari5.1 Chrome 10+*/
+
+        background: -o-linear-gradient(top, #fe802c, #fc5a58);  /*Opera 11.10+*/  overflow: hidden;  }
+    .money-tit{  width: 2.8rem;  margin: 0 auto;  margin-top: 0.2rem;  font-size: 0.17rem;  color: #fff;  }
+    .money{  margin: 0 auto;  margin-top: 0.2rem;  font-size: 0.25rem;  color: #fff;  text-align: center;  }
+</style>
+<body>
+<!--<header class="mui-bar mui-bar-nav">-->
+    <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="padding: 0.03rem"></a>-->
+    <!--<h1 class="mui-title">提现</h1>-->
+    <!--<a class="mui-icon mui-icon-info-filled mui-pull-right" style="padding: 0.03rem" href="addbank.html"></a>-->
+<!--</header>-->
+<div class="mui-content">
+    <div class="mui-box">
+        <h3 class="money-tit">当前余额(元)</h3>
+        <h3 class="money">123456789.00</h3>
+    </div>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell mui-media" id="3">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-left" src="">
+                <div class="mui-media-body">转到华夏银行<p class="mui-ellipsis chiose" style="font-size: 0.12rem;">6230 2020 1096 1119</p></div>
+            </a>
+        </li>
+        <div class="mui-input-row">
+            <label style="width: 28%;">转出金额：</label>
+            <input style="width: 71%;" class="moeny" type="text" placeholder="1~3个工作日到账">
+        </div>
+    </ul>
+    <div class="pays" style="text-align: center;margin-top: 25px;">
+        <input id="sign" class="submits recharge" type="submit" value="提交">
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script>
+    ////提现
+    var openid = sessionStorage.getItem('openid');
+    $(".recharge").click(function(){
+        var moeny = $(".money").text();
+        var bankid = $(".chiose").text();
+        $.ajax({
+            type:"get",
+            url: fixurl + "user.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"tixian",
+                openid:openid,
+                bankid:bankid,//卡号id
+                moeny:moeny//提现金额
+//                ordernum:ordernum  //订单号（时间戳+8位随机数）
+            },
+            success:function(obj){
+                if(obj.code==200){
+                    alert("提现成功");
+                }else{
+                    alert("超出当天条数");
+                }
+            },
+            error:function(){
+                alert("error");
+            }
+        });
+    })
+
+</script>
+</html>
+
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>绑定手机号</title>
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<style>
+    #sign{height: 47px;  border-radius: 3px;  font-size: 13px !important;  width: 340px;  opacity: 1;  border: none !important;}
+    #account:focus{  border-color: #03a9f4;  color: #000000;  }
+    #password:focus{  border-color: #03a9f4;  color: #000000;  }
+    #sendbtn:disabled{  background: rgb(199,199,205) !important;  }
+    #sendbtn{  background: #52c3fd;  font-size: 12px;  color: #fff;  height: 48px;  border: none;  width: 106px;  position: relative;  left: -2px;  opacity: 1;  border-radius: 0;  border-top-right-radius: 3px;  border-bottom-right-radius: 3px;  }
+    #sign:disabled{  background: #ff6600 !important;  color: #ff8c3f;  border: none !important;  }
+</style>
+<body>
+<!--<header class="mui-bar mui-bar-nav header">-->
+    <!--<a class="mui-icon mui-icon-back mui-pull-left mui-action-back"></a>-->
+    <!--&lt;!&ndash;<a href="javascript:history.back(-1)" class="back mui-pull-left"></a>&ndash;&gt;-->
+    <!--<h3 class="mui-title">登录</h3>-->
+<!--</header>-->
+<!--<div class="title" style="margin-top: 0.4rem"></div>-->
+    <div class="content">
+        <!--<form action="">-->
+            <div class="input-row">
+                <i class="login_phone"></i>
+                <input id="account"  type="text" placeholder="请输入手机号"  maxlength="11" >
+            </div>
+            <div class="input-row">
+                <i class="login_sms"></i>
+                <input id="password" type="text" placeholder="请输入验证码" maxlength="4"><input disabled="disabled" id="sendbtn" class="getCode" type="button" value="获取验证码"/>
+                <!--disabled="disabled"-->
+            </div>
+            <div class="input-row mt1" >
+                <input disabled id="sign" class="submits" type="submit" value="登录">
+            </div>
+            <div class="input-row" style="margin-top: 0.2rem">
+                <!--<h3>点击"登录"按钮即表示你同意<b>使用条款和隐私政策</b></h3>-->
+            </div>
+        <div class="mac" style="display: none;"></div>
+        <!--</form>-->
+    </div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script src="asset/js/verifymobile.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+<script type="text/javascript">
+    var ip =(returnCitySN["cip"]);
+
+    //    function xxx(){
+    //        var a = 10;
+    //        return a;
+    //    }
+    //    var b = xxx();//这里的b就是10
+
+    function nums(){
+        var num = Math.random();//Math.random()：得到一个0到1之间的随机数
+        num = Math.ceil(num * 99);//num*80的取值范围在0~80之间,使用向上取整就可以得到一个1~80的随机数
+        //num就是你要的随机数,如果你希望个位数前加0,那么这样:
+        var str;
+        if (num < 10) {
+            str = "0" + num
+        }else {
+            str = num.toString();
+        }
+        return str;
+    }
+    for(var i = 0;i<6;i++){
+        var num = nums();
+        $(".mac").append(num+"-");
+    }
+</script>
+    <script type="text/javascript">
+        $(function(){
+            $('#account').bind('input propertychange', function() {
+                var length  = $(this).val().length;
+                if(length == "11"){
+                    $("#sendbtn").removeAttr("disabled")
+                }
+            });
+            $('#password').bind('input propertychange', function() {
+                var length  = $(this).val().length;
+                if(length == "4"){
+                    $("#sign").removeAttr("disabled")
+                }
+            });
+            $(".getCode").click(function(){
+                var phonemob = $("#account").val();
+                var timess = Date.parse(new Date());
+                var times =timess/1000 ;
+                var mac = $(".mac").text();
+                macs = mac.substr(0,mac.length-1);
+                var bef = Number(times)-Number(444);
+                var sign = md5(bef+phonemob+"3c66790a694fd53aed110a8e85f1aeec"+ip);
+                if(phonemob && /^1[3|4|5|8]\d{9}$/.test(phonemob)){
+                    //对的
+                    $.ajax({
+                        type:"get",
+                        url: fixurl + "ajax.php",
+                        async:true,
+                        dataType:"json",
+                        data:{
+                            bs:"sms",
+                            phonemob:phonemob,
+                            ip:ip,
+                            mac:macs,
+                            time:times,
+                            sign:sign
+                        },
+                        success:function(obj){
+                            if(obj.code==200){
+                                var objs = obj.obj;
+                                var phone = objs.phone;
+                                var sms = objs.sms;
+                            }else{
+                                alert("超出当天条数");
+                            }
+                        },
+                        error:function(){
+                            alert("error");
+                        }
+                    });
+                } else{
+                    //不对
+                    alert("请输入正确手机号")
+                }
+            });
+            $("#sign").click(function(){
+                var judge_login = sessionStorage.getItem('judge_login');  //用户的openid
+                var password = $("#password").val();    //验证码
+                var account = $("#account").val();  //手机号
+                $.ajax({
+                    type:"get",
+                    url: fixurl + "user.php?bs=login&sms="+password+"&phone="+account,
+                    async:true,
+                    dataType:"json",
+                    success:function(obj){
+                        if(obj.code==200){
+                            var result=obj.obj;
+                            var openid = result.openid;
+                            var avatar = result.avatar;
+                            var nickname =result.nickname;
+                            var phone = result.phone;
+                            var shequid = result.shequid;
+                            var zhiyeid = result.zhiyeid;
+                            var xiadanshu = result.xiadanshu;
+                            var profession = result.profession;
+                            var fen = result.fen;
+                            var jiedanshu = result.jiedanshu;
+                            sessionStorage.setItem('openid', openid);
+                            sessionStorage.setItem('avatar', avatar);
+                            sessionStorage.setItem('nickname', nickname);
+                            sessionStorage.setItem('phone', phone);
+                            sessionStorage.setItem('shequid', shequid);
+                            sessionStorage.setItem('zhiyeid', zhiyeid);
+                            sessionStorage.setItem('xiadanshu', xiadanshu);
+                            sessionStorage.setItem('profession', profession);
+                            sessionStorage.setItem('fen', fen);
+                            sessionStorage.setItem('jiedanshu', jiedanshu);
+                            if(judge_login == "1"){//判断登录 1登录后进入下单页面 placeshop.html  2登录后进入 placeorder.html
+                                var fuwuid = sessionStorage.getItem('fuwuid');  //
+                                window.location.href="placeshop.html?fuwuid="+fuwuid;
+                            }else if(judge_login == "2"){
+                                var fuwuid = sessionStorage.getItem('fuwuid');  //
+                                window.location.href="placeorder.html?fuwuid="+fuwuid;
+                            }else{
+                                window.location.href="chioseaddress.html";
+                            }
+                        }else{
+                            alert(obj.code);
+                        }
+                    },
+                    error:function(){
+                        alert("error");
+                    }
+                });
+            })
+        })
+    </script>
+    <script type="text/javascript">
+    var wait=60;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="再次获取";
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            o.value="重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function() {
+                        time(o)
+                    },
+                    1000)
+        }
+    }
+    document.getElementById("sendbtn").onclick=function(){time(this);}
+</script>
+</html>

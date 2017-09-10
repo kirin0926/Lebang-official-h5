@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>服务到店</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <!--App自定义的css-->
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <!--时间选择器插件-->
+    <link rel="stylesheet" type="text/css" href="asset/css/mui.picker.min.css" />
+</head>
+<body>
+<!--<header class="mui-bar mui-bar-nav header">-->
+    <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+    <!--<h3 class="mui-title">确定下单</h3>-->
+<!--</header>-->
+<!--<div class="title" style="margin-top: 0.42rem"></div>-->
+<div class="mui-content">
+    <ul class="mui-table-view mui-table-view-chevron" style="margin-top: 0;">
+        <li class="place_shop_li">
+            <a href="javascript:;" class="place_word"><i class="place_local mui-navigate-left"></i>商户地址：<i class="local"></i></a>
+        </li>
+        <li class="place_shop_li">
+            <a href="javascript:;" class="place_word"><i class="place_phone mui-navigate-left"></i>商户电话：<i class="store_phone"></i></a>
+        </li>
+    </ul>
+    <ul class="mui-table-view mui-table-view-chevron"  style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="place_word"><i class="place_person mui-navigate-left"></i><input type="text" class="name place_hidden_input" placeholder="请输入姓名 例如（甲先生）"/></a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="place_word"><i class="place_phone mui-navigate-left"></i><input type="text" class="phone place_hidden_input" placeholder="请输入手机号"></a>
+        </li>
+    </ul>
+    <ul class="mui-table-view mui-table-view-chevron"  style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="mui-navigate-right place_word btn">
+                <!--data-options='{"type":"date","beginYear":2017,"endYear":2017}'-->
+                <i class="place_time mui-navigate-left"></i><i id='demo1'>请选择到店时间</i>
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="place_word chiose_peoson"><i class="place_phone mui-navigate-left"></i>选择服务人员</a>
+        </li>
+    </ul>
+    <h3 class="place_tit">温馨提示：选择时间之前可以提前与商户预约好服务时间~</h3>
+    <ul class="mui-table-view mui-table-view-chevron" style="margin-top: 10px;">
+        <li class="place_shop_li">
+            <a href="javascript:;" class="place_word"><i class="place_shop mui-navigate-left"></i><i class="store_fuwu_name"></i></a>
+        </li>
+    </ul>
+    <h3 class="place_tit">该资金由全民乐帮担保，未交易成功，两小时内退款</h3>
+</div>
+<div class="footer_pay">
+    <div class="fl pay_money">待支付：<i class="store_fuwu_money" style="color: #ff6600;"></i></div>
+    <div class="fl pay_button">立即支付</div>
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<!--时间选择器插件-->
+<script src="asset/js/mui.picker.min.js"></script>
+<script type="text/javascript">
+    //调用微信JS api 支付
+    function jsApiCall()
+    {
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+//        <?php echo $jsApiParameters; ?>,
+        function(res){
+            WeixinJSBridge.log(res.err_msg);
+            alert(res.err_code+res.err_desc+res.err_msg);
+        }
+    );
+    }
+
+    function callpay() {
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall();
+        }
+    }
+</script>
+<script>
+    //    时间选择器
+    (function($) {
+        $.init();
+        var result = $('#demo1')[0];
+        var btns = $('.btn');
+        btns.each(function(i, btn) {
+            btn.addEventListener('tap', function() {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                /*
+                 * 首次显示时实例化组件
+                 * 示例为了简洁，将 options 放在了按钮的 dom 上
+                 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+                 */
+                var picker = new $.DtPicker(options);
+                picker.show(function(rs) {
+                    /*
+                     * rs.value 拼合后的 value
+                     * rs.text 拼合后的 text
+                     * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+                     * rs.m 月，用法同年
+                     * rs.d 日，用法同年
+                     * rs.h 时，用法同年
+                     * rs.i 分（minutes 的第二个字母），用法同年
+                     */
+                    result.innerHTML = rs.text;
+                    /*
+                     * 返回 false 可以阻止选择框的关闭
+                     * return false;
+                     */
+                    /*
+                     * 释放组件资源，释放后将将不能再操作组件
+                     * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+                     * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+                     * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+                     */
+                    picker.dispose();
+                });
+            }, false);
+        });
+    })(mui);
+</script>
+<!--微信支付-->
+<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>-->
+<!--<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>-->
+<!--<script src="http://demo.open.weixin.qq.com/jssdk/js/api-6.1.js?ts=1420774989"> </script>-->
+<!--pingpp++-->
+<!--<script src="asset/dist/pingpp.js"></script>-->
+<!--<script type="text/javascript" src="https://one.pingxx.com/lib/pingpp_one.js"></script>-->
+<!--<script>-->
+    <!--var pingpp = require('pingpp-js');-->
+    <!--pingpp.createPayment(charge, function(result, err){-->
+        <!--console.log(result);-->
+        <!--console.log(err.msg);-->
+        <!--console.log(err.extra);-->
+        <!--if (result == "success") {-->
+            <!--// 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。-->
+        <!--} else if (result == "fail") {-->
+            <!--// charge 不正确或者微信公众账号支付失败时会在此处返回-->
+        <!--} else if (result == "cancel") {-->
+            <!--// 微信公众账号支付取消支付-->
+        <!--}-->
+    <!--});-->
+<!--</script>-->
+<!-- 获取ip地址-->
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script>
+    var openid = sessionStorage.getItem('openid');  //用户的openid
+    function UrlSearch(){
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?");
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                this[name]=value;
+            }
+        }
+    }
+    var Request=new UrlSearch(); //实例化
+    var fuwuid = Request.fuwuid;
+    $.ajax({
+        type:"get",
+        url: fixurl + "bianminfuwu.php",
+        async:true,
+        dataType:"json",
+        data:{
+            bs:"fuwuxiangqing",
+            id:fuwuid
+        },
+        success:function(json){
+            var obj =json;
+            if(json.code==200){
+                var ovj = json.obj;
+                var shanghu = ovj.fuwu;
+                for (var i=0;i<shanghu.length;i++){
+                    var shanghufuwuopenid =shanghu[i].openid;
+                    $(".store_phone").text(shanghu[i].dianhua);    //商户电话
+                    $(".store_fuwu_name").text(shanghu[i].name);    //服务名称
+                    $(".local").text(shanghu[i].dizhi); //商户地址
+                    $(".store_fuwu_money").text("￥"+shanghu[i].jine);   //金额
+                    if(sessionStorage.getItem('fuwurenyuanName') ==null){
+                        var name = "选择服务人员";
+                        $(".chiose_peoson").attr("href","chioseserviceperson.html?fuwuid="+fuwuid);
+                    }else{
+                        var name = sessionStorage.getItem('fuwurenyuanName');
+                    }
+                    $(".chiose_peoson").html('<i class="place_phone mui-navigate-left"></i>'+name);
+                    //    服务订单下单
+                    $(".pay_button").click(function(){
+                        var stringTime = $("#demo1").text();
+                        var timestamp2 = Date.parse(new Date(stringTime));
+                        timestamp2 = timestamp2 / 1000;
+                        var local =$(".local").text();
+                        var phone=$(".phone").val();
+                        var name = $(".name").val();
+//                        下单接口
+                        $.ajax({
+                            type:"get",
+                            url: fixurl + "order.php",
+                            async:true,
+                            dataType:"json",
+                            data:{
+                                bs:"fuwudingdanadd",
+                                openid:openid, //下单用户openid
+                                fuwuopenid:shanghufuwuopenid,  //服务人员openid
+                                name:name, //订单联系人
+                                tel:phone, //联系电话
+                                dizhi:local, //地址
+                                fuwuid:fuwuid, //服务id
+                                fuwushijian:timestamp2, //服务时间 时间戳
+                                shuliang:1, //数量 默认1
+                                fuwumoshi:2  // 服务模式 1到家2到店
+                            },
+                            success:function(json){
+                                if(json.code==200){
+                                    var obj = json.obj;
+                                    var ordernum = obj.ordernum;
+                                    var money =obj.danjia;
+                                    window.location.href="http://www.quanminlebang.com/m/placeshop.php?openId="+openid+"&fee="+money+"&ordernum="+ordernum+"&body=ceshi&fuwuid="+fuwuid;
+                                }
+                            }
+                        });
+                    })
+                }
+            }else{
+                alert(json.code)
+            }
+        }
+    });
+
+
+
+</script>
+</html>
+
+

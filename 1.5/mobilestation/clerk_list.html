@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>店员列表</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+</head>
+<style>
+    .clerklist_li{
+        padding: 13px;
+        padding-bottom: 13px !important;
+    }
+    .clerklist_img{
+        width: 80px !important;
+        height: 80px !important;
+        border-radius: 3px;
+    }
+    .starboxp{
+        margin: 9px auto;
+    }
+</style>
+<body>
+<ul id="clerk_ul"></ul>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<!--下拉刷新-->
+<link rel="stylesheet" href="../asset/js/pullToRefresh/dropload.css">
+<script src="../asset/js/pullToRefresh/dropload.js"></script>
+<script>
+    //    var Request = new UrlSearch(); //实例化
+    //    var app = Request.src;      //APP
+    //    var share = Request.share;  //Share
+    //    var paramValue = Request.id;    //id;
+    //    var openid = "e377b1c2c28f2e8ae568fd34018f59a0";
+    //    var level = 3;
+    //    var page= 1;
+    //    var shanghuid = 389;
+    //    店员列表
+
+    var storeId = localStorage.getItem('storeId');  //店铺ID
+    var openid = localStorage.getItem('openid');  //用户的openid
+    $.ajax({
+        type:"post",
+        url: fixurl + "bianminfuwu.php",
+        async:true,
+        dataType:"json",
+        data:{
+            bs:"shanghuxiangqing",
+            id:storeId,
+            openid:openid
+        },
+        success:function(json){
+            if(json.code==200){
+//                    服务人员
+                var user = json.obj.user;
+                if(user !=null){
+                    for(var s = 0;s<user.length;s++){
+                        if(user[s].fuwupingfen=="0"){
+                            var star ='<span class="fr starboxp"><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                        }else if("1.0000"<user[s].fuwupingfen&&user[s].fuwupingfen<="2.0000"){
+                            var star ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                        }else if("2.0000"<user[s].fuwupingfen&&user[s].fuwupingfen<="3.0000"){
+                            var star ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                        }else if("3.0000"<user[s].fuwupingfen&&user[s].fuwupingfen<="4.0000"){
+                            var star ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i></span>';
+                        }else if("4.0000"<user[s].fuwupingfen&&user[s].fuwupingfen<="5.0000"){
+                            var star ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span>';
+                        }
+                        if(user[s].zhiyezhao==""){
+                            var src = "../asset/image/moren.png";
+                        }else{
+                            var src = zhiyephoto+user[s].zhiyezhao;
+                        }
+                        if(user[s].jiedanshu ==0){
+                            var numb = ""
+                        }else{
+                            var numb = "已约"+user[s].jiedanshu+"单";
+                        }
+                        var lis = '<li class="clerklist_li" data-fuwuopenid="'+user[s].openid+'" data-fuwurenname="'+user[s].shanghunicheng+'"><a href="javascript:;"><img class="mui-pull-left clerklist_img" src="'+src+'"><div class="mui-media-body clerklist_body"><h3 class="clerklist_name mui-ellipsis">'+user[s].shanghunicheng+star+'</h3><div class="clerklist_contents"><div class="clerklist_jianjie"></div><div class="clerklist_order">'+numb+'</div></div></div></a></li>';
+                        $("#clerk_ul").append(lis);
+                    }
+                    $(".clerklist_li").click(function(){
+                        localStorage.setItem('fuwuopenid', $(this).data("fuwuopenid"));
+                        localStorage.setItem('fuwurenname', $(this).data("fuwurenname"));
+                        window.location.href = "online_order.html?chios=fuwupeople";
+                    })
+                }else{
+                    alert("暂无服务人员");
+                    window.location.href = "online_order.html?chios=fuwupeople";
+                }
+                $("body").css("display","block");
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>预约</title>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+</head>
+<style>
+    body{
+        background: #f9f9f9;
+    }
+    .box_success,.box_false{
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .box_success img,.box_false img{
+        width: 100px;
+        height: 114px;
+    }
+    .box_success h3,.box_false h3{
+        font-size: 14px;
+        color: #9e9e9e;
+    }
+</style>
+<body>
+    <div class="box_success">
+        <img src="../asset/image/6.png" alt="预约成功"/>
+        <h3 style="margin: 13px 0;">预约订单已提交</h3>
+        <h3>商家将在三十分钟内电话或短信方式联系你</h3>
+    </div>
+    <div class="box_false" style="display: none">
+        <img src="../asset/image/61.png" alt="预约失败"/>
+        <h3 style="margin: 13px 0;">订单提交失败，请稍后再试~</h3>
+    </div>
+</body>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/mui.min.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<script>
+    var Request = new UrlSearch(); //实例化
+    var order = Request.order;      //APP
+    var storeId = localStorage.getItem('storeId');  //
+    if(order =="no"){
+        $(".box_success").css("display","none");
+        $(".box_false").css("display","block");
+    }
+
+    setInterval(function(){
+//        sessionStorage.setItem('go_membercard',"1"); //首页进入会员中心
+        window.location.href = "index.html?id="+storeId;
+    },2000)
+</script>
+</html>

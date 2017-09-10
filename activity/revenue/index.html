@@ -1,0 +1,258 @@
+<!DOCTYPE>
+<html>
+    <head>
+    	<title>详情</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="assets/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+        <style>
+            /* css 代码  */
+			html{
+				background: #f2f2f2;
+			}
+			.zongshu{
+				color: #11c2a5;
+				font-size: 16px;
+			}
+			.goti{
+				    width: 9px;
+				    height: 10px;
+				    background-image: url(assets/image/gotip.png);
+				    background-size: 9px;
+				    background-repeat: no-repeat;
+				    position: relative;
+    margin-left: 5px;
+			}
+			.gobt{
+				width: 9px;
+				    height: 10px;
+				    background-image: url(assets/image/gobt.png);
+				    background-size: 9px 10px;
+				    background-repeat: no-repeat;
+				    position: relative;
+    margin-left: 5px;
+			}
+			.highcharts-title span{
+				margin-bottom: 10px;
+			}
+			.noshuju{
+				    font-size: 14px;
+			    color: #9e9e9e;
+			    text-align: center;
+			}
+        </style>
+        <script type="text/javascript" src="assets/js/rem.js"></script>
+        <script type="text/javascript" src="assets/js/common.js"></script>
+        <script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+        <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+        <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+        <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>-->
+    </head>
+    <body>
+    	<div class="pagetit owh">
+    		<h3 class="fl">营业日报</h3>
+    		<div class="fr datanow">2017年05月15日</div>
+    	</div>
+    	<div class="revenbox">
+    		<h3 class="reventit" style="margin-bottom: 13px;">营收概览</h3>
+    		<ul class="reven-view">
+				<li class="fl revenbox-1">
+					<div class="yingyeshouru" style="font-size: 20px;margin-top: 26px;margin-bottom: 19px;    font-weight: 800;">0</div>
+					<div style="margin-bottom: 19px;    font-size: 14px;">营业收入</div>
+					<div class="yingyechae" style="margin-bottom: 26px;    font-size: 14px;">较前一天</div>
+				</li>
+				<li class="fl revenbox-2">
+					<div class="xiaoshoushouru" style="font-size: 20px;margin-top: 26px;margin-bottom: 19px;    font-weight: 800;">0</div>
+					<div style="margin-bottom: 19px;    font-size: 14px;">销售收入</div>
+					<div class="xiaoshouchae" style="margin-bottom: 26px;    font-size: 14px;">较前一天</div>
+				</li>
+				<li class="fl revenbox-3">
+					<div class="zhifudingdan" style="font-size: 20px;margin-top: 26px;margin-bottom: 19px;    font-weight: 800;">0</div>
+					<div style="margin-bottom: 19px;    font-size: 14px;">支付订单</div>
+					<div class="zhifuchae" style="margin-bottom: 26px;    font-size: 14px;">较前一天</div>
+				</li>
+				<li class="fl revenbox-4">
+					<div class="xinzenghuiyuan" style="font-size: 20px;margin-top: 26px;margin-bottom: 19px;    font-weight: 800;">0</div>
+					<div style="margin-bottom: 19px;    font-size: 14px;">新增会员</div>
+					<div class="huiyuanchae" style="margin-bottom: 26px;    font-size: 14px;">较前一天</div>
+				</li>
+    		</ul>
+
+    	</div>
+    	<div class="revenbox" style="margin-top: 13px;">
+    		<h3 class="reventit">客户结构</h3>
+        	<div id="container" style="min-width:80%;min-height:800px;margin-top: -333px;"></div>
+    	</div>
+    	<div class="revenbox" style="margin-top: 13px;margin-bottom: 13px;">
+    		<h3 class="reventit">员工业绩</h3>
+    		<ul class="clerk-view"></ul>
+    	</div>
+        <script>
+            // JS 代码
+			function pie(messs,num,cuntd){
+				$('#container').highcharts({
+					chart: { //图标配置
+						plotBackgroundColor: null,
+						plotBorderWidth: 0,
+						plotShadow: false  //是否给绘图区增加阴影效果，如果开启阴影效果，需要设置
+					},
+					title: {
+						text: '<div><span style="color: #11c2a5;font-size: 17px;height:50px;"> '+num+' </span><br/>  <hr/><div style="font-size: 12px;color: #333;height:50px;line-height:50px;display: block;">'+cuntd+'</div></div>',
+						align: 'center',
+						verticalAlign: 'middle',
+						y: 150,
+						margin:5,
+						style:{
+							"line-height":"40px",
+							"height": "72px"
+						}
+					},
+					legend:{
+						borderRadius:0,
+						symbolRadius:Number
+					},
+					colors:[
+						'#2fcab1',//第一个颜色
+						'#ff5c41',//第二个颜色
+						'#ffb400',//第三个颜色
+						'#ef4459', //。。。。
+						'#0084ff',
+						'#6ee81d',
+						'#ff3e90'
+					],
+				   tooltip: {
+					   headerFormat: '{series.name}<br>',
+					   pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>',
+					   style:{
+						   "font-size":"12px",
+						   "color":"#333",
+						   "font-bold":"none"
+					   }
+				   },
+					plotOptions: {
+						pie: {
+							dataLabels: {
+								enabled: true,
+								distance: 0,
+								style: {
+									color: 'white'
+								}
+							},
+							dataLabels: {
+								enabled: false
+							},
+							startAngle: -180,
+							endAngle: 180,
+							showInLegend: true,
+							center: ['50%', '75%']
+						}
+					},
+					credits: {
+						enabled:false
+					},
+					exporting: {
+						enabled:false
+					},
+					series: [{
+						type: 'pie',
+						name: ' ',
+						innerSize: '60%',
+						data: messs
+					}]
+				});
+			}
+			function UrlSearch(){
+				var name,value;
+				var str = location.href; //取得整个地址栏
+				var num = str.indexOf("?");
+				str = str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+				var arr = str.split("&"); //各个参数放到数组里
+				for(var i=0;i < arr.length;i++){
+					num=arr[i].indexOf("=");
+					if(num>0){
+						name=arr[i].substring(0,num);
+						value=arr[i].substr(num+1);
+						this[name]=value;
+					}
+				}
+			}
+			var Request = new UrlSearch(); //实例化
+			var shijian = Request.shijian;
+			var g =new Date(parseInt(shijian) * 1000);
+			var gy = g.getFullYear();
+			$(".datanow").text(g.getFullYear()+" 年 "+ (g.getMonth()+1)+" 月 "+g.getDate()+" 日");
+			var shanghuid = Request.shanghuid;
+			   $.ajax({
+				   type:"get",
+				   url: fixurl + "xiaoxi.php?bs=yingyeribao&shijian="+shijian+"&shanghuid="+shanghuid,
+				   async:true,
+				   dataType:"json",
+				   success:function(json){
+					   if(json.code==200){
+					   	console.log(json)
+						   var clerklist = json.obj.yuangongyeji;
+						   $(".yingyeshouru").text(json.obj.yingyegaikuang.jintianyingyejine);//今天营业额
+						   $(".xiaoshoushouru").text(json.obj.yingyegaikuang.jiantianxiaoishoujine);//今天销售额
+						   $(".zhifudingdan").text(json.obj.yingyegaikuang.jintiandingdanshu);//今天订单
+						   $(".xinzenghuiyuan").text(json.obj.yingyegaikuang.jintianhuiyuanshu);//今天营业额
+							
+							if(json.obj.yingyegaikuang.yingyechae>0){
+						   		$(".yingyechae").html("较前一天+ "+json.obj.yingyegaikuang.yingyechae+"<i class='goti'></i>");
+							}else{
+						   		$(".yingyechae").html("较前一天- "+json.obj.yingyegaikuang.yingyechae+"<i class='gobt'></i>");
+							}
+							if(json.obj.yingyegaikuang.xiaosouchae>0){
+						   		$(".xiaoshouchae").html("较前一天+ "+json.obj.yingyegaikuang.xiaosouchae+"<i class='goti'></i>");
+							}else{
+						   		$(".xiaoshouchae").html("较前一天- "+json.obj.yingyegaikuang.xiaosouchae+"<i class='gobt'></i>");
+							}
+							if(json.obj.yingyegaikuang.dingdanchae>0){
+								$(".zhifuchae").html("较前一天+ "+json.obj.yingyegaikuang.dingdanchae+"<i class='goti'></i>");
+							}else{
+								$(".zhifuchae").html("较前一天- "+json.obj.yingyegaikuang.dingdanchae+"<i class='gobt'></i>");
+							}
+						    if(json.obj.yingyegaikuang.huiyuanchae>0){
+						    	$(".huiyuanchae").html("较前一天+ "+json.obj.yingyegaikuang.huiyuanchae+"<i class='goti'></i>");
+						    }else{
+						    	$(".huiyuanchae").html("较前一天- "+json.obj.yingyegaikuang.huiyuanchae+"<i class='gobt'></i>");
+						    }
+						   
+							   if(clerklist !=null){
+								   for(var i = 0;i<clerklist.length;i++){
+									   const li = '<li><img src="'+zhiyezhao+clerklist[i].zhiyezhao+'"/><div class="clerk-body"><h3>'+clerklist[i].shanghunicheng+'</h3><div class="clerk-order">完成单数：'+clerklist[i].fuwushu+'单</div><div class="clerk-revenue">营业收入：'+clerklist[i].yingyejine+'元 销售收入：'+clerklist[i].xiaoshoujine+'元</div></div></li>'
+									   $(".clerk-view").append(li);
+								   }
+							   }else{
+							   	const noli = '<li><h3 class="noshuju">无数据</h3></li>';
+							   		$(".clerk-view").append(noli)
+							   }
+						   var list = new Array()
+						   if(json.obj.kehujiegou !=null){
+							   for(var k =0;k<json.obj.kehujiegou.length;k++){
+
+								   var jiegou = json.obj.kehujiegou;
+								   var ls = [json.obj.kehujiegou[k].dengjimingcheng , Number(json.obj.kehujiegou[k].huiyuandengjizhanbi.replace(/%/g,""))];
+								   list.push(ls)
+							   }
+						   }
+						   var messs = list;
+						   var numss = json.obj.yingyegaikuang.jintiandingdanshu;
+						   if(numss==0){
+						   	var num ="无数据";
+						   	var cuntd = '';
+						   }else{
+						   	var num = numss;
+						   	var cuntd = "总订单数";
+						   }
+						   pie(messs,num,cuntd);
+					   }
+				   }
+			   });
+
+
+
+        </script>
+    </body>
+</html>

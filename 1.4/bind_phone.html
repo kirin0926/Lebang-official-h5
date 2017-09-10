@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>绑定手机号</title>
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body style="background: #FFffff;">
+<div class="content">
+    <!--<form action="">-->
+    <div class="input-row">
+        <i class="login_phone"></i>
+        <input id="input_phone"  type="text" placeholder="请输入手机号"  maxlength="11" >
+    </div>
+    <div class="input-row">
+        <i class="login_sms"></i>
+        <input id="input_password" type="text" placeholder="请输入验证码" maxlength="4"><input disabled="disabled" id="sendbtn" class="getCode" type="button" value="获取验证码"/>
+    </div>
+    <div class="input-row mt1" >
+        <input disabled id="sign" class="submits" type="submit" value="登录">
+    </div>
+    <div class="mac" style="display: none;"></div>
+    <!--</form>-->
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script src="asset/js/verifymobile.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+<script type="text/javascript">
+    var ip =(returnCitySN["cip"]);
+
+    //    function xxx(){
+    //        var a = 10;
+    //        return a;
+    //    }
+    //    var b = xxx();//这里的b就是10
+
+    function nums(){
+        var num = Math.random();//Math.random()：得到一个0到1之间的随机数
+        num = Math.ceil(num * 99);//num*80的取值范围在0~80之间,使用向上取整就可以得到一个1~80的随机数
+        //num就是你要的随机数,如果你希望个位数前加0,那么这样:
+        var str;
+        if (num < 10) {
+            str = "0" + num
+        }else {
+            str = num.toString();
+        }
+        return str;
+    }
+    for(var i = 0;i<6;i++){
+        var num = nums();
+        $(".mac").append(num+"-");
+    }
+</script>
+<script type="text/javascript">
+    $(function(){
+        $('#input_phone').bind('input propertychange',function(){
+            var length  = $(this).val().length;
+            if(length == "11"){
+                $("#sendbtn").removeAttr("disabled");
+            }
+        });
+        $('#input_password').bind('input propertychange',function(){
+            var length  = $(this).val().length;
+            if(length == "4"){
+                $("#sign").removeAttr("disabled");
+            }
+        });
+        $(".getCode").click(function(){
+            var phonemob = $("#input_phone").val();
+            var timess = Date.parse(new Date());
+            var times =timess/1000 ;
+            var mac = $(".mac").text();
+            macs = mac.substr(0,mac.length-1);
+            var bef = Number(times)-Number(444);
+            var sign = md5(bef+phonemob+"3c66790a694fd53aed110a8e85f1aeec"+ip);
+            if(phonemob && /^1[3|4|5|8]\d{9}$/.test(phonemob)){
+                //对的
+                $.ajax({
+                    type:"get",
+                    url: fixurl + "ajax.php",
+                    async:true,
+                    dataType:"json",
+                    data:{
+                        bs:"sms",
+                        phonemob:phonemob,
+                        ip:ip,
+                        mac:macs,
+                        time:times,
+                        sign:sign
+                    },
+                    success:function(obj){
+                        if(obj.code==200){
+                            var objs = obj.obj;
+                            var phone = objs.phone;
+                            var sms = objs.sms;
+                        }else{
+                            alert("超出当天条数");
+                        }
+                    }
+                });
+            }
+        });
+        $("#sign").click(function(){
+            var judge_login = sessionStorage.getItem('judge_login');  //用户的openid
+            var password = $("#input_password").val();    //验证码
+            var account = $("#input_phone").val();  //手机号
+            $.ajax({
+                type:"get",
+                url: fixurl + "user.php?bs=login&sms="+password+"&phone="+account,
+                async:true,
+                dataType:"json",
+                success:function(obj){
+                    if(obj.code==200){
+                        var result = obj;
+                        sessionStorage.setItem('openid', result.openid);
+                        sessionStorage.setItem('avatar', result.avatar);
+                        sessionStorage.setItem('nickname', result.nickname);
+                        sessionStorage.setItem('phone', result.phone);
+                        sessionStorage.setItem('shequid', result.shequid);
+                        sessionStorage.setItem('zhiyeid', result.zhiyeid);
+                        sessionStorage.setItem('xiadanshu', result.xiadanshu);
+                        sessionStorage.setItem('profession', result.profession);
+                        sessionStorage.setItem('fen', result.fen);
+                        sessionStorage.setItem('jiedanshu', result.jiedanshu);
+                        if(judge_login == "1"){//判断登录 1登录后进入下单页面 placeshop.html  2登录后进入 placeorder.html
+                            var fuwuid = sessionStorage.getItem('fuwuid');  //
+                            window.location.href="placeshop.html?fuwuid="+fuwuid;
+                        }else if(judge_login == "2"){
+                            var fuwuid = sessionStorage.getItem('fuwuid');  //
+                            window.location.href="placeorder.html?fuwuid="+fuwuid;
+                        }else{
+                            window.location.href="chioseaddress.html";
+                        }
+                    }else{
+                        alert(obj.code);
+                    }
+                }
+            });
+        })
+    })
+</script>
+<script type="text/javascript">
+    var wait=60;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="再次获取";
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            o.value="重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function() {
+                        time(o)
+                    },
+                    1000)
+        }
+    }
+    document.getElementById("sendbtn").onclick=function(){time(this);}
+</script>
+</html>

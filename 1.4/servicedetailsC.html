@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head class="head" lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- 适应移动端end -->
+</head>
+<style>
+    body{
+        display: none;
+    }
+    .mui-slider-progress-bar{
+        display: none;
+    }
+</style>
+<body id="body">
+<img class="card-img" src="" style="display: none">
+<div class="title" style="margin-top:50px;display: none"></div>
+<nav style="position: relative;">
+    <!--<div class="img-box logo"></div>-->
+    <img class="logo" src="" alt="全民乐帮商户图片"/>
+    <!--<div class="collection">收藏</div>-->
+</nav>
+<section style="margin-top:-6px;border-bottom: 1px solid hsla(0, 0%, 93%, 0.7);">
+    <div class="mui-card-header mui-card-media card-head" style="padding-bottom: 13px !important;">
+        <img class="card-img" src="">
+        <div class="mui-media-body card-tit">
+            <h3 class="details" style="margin-top: 0;margin-bottom: 0;"></h3>
+            <div class="details_content" style="margin-top: 0;">
+                <i class="logo_sex">20</i>
+                <i class="logo_shop">商户</i>
+                <i class="logo_time"></i>
+                <!--<i style="margin-left: 0.25rem"><span class="starttime" style="margin-left: 0;font-size: 0.09rem;">08:00</span><i style="color: #9e9e9e">-</i><span class="endtime" style="margin-left: 0;font-size: 0.09rem;">22:00</span></i>-->
+            </div>
+        </div>
+    </div>
+</section>
+<div class="mui-content" style="margin-top:10px;border-bottom: 1px solid hsla(0, 0%, 93%, 0.7);border-top: 1px solid hsla(0, 0%, 93%, 0.7);">
+    <div id="segmentedControl" class="mui-segmented-control">
+        <a class="mui-control-item" href="#item1">
+            服务项目
+        </a>
+        <a class="mui-control-item mui-active" href="#item3">
+            店铺简介
+        </a>
+        <a id="comment_num" class="mui-control-item" href="#item4">
+            评价
+        </a>
+    </div>
+    <div>
+        <div id="item1" class="mui-control-content">
+            <div class="mui-scroll" style="margin-bottom: 0.4rem;">
+                <ul class="mui-table-view" id="shopsevice"></ul>
+            </div>
+        </div>
+        <div id="item3" class="mui-control-content mui-active">
+            <div class="mui-scroll" style="margin-bottom: 0.4rem;">
+                <ul class="mui-table-view">
+                    <li class="pa15">
+                        <div class="mui-media-body">
+                            <i class="icon-biaoq"></i>门店地址
+                            <div class="huan dizhi">社区名称或大厦名称及详细地址</div>
+                        </div>
+                    </li>
+                    <li class="pa15">
+                        <div class="mui-media-body">
+                            <i class="icon-biaoq"></i><i>服务类别</i>
+                            <div class="huan xiangmutext">
+                                管道疏通、油烟机深度清理、灯具修理、空调加氟、直筒洗衣机
+                                清洗、洗衣机维修、普通双门冰箱清洗
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pa15">
+                        <div class="mui-media-body">
+                            <i class="icon-biaoq"></i>服务商简介
+                            <div class="huan jianjie" style="line-height: 23px;">
+                                精通各种电脑维修技巧，上门安装系统，清灰，解决电脑蓝屏问题，电脑装机问题，笔记本维修，装硬盘，上硅脂
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="item4" class="mui-control-content">
+            <div id="wrapper"  style="margin-bottom: 0.4rem;">
+                <div id="scroller">
+                    <ul class="cards mui-table-view" id="shop_comment"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="mui-table-view shop_briefs" style="display: none;">
+    <li class="pa15">
+        <div class="mui-media-body">
+            <i class="icon-biaoq"></i>门店地址
+            <div class="huan dizhi">社区名称或大厦名称及详细地址</div>
+        </div>
+    </li>
+    <li class="pa15">
+        <div class="mui-media-body">
+            <i class="icon-biaoq"></i><i>服务类别</i>
+            <div class="huan xiangmutext">
+                管道疏通、油烟机深度清理、灯具修理、空调加氟、直筒洗衣机
+                清洗、洗衣机维修、普通双门冰箱清洗
+            </div>
+        </div>
+    </li>
+    <li class="pa15">
+        <div class="mui-media-body">
+            <i class="icon-biaoq"></i>服务商简介
+            <div class="huan jianjie" style="line-height: 23px">
+                精通各种电脑维修技巧，上门安装系统，清灰，解决电脑蓝屏问题，电脑装机问题，笔记本维修，装硬盘，上硅脂
+            </div>
+        </div>
+    </li>
+</ul>
+<div class="fix_top" style="display: none">
+    <div class="fix_left">
+        <img src="asset/image/512.png" alt="全民乐帮"/>
+        <div class="fix_data">
+            <h3>全民乐帮</h3>
+            <h3 style="font-size: 12px">小区生活服务APP</h3>
+        </div>
+    </div>
+    <div class="fix_right">
+        <button onclick="openApp()">打开APP</button>
+    </div>
+</div>
+<a class="chat_now" href="tel:">
+    <div class="footer_chiose">
+        立即沟通
+    </div>
+</a>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<!--下拉刷新-->
+<link rel="stylesheet" href="asset/js/pullToRefresh/dropload.css">
+<script src="asset/js/pullToRefresh/dropload.js"></script>
+<script type="text/javascript">
+    //    <!-- 分享关闭-->
+    $(".close_fix").click(function(){
+        $(".fix_top").css("display","none");
+        $(".title").css("display","none");
+    });
+    // 打开APP
+    function openApp(){
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)) {
+            window.location.href = "lebang://type=shanghu&json="+shanghuarry; /***打开app的协议，有ios同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "https://itunes.apple.com/cn/app/quan-min-le-bang/id1131512680?mt=8"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        } else if (/android/.test(ua)) {
+            window.location.href = "qmlb://openapp.com/type=shanghu&json="+shanghuarry; /***打开app的协议，有安卓同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        }
+    }
+    //立即沟通
+    function chatApp(){
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)){
+            window.location.href = "lebang://type=chat&shanghuid="+paramValue+"&json="+shanghuarry; /***打开app的协议，有ios同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "https://itunes.apple.com/cn/app/quan-min-le-bang/id1131512680?mt=8"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        } else if (/android/.test(ua)) {
+            window.location.href = "qmlb://openapp.com/type=chat&shanghu?id="+paramValue+"&json="+shanghuarry; /***打开app的协议，有安卓同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        }
+    }
+    var openid = sessionStorage.getItem('openid');  //
+    var shanghuarry = sessionStorage.getItem('shanghuarry');  //
+    //获取URL栏地址
+    function UrlSearch(){
+        var name,value;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?");
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                this[name]=value;
+            }
+        }
+    }
+    var Request=new UrlSearch(); //实例化
+    var share = Request.share;
+    var src = Request.src;
+    var paramValue = Request.id;
+    if(src == "app"){
+        $(".footer_chiose").css("display","none");
+        $(".mui-scroll").css("margin-bottom","0");
+        $(".collection").css("display","none");
+    }
+    if(share == "yes"){
+        $(".fix_top").css("display","block");
+        $(".title").css("display","block");
+    }
+    //    商户详情
+    $.ajax({
+        type:"get",
+        url: "http://www.quanminlebang.com/app205/bianminfuwu.php",
+        async:true,
+        dataType:"json",
+        data:{
+            bs:"shanghuxiangqing",
+            id:paramValue,
+            openid:openid
+        },
+        success:function(json){
+            if(json.code==200){
+                var ovj = json.obj;
+                var shanghu = ovj.shanghu;
+                for (var i=0;i<shanghu.length;i++){
+                    sessionStorage.setItem('shanghuarry', JSON.stringify(shanghu[i]));
+                    $(".chat_now").attr("href","tel:"+shanghu[i].dianhua);
+                    var jieshao = shanghu[i].jieshao; //商户介绍
+                    $(".details").text(shanghu[i].nickname+" · "+shanghu[i].mingcheng);
+                    sessionStorage.setItem('shanghufuwuopenid', shanghu[i].openid);
+                    var avatar = shanghu[i].avatar;
+                    if(avatar==""){
+                        var avatar = "";
+                    }
+                    if(openid !=null){
+                        if(shanghu[i].shifoushouchang ==1){  // 0未收藏1收藏
+                            $(".collection").text("已收藏");
+                        }
+                    }
+                    if(shanghu[i].if_work==1){//
+                        $(".merchant").attr("href","tel:"+shanghu[i].dianhua);
+                    }else if(shanghu[i].if_work==2){
+                        $(".merchant").attr("href","merchants.html?id="+paramValue+"&openpersonid="+ shanghu[i].openid);
+                    }
+                    if(shanghu[i].sex ==1){//男
+                        $(".logo_sex").css("background",'url("asset/image/renzs_sex1.png") no-repeat');
+                        $(".logo_sex").css("background-color",'RGB(103,162,250)');
+                        $(".logo_sex").css("background-size",'12px');
+                        $(".logo_sex").css("background-position",'5px center');
+                    }else if(shanghu[i].sex ==0){//女
+                        $(".logo_sex").css("background",'url("asset/image/renzs_sex0.png") no-repeat');
+                        $(".logo_sex").css("background-color",'RGB(254,93,111)');
+                        $(".logo_sex").css("background-size",'12px');
+                        $(".logo_sex").css("background-position",'5px center');
+                    }
+                    $(".logo_sex").text(new Date().getFullYear()-new Date(shanghu[i].birthday * 1000).getFullYear());
+                    $(".card-img").attr("src",avatar);
+                    $(".logo").attr("src",shopphoto+shanghu[i].logo);
+                    $(".img-box").attr("style","background: url("+shopphoto+shanghu[i].logo+") no-repeat;");
+                    $(".starttime").html(shanghu[i].kaishishijian);
+                    $(".endtime").html(shanghu[i].jieshushijian);
+                    $(".logo_time").html(shanghu[i].kaishishijian+"-"+shanghu[i].jieshushijian);
+                    $(".dizhi").html(shanghu[i].dizhi);
+//                        判断介绍和简介
+                    if(jieshao ==""){
+                        $(".jianjie").html(shanghu[i].jianjie);
+                    }else{
+                        $(".jianjie").html(shanghu[i].jieshao);
+                    }
+                    $(".quyutext").html(shanghu[i].quyutxt);
+                    $(".xiangmutext").html(shanghu[i].xiangmutxt.replace(/\-/g, "，"));
+//                    标题title  和description
+                    var $body = $('body');
+                    document.title = shanghu[i].nickname+" · "+shanghu[i].mingcheng;
+                    var $iframe = $("<iframe style='display:none;'></iframe>");
+                    $iframe.on('load',function() {
+                        setTimeout(function() {
+                            $iframe.off('load').remove();
+                        }, 0);
+                    }).appendTo($body);
+                    var oMeta = document.createElement('meta');
+                    oMeta.name = 'description';
+                    oMeta.content =shanghu[i].jianjie;
+                    document.getElementsByClassName('head')[0].appendChild(oMeta);
+//                    没有更多内容
+                    var noli = "<li class='shop_sevice_li' style='border-bottom: none;text-align: center;font-size: 12px;color: #9e9e9e;background: rgb(249,249,249);'>没有更多内容了</li>";
+                    $("#item2").find(".mui-scroll").append(noli);
+                    $(".shop_briefs").append(noli);
+                }
+                $("body").css("display","block");
+                var shanghufuwuopenid = sessionStorage.getItem('shanghufuwuopenid');
+                //    服务详情
+                $.ajax({
+                    type:"get",
+                    url: fixurl + "bianminfuwu.php",
+                    async:true,
+                    dataType:"json",
+                    data:{
+                        bs:"shanghufuwuliebiao",
+                        openid:shanghufuwuopenid,
+                        shanghuid:paramValue
+                    },
+                    success:function(json){
+                        if(json.code==200){
+                            var obj= json.obj;
+                            var content = obj.fuwu;
+                            for( var i = 0;i<content.length;i++){
+                                var arry =JSON.stringify(content[i]);
+                                if(src=="app"){
+                                    var a_href="javascript:;"
+                                }else{
+                                    var a_href = "service.html?id="+content[i].id+"";
+                                }
+                                var li = '<li class="shop_sevice_li" onclick="locationClick(this)"><div class="arry" style="display: none">'+arry+'</div><a href="'+a_href+'"><div class="mui-pull-left shop_sevice_img" style="background: url('+fuwuhoto+content[i].photo+') "></div><div class="mui-media-body"><h3 class="shopse_vice_name">'+content[i].name+'</h3> <p class="mui-ellipsis shop_sevice_cont">'+content[i].jianjie+'</p> <div class="shop_sevice_price">'+content[i].jine +' '+ content[i].danwei+'</div> </div> </a> </li>'
+                                li=+
+                                        $("#shopsevice").append(li);
+                            }
+                            var noli = "<li class='shop_sevice_li' style='border-bottom: none;text-align: center;font-size: 12px;color: #9e9e9e;'>没有更多内容了</li>";
+                            $("#shopsevice").parent().append(noli);
+                        }else if(json.code ="4444"){
+                            $(".mui-content").css("display","none");
+                            $(".shop_briefs").css("display","block");
+                            $("body").css("display","block");
+                        }
+                    }
+                });
+                $(".collection").click(function(){
+                    if(openid ==null){
+                        window.location.href="login.html";
+                    }
+                    $.ajax({
+                        type:"post",
+                        url: fixurl+"bianminfuwu.php",
+                        async:true,
+                        dataType:"json",
+                        data:{
+                            bs:"shanghushoucang",
+                            openid:openid,  //收藏用户openid
+                            shanghuid:paramValue,
+                            fuwuopenid:shanghufuwuopenid
+                        },
+                        success:function(json){
+                            if(json.code==200){
+                                $(".collection").text("已收藏");
+                            }
+                        }
+                    });
+                })
+            }
+        }
+    });
+
+    function locationClick(data){
+        var all= $(data).find(".arry").text();
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)){
+            window.webkit.messageHandlers.Location.postMessage(all);
+        }else{
+            window.lebang.getService(all);
+        }
+    }
+    //    function locationClick(){
+    //        window.webkit.messageHandlers.Location.postMessage(null);
+    //    }
+    var page = 1;
+    function getData(page,callback){
+        $.ajax({
+            type: "post",
+            async: true,
+            url: fixurl + "bianminfuwu.php",
+            dataType: "json",
+            data:{
+                bs:"shanghufuwupinglunliebiao",
+                page:1,
+                shanghuid:paramValue
+            },
+            timeout: 0,
+            success: function(data, status, xhr){
+                callback(data);
+            },
+            error: function(xhr, errorType, error){
+                callback({data:[]});
+            }
+        });
+    }
+
+    var dropload = $('#wrapper').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown:{
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+            domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+            domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+        },
+        scrollArea : window,
+        loadDownFn:function(me){//下拉加载
+            getData(page,function(result){
+                if(result.obj.zongyeshu == 0){
+                    me.lock();
+                    me.noData();
+                }
+                appendList(result);
+                if(result.obj.zongyeshu < 10){
+                    me.lock();
+                    me.noData();
+                }else if(result.obj.zongyeshu == 10 || result.obj.zongyeshu != 0){
+                    page++;
+                }else {
+                    me.lock();
+                    me.noData();
+                }
+                dropload.resetload();
+            });
+        }
+    });
+    function appendList(json){
+        if(json.code==200){
+            var list = json.obj;
+            var content = list.pinglun;
+            if(list.zongtiaoshu !=0){
+                $("#comment_num").text("评论( "+list.zongtiaoshu+" )");
+            }
+            for( var i = 0;i<content.length;i++){
+                var user = content[i].user;
+                var shijian = new Date(parseInt(content[i].shijian) * 1000).toLocaleDateString().replace(/\//g, "-");
+                if(content[i].pingfen ==null){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                }else if(content[i].pingfen ==0){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                }else if(content[i].pingfen ==1){
+                    var listpf = '<i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==2){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==3){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==4){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==5){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                }
+                var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left shop_sevice_pl" src="'+avater+user.avatar+'"><div class="mui-media-body" style="overflow:hidden;"><h3 class="shoplistname">'+user.nickname+'<div class="star-list fr">'+listpf+'</div></h3><p class="shoplistcont">'+shijian+' <i>'+user.location+'</i></p><div class="plcontent">'+content[i].neirong+'</div></div></li>';
+                pinglunLi=+
+                        $("#shop_comment").append(pinglunLi);
+            }
+            if(list.zongtiaoshu==0){//评论为空
+                $("#shop_comment").append('<li class="pinglunli" style="text-align: center;"><img style="width: 50%" src="asset/image/no_comment.png" alt="全民乐帮评论为空图片"/></li>');
+            }
+        }
+    };
+</script>
+
+</html>

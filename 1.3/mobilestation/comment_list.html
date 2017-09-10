@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>评论列表</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+</head>
+<body>
+<div id="wrapper"><div id="scroller"><ul id="shop_comment"></ul></div></div>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<!--下拉刷新-->
+<link rel="stylesheet" href="../asset/js/pullToRefresh/dropload.css">
+<script src="../asset/js/pullToRefresh/dropload.js"></script>
+<script>
+    var Request = new UrlSearch(); //实例化
+    var app = Request.src;      //APP
+    var share = Request.share;  //Share
+    var paramValue = Request.shanghuid;    //id;
+    var openid = Request.openid;
+    var fuwuid = Request.fuwuid;
+//    评论列表
+    var page = 1;
+    function getData(page,callback){
+        $.ajax({
+            type: "post",
+            async: true,
+            url: fixurl + "bianminfuwu.php",
+            dataType: "json",
+            data:{
+                bs:"shanghufuwupinglunliebiao",
+                page:page,
+                shanghuid:paramValue,
+                openid:openid,
+                fuwuid:fuwuid
+            },
+            timeout: 0,
+            success: function(data, status, xhr){
+                callback(data);
+            },
+            error: function(xhr, errorType, error){
+                callback({data:[]});
+            }
+        });
+    }
+    var dropload = $('#wrapper').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown:{
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+            domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+            domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+        },
+        scrollArea : window,
+        loadDownFn:function(me){//下拉加载
+            getData(page,function(result){
+                appendList(result);
+                if(result.obj.zongtiaoshu < 10){
+                    me.lock();
+                    me.noData();
+                }else if(result.obj.zongtiaoshu == 10 || result.obj.zongtiaoshu != 0){
+                    if(page<result.obj.zongyeshu){
+                        page++;
+                    }else{
+                        me.lock();
+                        me.noData();
+                    }
+                }else{
+                    me.lock();
+                    me.noData();
+                }
+                dropload.resetload();
+            });
+        }
+//        loadUpFn : function(me){//上拉刷新
+//            me.resetload();
+//        }
+    });
+    function appendList(json){
+        if(json.code==200){
+            var list = json.obj;
+            var content = list.list;
+            if(list.zongtiaoshu !=0){
+                $("#comment_num").text("评论( "+list.zongtiaoshu+" )");
+            }
+            for( var i = 0;i<content.length;i++){
+                var user = content[i].user;
+                var shijian = new Date(parseInt(content[i].shijian) * 1000).toLocaleDateString().replace(/\//g, "-");
+                if(content[i].pingfen ==null){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                }else if(content[i].pingfen ==0){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                }else if(content[i].pingfen ==1){
+                    var listpf = '<i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==2){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==3){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==4){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i>';
+                }else if(content[i].pingfen ==5){
+                    var listpf = '<i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i>';
+                }
+                var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left shop_sevice_pl" src="'+avater+user.avatar+'"><div class="mui-media-body" style="overflow:hidden;"><h3 class="shoplistname">'+user.nickname+'<div class="star-list fr">'+listpf+'</div></h3><p class="shoplistcont">'+shijian+' <i>'+user.location+'</i></p><div class="plcontent">'+content[i].neirong+'</div></div></li>';
+                pinglunLi=+
+                        $("#shop_comment").append(pinglunLi);
+            }
+            if(list.zongtiaoshu==0){//评论为空
+                $("#shop_comment").append('<li class="pinglunli" style="text-align: center;"><img style="width: 50%" src="asset/image/no_comment.png" alt="全民乐帮评论为空图片"/></li>');
+            }
+        }
+    };
+</script>
+</body>
+</html>

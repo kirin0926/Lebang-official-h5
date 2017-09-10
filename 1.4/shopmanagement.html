@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>店铺管理</title>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.3.min.js"></script>
+
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
+
+    <script language="javascript" type="text/javascript">
+
+        function ChangeDiv(divId,divName,zDivCount) {
+
+            for(i=0;i<zDivCount;i++){
+
+                document.getElementById(divName+i).style.display="none";
+
+            }
+
+            document.getElementById(divName+divId).style.display="";
+
+        }
+
+    </script>
+    <link rel="stylesheet" href="asset/css/newstyle.css"/>
+</head>
+
+<body>
+
+<div data-role="page">
+
+    <div data-role="header" style="position: fixed;top: 0;z-index: 999;border: none;background: #fff;border-bottom: 1px solid hsla(0, 0%, 93%, 0.7);">
+
+        <div data-role="navbar">
+
+            <ul >
+
+                <li ><a href="#" data-role="button" onclick="ChangeDiv('0','Div_',4)" class="ui-btn-active" >店员管理</a></li>
+
+                <li ><a href="#" data-role="button" onclick="ChangeDiv('1','Div_',4)" >订单管理</a></li>
+
+                <li ><a href="#" data-role="button" onclick="ChangeDiv('2','Div_',4)" >会员管理</a></li>
+
+                <li ><a href="#" data-role="button" onclick="ChangeDiv('3','Div_',4)" >项目管理</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div data-role="content">
+
+        <div id="Div_0" ></div>
+
+        <div id="Div_1" style="display:none;background-color: rgb(249,249,249);"></div>
+
+        <div id="Div_2" style="display:none"></div>
+
+        <div id="Div_3" style="display:none"></div>
+
+    </div>
+
+</div>
+
+</body>
+<!--配置文件-->
+<script src="asset/js/common.js"></script>
+<script>
+    $(function(){
+//        var openid = sessionStorage.getItem('openid');  //shequid  a1bfeb46147d69fdbb114d2e26478d4f
+        function UrlSearch(){
+            var name,value;
+            var str=location.href; //取得整个地址栏
+            var num=str.indexOf("?");
+            str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+            var arr=str.split("&"); //各个参数放到数组里
+            for(var i=0;i < arr.length;i++){
+                num=arr[i].indexOf("=");
+                if(num>0){
+                    name=arr[i].substring(0,num);
+                    value=arr[i].substr(num+1);
+                    this[name]=value;
+                }
+            }
+        }
+        var Request = new UrlSearch(); //实例化
+//        var openid = Request.openid;
+//        var shanghuid = Request.shanghuid;
+//        var level = Request.level;
+        var shanghuid = 18;
+        var level = 3;
+        var openid = "e377b1c2c28f2e8ae568fd34018f59a0";
+        var page =1;
+//        项目
+        $.ajax({
+            type:"get",
+            url: url + "shanghuguanli.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"servicelist",
+                shanghuid:shanghuid,  //商户id
+                level:level,
+                fwrnid:openid ,//服务人员openid
+                page:page
+            },
+            success: function(json){
+                if(json.code==200){
+                    var shanghu = json.obj;
+                    var service_rows = shanghu.service_rows;
+                    if(service_rows !=null){
+                        for(var s =0;s< service_rows.length;s++){
+                            var fuwupeople = service_rows[s].fuwurenyuan;
+                            var ren = fuwupeople[0];
+//                        服务人员
+                            if(ren == undefined){
+                                var ren = "游客";
+                            }
+//                        是否启用
+                            if(service_rows[s].status ==0){ //未上线//是否开启,0为禁用,2为 开启
+                                var statu = "未上线";
+                            }else if(service_rows[s].status ==2){ //已上线
+                                var statu = "已上线";
+                            }
+
+//                        时间
+                            if(service_rows[s].jinyongshijian !=""){
+                                var endtime = new Date(parseInt(service_rows[s].jinyongshijian) * 1000).toLocaleString().replace(/\//g, "-");
+                            }else{
+                                var endtime = ""
+                            }
+                            function getLocalTime(nS) {
+                                return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace(/下午/g, " ").replace(/上午/g, " ");
+                            }
+                            var project_li = '<li class="project_li"><a href="javascript:;" class=""><img class="mui-pull-left project_img" src="'+fuwuhoto+service_rows[s].photo+'"><div class="mui-media-body fl project_shop_content"><h3 class="mui-ellipsis project_name">'+service_rows[s].name+'</h3><p class="mui-ellipsis project_content">'+service_rows[s].jianjie+'</p><div class="project_price">'+service_rows[s].jine+' '+service_rows[s].danwei+'</div></div></a></li>';
+                            project_li=+
+                                    $("#Div_3").append(project_li);
+                        }
+                    }
+                }
+            }
+        });
+//       会员管理
+        $.ajax({
+            type:"post",
+            url: url + "shanghuguanli.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"memberlist",
+                shanghuid:shanghuid,  //商户id
+                level:level, //商户级别,3为管理员,2为员工
+                fwryid:openid, //服务人员openid (如果level为3,可不传)
+                page:page
+            },
+            success: function(json){
+                if(json.code==200){
+                    var list = json.obj;
+                    var rows = list.member_rows;
+                    if(rows !=undefined){
+                        for(var i = 0 ;i<rows.length; i++){
+                            if(rows[i].sex ==1){ //男
+                                var sexs = 'sex_1';
+                            }else if(rows[i].sex ==2){ //女
+                                var sexs = 'sex_0';
+                            }else if(rows[i].sex==null){
+                                var sexs = 'sex_1';
+                            }
+                            if(rows[i].avatar ==null){
+                                var avatar = "assets/image/moren.png"
+                            }else{
+                                var avatar = avater+rows[i].avatar
+                            }
+                            var member_li = '<li class="member_li"><a href="javascript:;"><img class="mui-pull-left member_img" src="'+avatar+'"><div class="mui-media-body fl member_shop_content"><h3 class="member_name mui-ellipsis">'+rows[i].nickname+'<i class="'+sexs+'"></i></h3><div class="member_location mui-ellipsis">所在小区：'+rows[i].location+'</div></div></a></li>';
+                            member_li=+
+                                    $("#Div_2").append(member_li);
+                        }
+                    }
+                }
+            }
+        });
+//        订单管理
+        $.ajax({
+            type:"post",
+            url: url + "shanghuguanli.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"orderlist",
+                shanghuid:shanghuid,  //商户id
+                level:level, //商户级别,3为管理员,2为员工
+                fwryid:openid, //服务人员openid (如果level为3,可不传)
+                page:page
+            },
+            success: function(json){
+                if(json.code==200){
+                    console.log(json);
+                    var list = json.obj;
+                    var rows = list.order_list;
+                    if(rows !="no order"){
+                        for(var i = 0 ;i<rows.length; i++){
+                            if(rows[i].fuwumoshi==1){//1为到家,2为到店,3为到家及到店
+                                var moshi = "到家";
+                            }else if(rows[i].fuwumoshi==2){
+                                var moshi = "到店";
+                            }else if(rows[i].fuwumoshi==3){
+                                var moshi = "到家及到店";
+                            }
+                            function getLocalTime(nS) {
+                                return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace(/下午/g, " ").replace(/上午/g, " ").replace(/\//g, "-");
+                            }
+                            function getLocalsTime(nS) {
+                                return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace(/下午/g, " ").replace(/上午/g, " ").replace(/\//g, "-");
+                            }
+                            if(rows[i].wanchengshijian !=""){
+                                var overword = '<i class="shop_over"></i>' + "已完成";
+                                var endtime = getLocalsTime(rows[i].wanchengshijian);
+                            }else{
+                                var overword = "";
+                                var endtime = ""
+                            }
+//                        var service_saff = list.service_saff;
+//                        for(var s=0;s<service_saff.length;s++){
+//                            var name = service_saff[s].name;
+//                            var service_saff_openid = service_saff[s].openid;
+//                            var li = '<option value="'+service_saff_openid+'">'+name+'</option>';
+//                            li=+
+//                                    $(".yewurenyuan").append(li);
+//                        }<span>'+rows[i].client_name+'·'+rows[i].location+'</span>
+                            var order_li ='<li class="order_li"><div class="shop_top"><img src="'+fuwuhoto+rows[i].service_logo+'"><h3 class="shoptop_name mui-ellipsis">'+rows[i].client_name+' · '+rows[i].location+' ( '+moshi+' ) </h3><span class="fr">'+overword+'</span></div><div class="shop_content"><img class="mui-pull-left order_img" src="'+fuwuhoto+rows[i].service_logo+'"><div class="mui-media-body fl order_shop_cont"> <h3 class="order_name mui-ellipsis fl">'+rows[i].client_name+' </h3><span class="fr endtime">'+endtime+'</span><div class="order_content">共一个服务,总价 <i class="order_price">'+rows[i].jine+'元</i></div></div></div><div class="shop_buttom"><i class="order_heart"></i><span>服务人员：'+rows[i].service_staff_name+'</span></div></li>';
+                            order_li=+
+                                    $("#Div_1").append(order_li);
+                        }
+                    }
+
+                }
+            }
+        });
+//        店员管理
+        $.ajax({
+            type: "post",
+            async: true,
+            url: url + "shanghuguanli.php",
+            dataType: "json",
+            data:{
+                bs:"clerklist",
+                shanghuid:shanghuid,  //商户id
+                level:level, //商户级别,3为管理员,2为员工
+                fwryid:openid, //服务人员openid (如果level为3,可不传)
+                page:page
+            },
+            success: function(json){
+                if(json.code==200){
+                    var clerk_rows = json.obj.clerk_rows;
+                    for (i in clerk_rows){
+                        if(clerk_rows[i].shanghujibie ==3){ //3为管理员
+                            var shanghujibie = '管理员';
+                        }else if(clerk_rows[i].shanghujibie ==2){ //2为员工
+                            var shanghujibie = '员工';
+                        }
+                        if(clerk_rows[i].sex == 1){ //男
+                            var sexs = 'sex_1';
+                        }else if(clerk_rows[i].sex == 2){ //女
+                            var sexs = 'sex_0';
+                        }else if(clerk_rows[i].sex == null){
+                            var sexs = 'sex_1';
+                        }
+                        var clerklist_li = '<li class="clerklist_li"><a href="javascript:;"><img class="mui-pull-left clerklist_img" src="'+avater+clerk_rows[i].avatar+'"><div class="mui-media-body fl"><h3 class="clerklist_name mui-ellipsis">'+clerk_rows[i].name+'<i class="'+sexs+'"></i></h3><div class="clerklist_content"><span><i class="phone_num"></i>'+clerk_rows[i].phone_num+'</span><span><i class="orders_num"></i>'+clerk_rows[i].orders+'</span><span><i class="turnover_num"></i>'+clerk_rows[i].turnover+'</span></div></div></a></li>';
+                        clerklist_li=+
+                                $("#Div_0").append(clerklist_li);
+                    }
+                }
+            }
+        });
+    });
+</script>
+</html>

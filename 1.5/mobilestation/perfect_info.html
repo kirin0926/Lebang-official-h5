@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>完善资料</title>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+</head>
+<style>
+    body{
+        background: #fff;
+    }
+    .input_name{
+        margin: 0;
+        margin-bottom: 0 !important;
+        border: navajowhite !important;
+        text-align: right;
+        width: 91% !important;
+    }
+    .name_li{
+        border-top: 1px solid hsla(0, 0%, 93%, 0.6);padding: 8px 13px;
+    }
+    .perfess_ul{
+        max-height: 400px !important;
+    }
+
+    .btn-upload {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: 0;
+    }
+    .js_uploadBox{
+        position: relative;
+        overflow: hidden;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    }
+    .btn-upload a {
+        display: block;
+        width: 104px;
+        line-height: 18px;
+        padding: 6px 0;
+        text-align: center;
+        color: #4c4c4c;
+        background: #fff;
+        border: 1px solid #cecece;
+    }
+    .btn-upload input {
+        width: 106px;
+        height: 32px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 1;
+        filter: alpha(opacity=0);
+        -moz-opacity: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .js_logoBox{
+        width: 80px;
+        height: 80px;
+        border: 1px solid #e7e7e7;
+        border-radius: 40px;
+    }
+    .js_showBox{
+        position: relative;
+    }
+    .avater_box img{
+        width: 80px !important;
+        border-radius: 40px;
+        height: 80px !important;
+    }
+    .input_name{
+        color: #9e9e9e;
+    }
+    .perfess_ul li:last-child{
+        border-bottom: none;
+    }
+    #sex li:last-child{
+        border-bottom: none;
+    }
+    .mui-table-view-cell{
+        font-size: 15px;
+    }
+    .update{
+        margin-right: 20px;
+        font-size: 15px;
+        color: #9e9e9e;
+    }
+</style>
+<body style="background: #ffffff;">
+<div class="avater">
+    <div class="control-group js_uploadBox">
+        <div class="js_showBox  avater_box">
+            <img class="js_logoBox" src="">
+        </div>
+        <div class="btn-upload">
+            <input class="js_upFile" type="file" name="cover">
+        </div>
+    </div>
+    <div class="avater_tit">上传头像，展示最好的一面吧!~</div>
+</div>
+<ul class="mui-table-view" style="margin-top: 10px;">
+    <li class="mui-table-view-cell name_li"><a href="javascript:;">昵称<input class="input_name" type="text" maxlength="6"/></a></li>
+    <li class="mui-table-view-cell"><a class="mui-navigate-right" href="#sex">性别<i class="mui-pull-right update sex"></i></a></li>
+    <li class="mui-table-view-cell btn" id="age_chiose"  data-options='{"type":"date","beginYear":1965,"endYear":2017,"value":"2015-4-1"}'><a class="mui-navigate-right" href="javascript:;">年龄<i class="mui-pull-right update date"></i><span class="dateall" style="display: none"></span></a></li>
+    <li class="mui-table-view-cell"><a class="mui-navigate-right" href="#profession">职业<i class="mui-pull-right update profession"></i></a></li>
+    <li class="mui-table-view-cell" id="address_chiose"><a class="mui-navigate-right" href="javascript:;">所在小区<i class="mui-pull-right update location"></i></a></li>
+    <div id='result' class="ui-alert"></div>
+</ul>
+<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+    <ul class="mui-table-view"><li class="mui-table-view-cell"><a href="#">拍照或录像</a></li><li class="mui-table-view-cell"><a href="#">选取现有的</a></li></ul>
+    <ul class="mui-table-view"><li class="mui-table-view-cell"><a href="#picture"><b>取消</b></a></li></ul>
+</div>
+<div id="sex" class="mui-popover mui-popover-action mui-popover-bottom">
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell"><a href="#">男</a></li>
+        <li class="mui-table-view-cell"><a href="#">女</a></li>
+    </ul>
+    <ul class="mui-table-view"><li class="mui-table-view-cell"><a href="#sex"><b>取消</b></a></li></ul>
+</div>
+<div id="profession" class="mui-popover mui-popover-action mui-popover-bottom">
+    <ul class="mui-table-view perfess_ul"></ul>
+    <ul class="mui-table-view"><li class="mui-table-view-cell"><a href="#profession"><b>取消</b></a></li></ul>
+</div>
+<div id="hold" class="footer_chiose">提交资料</div>
+</body>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/mui.min.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/jquery.uploadView.js"></script>
+<!--时间选择器插件-->
+<link rel="stylesheet" type="text/css" href="../asset/css/mui.picker.min.css" />
+<script src="../asset/js/mui.picker.min.js"></script>
+<script>
+    (function($) {
+        $.init();
+        var result = $('.date')[0];
+        var resultall = $('.dateall')[0];
+        var btns = $('.btn');
+        btns.each(function(i, btn) {
+            btn.addEventListener('tap', function(){
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                /*
+                 * 首次显示时实例化组件
+                 * 示例为了简洁，将 options 放在了按钮的 dom 上
+                 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+                 */
+                var picker = new $.DtPicker(options);
+                picker.show(function(rs) {
+                    /*
+                     * rs.value 拼合后的 value
+                     * rs.text 拼合后的 text
+                     * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+                     * rs.m 月，用法同年
+                     * rs.d 日，用法同年
+                     * rs.h 时，用法同年
+                     * rs.i 分（minutes 的第二个字母），用法同年
+                     */
+                    result.innerText = (new Date().getFullYear()-rs.y.value);
+                    resultall.innerText = rs.text;
+//                    console.log('选择结果: ' + (new Date().getFullYear()-rs.y.value));
+                    /*
+                     * 返回 false 可以阻止选择框的关闭
+                     * return false;
+                     */
+                    /*
+                     * 释放组件资源，释放后将将不能再操作组件
+                     * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+                     * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+                     * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+                     */
+                    picker.dispose();
+                });
+            }, false);
+        });
+    })(mui);
+</script>
+<script type="text/javascript">
+    $(function(){
+        $(".js_upFile").uploadView({
+            uploadBox: '.js_uploadBox',//设置上传框容器
+            showBox : '.js_showBox',//设置显示预览图片的容器
+            width : 100, //预览图片的宽度，单位px
+            height : 100, //预览图片的高度，单位px
+            allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
+            maxSize :2, //允许上传图片的最大尺寸，单位M
+            success:function(e){}
+        });
+        //do something
+        var openid = localStorage.getItem('openid');
+        var local = localStorage.getItem('local');
+        var shequid = localStorage.getItem('shequid');
+        var storeId = localStorage.getItem('storeId');
+        if(openid !=null){
+            $.ajax({
+                type:"post",
+                url: fixurl + "user.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"usersel",
+                    openid:openid
+                },
+                success:function(json){
+                    if(json.code==200){
+                        var list =json.obj.user;
+                        $(".input_name").val(list.nickname);
+                        $(".js_logoBox").attr("src",avater+list.avatar);
+                        if(local ==null){
+                            $(".location").text(list.location);
+                            $(".location").parent().append("<i class='shequid' style='display: none'>"+list.shequid+"</i>")
+                        }else{
+                            $(".location").text(local);
+                        }
+                        if(list.profession!=null){
+                            $(".profession").html("<i class='professionname'>"+list.profession+"</i><i class='professionid' style='display: none;'>"+list.zhiyeid+"</i>");
+                        }
+                        $(".dateall").text(new Date(parseInt(list.birthday) * 1000).toLocaleDateString());
+                        $(".date").text(new Date().getFullYear()-(new Date(parseInt(list.birthday) * 1000).toLocaleDateString().substr(0, 4)));
+                        if(list.sex==1){
+                            $(".sex").text("男");
+                        }else if(list.sex==2){
+                            $(".sex").text("女")
+                        }
+                        var mess = JSON.parse(localStorage.getItem('per_info'));
+                        if(mess !=null){
+                            $(".js_logoBox").attr("src",mess[0].avater);
+                            $(".input_name").val(mess[0].name);
+                            $(".sex").text(mess[0].sex);
+                            $(".date").text(mess[0].birthdaynum);
+                            $(".dateall").text(mess[0].birthday);
+                            $(".professionname").text(mess[0].perfessionname);
+                            $(".professionid").text(mess[0].professionid);
+                        }
+                    }
+                }
+            });
+        }
+
+
+//        获取用户职业
+        $.ajax({
+            type:"post",
+            url: fixurl + "ajax.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"master",
+                id:1
+            },
+            success:function(json){
+                if(json.code==200){
+                    var list = json.obj.content;
+                    for(var i=0;i<list.length;i++){
+                        $(".perfess_ul").append('<li class="mui-table-view-cell"><a href="#" id="'+list[i].id+'">'+list[i].mname+'</a></li>');
+                    }
+                }
+            }
+        });
+        $("#hold").click(function(){
+            if($(".sex").text()=="男"){
+                var ses = "1";
+            }else if($(".sex").text() =="女"){
+                var ses = "2";
+            }
+            if(local == null){
+                var here = $(".location").text();
+                var hereid = $(".shequid").text();
+            }else{
+                var here = local;
+                var hereid = shequid;
+            }
+            $.ajax({
+                type:"post",
+                url: fixurl + "user.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"wsxx",
+                    openid:openid,
+                    nickname :$(".input_name").val(),
+                    sex:ses,
+                    birthday:Date.parse(new Date($(".dateall").text()))/ 1000,
+                    location:here,
+                    profession:$(".professionid").text(),
+                    shequid:hereid,
+                    avatar:$(".avater_box").find("img").attr("src")
+                },
+                success:function(json){
+                    if(json.code==200){
+                        var user = JSON.parse(localStorage.getItem('login_user'));
+                        user.nickname = json.obj.user.nickname; //姓名
+                        user.location = json.obj.user.location; //地址
+                        user.avatar = json.obj.user.avatar; //头像
+                        user.sex = json.obj.user.sex;//性别
+                        user.profession = json.obj.user.profession; //职业
+                        localStorage.setItem('login_user', JSON.stringify(user));
+                        sessionStorage.setItem('go_membercard',"1"); //首页进入会员中心
+                        window.location.href = "index.html?id="+storeId;
+                    }
+                }
+            });
+        })
+    })
+</script>
+<script>
+    var info = document.getElementById("info");
+    mui('body').on('tap','.mui-popover-action li>a',function(){
+        var a = this,
+                parent;
+        //根据点击按钮，反推当前是哪个actionsheet
+        for(parent = a.parentNode; parent != document.body; parent = parent.parentNode){
+            if(parent.classList.contains('mui-popover-action')){
+                break;
+            }
+        }
+        //关闭actionsheet
+        mui('#' + parent.id).popover('toggle');
+        if(a.innerHTML !="<b>取消</b>"){
+            $("." + parent.id).html("<i class='professionname'>"+a.innerHTML+"</i><i class='professionid' style='display: none'>"+a.id+"</i>");
+        }
+    });
+    document.getElementById('address_chiose').addEventListener('tap', function(){
+        var mess = new Array({
+            avater:$(".avater_box").find("img").attr("src"),
+            name:$(".input_name").val(),
+            sex:$(".sex").text(),
+            perfessionname:$(".professionname").text().replace(/男/,"").replace(/女/,""),
+            professionid:$(".professionid").text(),
+            birthday:$(".dateall").text(),
+            birthdaynum:$(".date").text()
+        });
+        localStorage.setItem('per_info', JSON.stringify(mess));
+        setTimeout(
+        function(){
+        	window.location.href = "chiose_address.html";
+        }
+        ,1000)
+		
+    });
+</script>
+</html>

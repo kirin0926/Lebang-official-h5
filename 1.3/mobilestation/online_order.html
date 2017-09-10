@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>在线预约</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <!--App自定义的css-->
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+    <!--时间选择器插件-->
+    <link rel="stylesheet" type="text/css" href="../asset/css/mui.picker.min.css" />
+</head>
+<style>
+    .pay_button{
+        line-height: inherit;
+        border: navajowhite;
+        width: 94%;
+    }
+    .pay_box{
+        text-align: center;
+        margin-top: 20px;
+    }
+    .selectColor{
+        color: #c7c7cd;
+    }
+    .chiose_sex li{
+        float: left;
+        font-size: 14px;
+        width: 50px;
+        text-align: right;
+        margin-right: 5px;
+    }
+    .chiose_sex{
+        overflow: hidden;
+        position: absolute;
+        right: 15px;
+        top: 17px;
+    }
+    .sex_boy{
+        background-image: url("../asset/image/chiosboyhell.png");
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        background-position: left 2px;
+    }
+    .sex_girl{
+        background-image: url("../asset/image/chiosgirs.png");
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        background-position: left 2px;
+    }
+    .dwcc .dwc:first-child .dwfl:first-child{
+        display: none;
+    }
+    .dwcc .dwc:first-child .dwfl:nth-child(2){
+        display: none;
+    }
+    .dwv{
+        display: none;
+    }
+    #tests{
+        margin-left: -6px;
+        font-family: "PingFang SC";
+        font-size: 14px;
+    }
+</style>
+<body>
+<div class="mui-content">
+    <ul class="mui-table-view mui-table-view-chevron"  style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="mui-navigate-right place_word chiose_peoson"><i class="lebel_left mui-navigate-left">服务人员 </i><i class="selectColor fuwuren">选择服务人员</i></a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="mui-navigate-right place_word chiose_fuwu"><i class="lebel_left mui-navigate-left">服务项目 </i><i class="selectColor fuwuname">选择服务项目</i></a>
+        </li>
+    </ul>
+    <ul class="mui-table-view mui-table-view-chevron"  style="margin-top: 10px;">
+        <li class="mui-table-view-cell">
+            <a href="Choice_time.html" class="mui-navigate-right place_word btn time_select">
+                <i class="lebel_left mui-navigate-left">时间 </i>
+                <!--<i id='demo1' class="selectColor" style="margin-left: -7px">请选择服务时间</i>-->
+                <div class="content"  style="width: 80%;display: inline-block;">
+                    <div class="settings" style="display:none;">
+                        <select name="demo" id="demo">
+                            <option value="date">日期</option>
+                        </select>
+                    </div>
+                    <input name="test" id="tests" class="demo-test-date demo-test-datetime demo-test-time demo-test-credit" placeholder="请选择服务时间"  readonly="readonly"/>
+                    <!--<input name="test" id="test" class="demo-test-date demo-test-datetime demo-test-time demo-test-credit" />-->
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="place_word"><i class="lebel_left mui-navigate-left">联系电话 </i><input type="text" class="phone place_hidden_input" maxlength="11" style="ime-mode:disabled"  onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" placeholder="请输入联系人电话" onkeyup="this.value=this.value.replace(/\D/g,'').replace(/^1[34578]\d{9}$/,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"></a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="place_word"><i class="lebel_left mui-navigate-left">联系人 </i><input style="width: 50%;" type="text" maxlength="6" onkeyup="this.value=this.value.replace(/[0-9]/g,'')" class="name place_hidden_input" placeholder="请输入联系人姓名"/></a>
+            <div>
+                <ul class="chiose_sex">
+                    <li class="sex_boy">先生</li>
+                    <li class="sex_girl">女士</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <!--<ul class="mui-table-view mui-table-view-chevron dizhibox"  style="margin-top: 10px;display: none;">-->
+        <!--<li class="mui-table-view-cell">-->
+            <!--<a href="javascript:;" class="place_word"><i class="lebel_left mui-navigate-left">地点 </i><input type="text" class="dizhi place_hidden_input" placeholder="请输入具体地址"/></a>-->
+        <!--</li>-->
+    <!--</ul>-->
+    <div class="pay_box"><button class="pay_button">立即预约</button></div>
+</div>
+</body>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/mui.min.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<!--时间选择器插件-->
+<script src="../asset/js/mui.picker.min.js"></script>
+<script src="../asset/js/datePicker.js"></script>
+
+<script src="../asset/js/mobiscroll.2.13.2.js"></script>
+<link href="../asset/css/mobiscroll.2.13.2.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () {
+//        var m = new Date().getMonth();
+//        var d = new Date().getDate();
+//        var curr = new Date().getFullYear();
+//        var h = new Date().getHours();
+//        var opt={};
+//        opt.date = {preset : 'date'};
+//        opt.datetime = {preset : 'datetime'};
+//        opt.time = {preset : 'time'};
+//        opt.default = {
+//            theme: 'android-holo light', //皮肤样式
+//            display: 'modal', //显示方式
+//            mode: 'scroller', //日期选择模式
+//            dateFormat: 'yyyy-mm-dd',
+//            lang: 'zh',
+//            showNow: false,
+//            stepMinute: 15,
+//            startYear: curr - 0, //开始年份
+//            minDate: new Date(2017,m,d,h),
+//            maxDate:new Date(2017,m,d+2,24),
+//            endYear: curr + 0 //结束年份
+//        };
+//        $('.settings').bind('change', function(){
+//            var demo = 'datetime';
+//            if (!demo.match(/select/i)) {
+//                $('.demo-test-' + demo).val('');
+//            }
+//            $('.demo-test-' + demo).scroller('destroy').scroller($.extend(opt['datetime'], opt['default']));
+//            $('.demo').hide();
+//            $('.demo-' + demo).show();
+//        });
+//        $('#demo').trigger('change');
+    });
+</script>
+<script type="text/javascript">
+    window.alert = function(name){
+        var iframe = document.createElement("IFRAME");
+        iframe.style.display="none";
+        iframe.setAttribute("src", 'data:text/plain,');
+        document.documentElement.appendChild(iframe);
+        window.frames[0].window.alert(name);
+        iframe.parentNode.removeChild(iframe);
+    };
+    $(".sex_girl").click(function(){
+        $(".sex_girl").attr("style","background-image:url(../asset/image/chiosgirshell.png)");
+        $(".sex_boy").attr("style","background-image:url(../asset/image/chiosboy.png)");
+    });
+    $(".sex_boy").click(function(){
+        $(".sex_boy").attr("style","background-image:url(../asset/image/chiosboyhell.png)");
+        $(".sex_girl").attr("style","background-image:url(../asset/image/chiosgirs.png)");
+    });
+
+</script>
+
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script>
+    var openid = localStorage.getItem('openid');  //用户的openid
+    var fuwuid = localStorage.getItem('fuwuid');  //服务id
+    var fuwuname = localStorage.getItem('fuwuname');  //服务名字
+    var fuwuopenid = localStorage.getItem('fuwuopenid');  //服务人员openid
+    var fuwurenname = localStorage.getItem('fuwurenname');  //服务人员名称
+    var fuwutime = localStorage.getItem('online_time');  //服务人员名称
+
+    var orderme = JSON.parse(localStorage.getItem('online_order'));
+    var login_user = JSON.parse(localStorage.getItem('login_user'));
+    $(".phone").val(login_user.phone);
+    if(orderme !=null){
+        $("#tests").val(orderme[0].time);
+        $(".phone").val(orderme[0].phone);
+        $(".name").val(orderme[0].name);
+        $(".dizhi").val(orderme[0].dizhi);
+    }
+//    $(".time_select").attr("data-options",'{"type":"datetime","beginYear":2017}'); //{"type":"datetime","beginYear":2017}
+    if(fuwuname !=null){
+        $(".fuwuname").text(fuwuname);
+        $(".fuwuname").attr("class","fuwuname");
+        $(".chiose_fuwu").removeClass("mui-navigate-right");
+    }else{
+        $(".chiose_fuwu").attr("href","serviceitemlist.html");
+    }
+    if(fuwurenname !=null){
+        $(".fuwuren").text(fuwurenname);
+        $(".fuwuren").attr("class","fuwuren");
+        $(".chiose_peoson").removeClass("mui-navigate-right");
+    }else{
+        $(".chiose_peoson").attr("href","clerk_list.html?id="+fuwuid);
+    }
+    if(fuwutime !=null){
+        var t = new Date(parseInt(fuwutime) * 1000).getDay();
+        if(t == 0){
+            var t_lin = "周日";
+        }else if(t == 1){
+            var t_lin = "周一";
+        }else if(t == 2){
+            var t_lin = "周二";
+        }else if(t == 3){
+            var t_lin = "周三";
+        }else if(t == 4){
+            var t_lin = "周四";
+        }else if(t == 5){
+            var t_lin = "周五";
+        }else if(t == 6){
+            var t_lin = "周六";
+        }
+        $("#tests").val(new Date(parseInt(fuwutime) * 1000).toLocaleString().replace(/:\d{1,2}$/,'').substr(5, 5).replace(/\//,'月').replace(/ /,'日 ').replace(/P/,'').replace(/A/,'').replace(/下/,'').replace(/上/,'')+t_lin+" "+new Date(parseInt(fuwutime) * 1000).toTimeString().substr(0, 5));
+        $("#tests").attr("data-id",fuwutime);
+//                .replace(/上午/g,"").replace(/下午/g,"")
+    }
+    var Request = new UrlSearch(); //实例化
+    var go = Request.gohome;      //APP
+    var chios = Request.chios;
+    if(chios =="fuwupeople"){
+        $(".chiose_peoson").addClass("mui-navigate-right");
+        $(".chiose_peoson").attr("href","clerk_list.html?id="+fuwuid);
+    }else if(chios == "fuwu"){
+        $(".chiose_fuwu").addClass("mui-navigate-right");
+        $(".chiose_fuwu").attr("href","serviceitemlist.html");
+    }
+    if(go =="yes"){
+        $(".dizhibox").css("display","block");
+        var moshi = 1;
+    }else{
+        var moshi = 2;
+    }
+    $(".chiose_peoson").click(function(){
+        var ordermess = new Array({
+            time:$("#tests").val(),
+            phone:$(".phone").val(),
+            name:$(".name").val(),
+            dizhi:$(".dizhi").val()
+        });
+        localStorage.setItem('online_order', JSON.stringify(ordermess));
+    });
+    $(".chiose_fuwu").click(function(){
+        var ordermess = new Array({
+            time:$("#tests").val(),
+            phone:$(".phone").val(),
+            name:$(".name").val(),
+            dizhi:$(".dizhi").val()
+        });
+        localStorage.setItem('online_order', JSON.stringify(ordermess));
+    });
+    //    服务订单下单
+    $(".pay_button").click(function(){
+        var phonelength = $(".phone").val().length;
+        var namelength = $(".name").val().length;
+
+        var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+        var phoneNum = $(".phone").val();//手机号码
+        var flag = reg.test(phoneNum); //true
+        if (flag==false){
+            alert("请输入正确手机号");
+        }else if($(".fuwuren").text() =="选择服务人员"){
+            alert("请选择服务人员")
+        }else if($(".fuwuname").text() =="选择服务项目"){
+            alert("请选择服务项目")
+        }else if($("#tests").val() == ""){
+            alert("请选择服务时间")
+        }else if($(".phone").val().length ==0){
+            alert("请输入正确手机号")
+        }else if($(".name").val().length ==0){
+            alert("请填写联系人")
+        }else if($(".phone").val().length < 11){
+            alert("请输入正确手机号")
+        }else if(phonelength !=0 && namelength !=0 && $("#tests").val() != "" && $(".fuwuren").text() !="选择服务人员"){
+
+			var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/ 
+			var nubmer = $(".phone").val();
+				if (!re.test(nubmer)) {
+					alert("请输入数字");
+					$(".phone").val("");
+					return false;
+				}else{
+					$.ajax({
+		                type:"get",
+		                url: fixurl + "order.php",
+		                async:true,
+		                dataType:"json",
+		                data:{
+		                    bs:"fuwudingdanadd",
+		                    openid:openid, //下单用户openid
+		                    fuwuopenid:fuwuopenid,  //服务人员openid
+		                    name:$(".name").val(), //订单联系人
+		                    tel:$(".phone").val(), //联系电话
+		                    dizhi:$(".dizhi").val(), //地址
+		                    fuwuid:fuwuid, //服务id
+		                    fuwushijian:$("#tests").data("id"), //服务时间 时间戳
+		                    shuliang:1, //数量 默认1
+		                    fuwumoshi:moshi,  // 服务模式 1到家2到店
+		                    laiyuan:7
+		                },
+		                success:function(json){
+		                    if(json.code==200){
+		                        var obj = json.obj;
+		                        var ordernum = obj.list.ordernum;
+		                        var money =obj.list.yingfujine;
+		//                    alert("预约成功");
+		                        window.location.href = "appoint.html";
+		                    }else{
+		                        window.location.href = "appoint.html?order=no";
+		                    }
+		                }
+		            });
+				}
+            
+        }
+    })
+</script>
+</html>
+
+

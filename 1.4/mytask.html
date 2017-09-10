@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的任务</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+</head>
+<style>
+
+</style>
+<body>
+<!--<header class="mui-bar mui-bar-nav">-->
+    <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="padding: 0.03rem"></a>-->
+    <!--<h1 class="mui-title">我的任务</h1>-->
+<!--</header>-->
+<div class="mui-content">
+    <div id="slider" class="mui-slider">
+        <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+            <a class="mui-control-item tab" href="#item1mobile">
+                已发任务
+            </a>
+            <a class="mui-control-item tab" href="#item2mobile">
+                已接任务
+            </a>
+        </div>
+        <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+        <div class="mui-slider-group"style="height: 5rem;">
+            <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+                <div id="scroll1" class="mui-scroll-wrapper">
+                    <div class="mui-scroll yifa"></div>
+                </div>
+            </div>
+            <div id="item2mobile" class="mui-slider-item mui-control-content">
+                <div id="scroll2" class="mui-scroll-wrapper">
+                    <div class="mui-scroll yijie"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var openid = sessionStorage.getItem('openid');  //shequid  a1bfeb46147d69fdbb114d2e26478d4f
+        //已接任务
+        $.ajax({
+            type:"get",
+            url: fixurl + "order.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"xsel",
+                openid:openid,
+                page:1
+            },
+            success:function(json){
+                if(json.code==200){
+                    var obj= json.obj;
+                    var num = obj.num;
+                    if(num !=0){   //有数据
+                        var content = obj.content;
+                            for( var i = 0;i<content.length;i++){
+                                var money = content[i].money;
+                                var location =content[i].location;
+                                var addtimes = content[i].addtime;
+                                var order_id = content[i].order_id; //订单ID
+                                var oname =content[i].oname; //下单者姓名
+                                var status=content[i].status;  //状态 0未支付 1已支付 2已接单 3开始工作 4完成  5取消
+                                var addtime=new Date(parseInt(addtimes) * 1000).toLocaleString().substr(0,16);
+                                var demand = content[i].demand;
+                                var leixing = content[i].leixing;//  类型 1及时订单 2悬赏 3提问
+                                if(leixing == 1){  //及时订单
+                                    if(status==0){
+                                        var zhuangs = "未支付";
+                                    }else if(status==1){
+                                        var zhuangs = "已支付";
+                                    }else if(status==2){
+                                        var zhuangs = "已接单";
+                                    }else if(status==3){
+                                        var zhuangs = "开始工作";
+                                    }else if(status==4){
+                                        var zhuangs = "完成";
+                                    }else if(status==5){
+                                        var zhuangs = "取消";
+                                    }
+                                    var taskli = '<a href="detailsReward.html?order_id='+order_id+'"><ul class="mui-table-view" style="margin: 0.05rem 0;"><li class="mui-table-view-cell"><h3 class="mtb"><i class="lishiicon"></i>'+addtime+'<span class="mui-pull-right">'+zhuangs+'</span></h3><h4 class="mtb"><i class="didianicon"></i>'+location+'</h4><h4 class="mtb"><i class="qianicon"></i>'+money+'</h4><h4 class="mtb"><i class="aixinicon"></i>'+demand+'</h4></li></ul></a>';
+                                }else if(leixing == 2){     //悬赏
+                                    var taskli = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="javascript:;">#悬赏#'+neirong+'</a></h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul></div></div>';
+                                }else if(leixing == 3){     //提问
+                                    var taskli = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="javascript:;">#提问#'+neirong+'</a></h3></div></div>';
+                                }
+                                taskli=+
+                                $(".yijie").append(taskli);
+                            }
+                    }else{      //没有数据
+
+                    }
+
+                }else{
+                    alert("我的任务"+json.code);
+                }
+            },
+            error:function(){
+                alert("error");
+            }
+        });
+        //已发任务
+        $.ajax({
+            type:"get",
+            url: fixurl + "order.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"jsel",
+                openid:openid,
+                page:1
+            },
+            success:function(json){
+                if(json.code==200){
+                    var obj= json.obj;
+                    var num = obj.num;
+                    if(num !=0){   //有数据
+                        var content = obj.content;
+                        for( var i = 0;i<content.length;i++){
+                            var money = content[i].money;
+                            var location =content[i].location;
+                            var addtimes = content[i].addtime;
+                            var addtime=new Date(parseInt(addtimes) * 1000).toLocaleString().substr(0,16);
+                            var demand = content[i].demand;
+                            var leixing = content[i].leixing;//  类型 1及时订单 2悬赏 3提问
+                            var order_id = content[i].order_id;
+                            if(leixing == 1){  //及时订单
+                                var taskli = '<a href="detailsReward.html?order_id='+order_id+'"><ul class="mui-table-view" style="margin: 0.05rem 0;"><li class="mui-table-view-cell"><h3 class="mtb"><i class="lishiicon"></i>'+addtime+'</h3><h4 class="mtb"><i class="didianicon"></i>'+location+'</h4><h4 class="mtb"><i class="qianicon"></i>'+money+'</h4><h4 class="mtb"><i class="aixinicon"></i>'+demand+'</h4></li></ul></a>';
+                            }else if(leixing == 2){     //悬赏
+                                var taskli = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="javascript:;">#悬赏#'+neirong+'</a></h3><ul class="mui-table-view mui-grid-view mui-grid-9 cardlist'+id+'"></ul></div></div>';
+                            }else if(leixing == 3){     //提问
+                                var taskli = '<div class="mui-card"><div class="mui-card-header mui-card-media card-head"><img class="card-img" src="'+avater+logo+'"><div class="mui-media-body card-tit">'+nickname+'<p>发表于'+shijian+' 来自'+location+'</p></div></div><div class="mui-card-content"><h3><a href="javascript:;">#提问#'+neirong+'</a></h3></div></div>';
+                            }
+                            taskli=+
+                            $(".yifa").append(taskli);
+                        }
+                    }else{      //没有数据
+
+                    }
+
+                }else{
+                    alert("我的任务"+json.code);
+                }
+            },
+            error:function(){
+                alert("error");
+            }
+        });
+
+
+    });
+</script>
+</html>
+
+

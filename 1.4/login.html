@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>登录全民乐帮</title>
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<style>
+    body{
+        background: #FFffff;
+    }
+
+</style>
+<body>
+<div class="mui-content" style="background: #FFffff;">
+    <div class="mui-row">
+        <div class="login_tit">享受更多精彩与便捷只需一键登录</div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<script>
+    isWeiXin();
+    function isWeiXin(){
+        var ua = window.navigator.userAgent.toLowerCase();
+        var wx_content = '<div class="mui-col-sm-12 mui-col-xs-12"><li class="wx_login"><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e994fa8a62b206&redirect_uri=http%3a%2f%2fwww.quanminlebang.com%2fm%2fbind_phone.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"><img src="asset/image/weixin@3x.png" alt="微信登录"/><h3>微信登录</h3></a></li> </div>'
+        var content = '<div class="mui-col-sm-4 mui-col-xs-4"><li class="wx_login"><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx37e994fa8a62b206&redirect_uri=http%3a%2f%2fwww.quanminlebang.com%2fm%2fbind_phone.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"><img src="asset/image/weixin@3x.png" alt="微信登录"/><h3>微信登录</h3></a></li> </div><div class="mui-col-sm-4 mui-col-xs-4"><li class="qq_login"><a href="javascript:;"><img src="asset/image/qq@3x.png" alt="qq登录"/><h3>QQ登录</h3></a></li></div><div class="mui-col-sm-4 mui-col-xs-4"><li class="phone_login"><a href="login_phone.html"><img src="asset/image/iphone@3x.png" alt="手机登录"/><h3>手机登录</h3></a></li></div>'
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+            $(".mui-row").append(wx_content);
+            return true;
+        }else{
+            $(".mui-row").append(content);
+            return false;
+        }
+    }
+</script>
+</html>

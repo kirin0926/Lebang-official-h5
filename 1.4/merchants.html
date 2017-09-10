@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>店铺管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="asset/css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="asset/css/app.css" />
+</head>
+<style>
+    .mui-control-content {
+        /*background-color: white;*/
+        background-color: rgb(249,249,249);
+        /*min-height: 215px;*/
+        min-height: 4.72rem;
+    }
+    .mui-control-content .mui-loading {
+        margin-top: 50px;
+    }
+    .ShopHeadImg {
+        line-height: 0.12rem !important;
+        max-width: 0.55rem !important;
+        height: 0.55rem !important;
+        margin-right: 0.15rem !important;
+        border-radius: 0.05rem !important;
+    }
+    .shoplistname{
+        font-size: 0.13rem;
+        color: #000;
+        margin-top: inherit;
+    }
+    .star-list{
+        color: #FF6600;
+    }
+    .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+        background-color: #ff6600;
+        height: 2px;
+        position: relative;
+        top: 0px;
+    }
+    .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+        color: #FF6600;
+        border-bottom: 2px solid !important;
+    }
+    .star-lists{
+        white-space: initial;
+        font-size: 0.115rem;
+        color: #000;
+    }
+    .star-i{
+        background: url("asset/image/star-high.png") no-repeat;
+        display: inline-block;
+        width: 0.13rem;
+        height: 0.13rem;
+        background-size: 0.12rem;
+        margin: 0 0.015rem;
+    }
+    .fr{
+        float: right;
+    }
+    .mui-bar{
+        box-shadow: 0 0px 0px #ddd;
+    }
+    .mui-bar-nav~.mui-content{
+        padding-top: 0px;
+    }
+    .title{
+        margin-top: 0.3rem;
+    }
+    .mui-table-view-cell:after{
+        background-color: inherit;
+    }
+    .mui-table-view-cell{
+        border-bottom: 1px solid #e7e7e7;
+    }
+    .mui-slider-progress-bar{
+        height: 1px;
+    }
+    .mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
+        color: #000;
+    }
+    .pjheadimg{
+        max-width: 0.35rem !important;
+        max-height: 0.35rem !important;
+        border-radius: 0.5rem !important;
+        border: 1px solid #e7e7e7;
+    }
+</style>
+<body>
+<div class="title"></div>
+<div class="mui-content">
+    <div id="slider" class="mui-slider">
+        <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="background: #fff;">
+            <a class="mui-control-item" href="#item1mobile">
+                店员管理
+            </a>
+            <a class="mui-control-item mui-active" href="#item2mobile">
+                订单管理
+            </a>
+            <a class="mui-control-item" href="#item3mobile">
+                会员管理
+            </a>
+            <a class="mui-control-item" href="#item3mobile">
+                项目管理
+            </a>
+        </div>
+        <!--<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>-->
+        <div class="mui-slider-group">
+            <div id="item1mobile" class="mui-slider-item mui-control-content">
+                <div id="scroll1" class="mui-scroll-wrapper">
+                    <div class="mui-scroll">
+                        <div class="mui-loading">
+                            <div class="mui-spinner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="item2mobile" class="mui-slider-item mui-control-content mui-active">
+                <div id="scroll2" class="mui-scroll-wrapper">
+                    <div class="mui-scroll">
+                        <ul class="mui-table-view fuwuxiangmu">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="item3mobile" class="mui-slider-item mui-control-content">
+                <div id="scroll3" class="mui-scroll-wrapper">
+                    <div class="mui-scroll">
+
+                        <ul class="mui-table-view">
+                            <li class="mui-table-view-cell mui-media">
+                                <a href="javascript:;">
+                                    <img class="mui-media-object mui-pull-left pjheadimg" src="http://www.tudangjia.cn/photo/shanghu/20161028161823_328.jpg">
+                                    <div class="mui-media-body">
+                                        <h3 class="shoplistname">江南皮革厂 <div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i></div></h3>
+                                        <p class="mui-ellipsis shoplistcont">2016-06-13 首城国际</p>
+                                        <div class="star-lists">服务不错，店家非常的贴心，以后还是会再来的棒棒的，缺点是排队比较蛋疼</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mui-table-view-cell mui-media">
+                                <a href="javascript:;">
+                                    <img class="mui-media-object mui-pull-left pjheadimg" src="http://www.tudangjia.cn/photo/shanghu/20161028161823_328.jpg">
+                                    <div class="mui-media-body">
+                                        <h3 class="shoplistname">江南皮革厂<div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i></div></h3>
+                                        <p class="mui-ellipsis shoplistcont">2016-06-13 首城国际</p>
+                                        <div class="star-lists">服务不错，店家非常的贴心，以后还是会再来的棒棒的，缺点是排队比较蛋疼</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mui-table-view-cell mui-media">
+                                <a href="javascript:;">
+                                    <img class="mui-media-object mui-pull-left pjheadimg" src="http://www.tudangjia.cn/photo/shanghu/20161028161823_328.jpg">
+                                    <div class="mui-media-body">
+                                        <h3 class="shoplistname">江南皮革厂<div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i></div></h3>
+                                        <p class="mui-ellipsis shoplistcont">2016-06-13 首城国际</p>
+                                        <div class="star-lists">服务不错，店家非常的贴心，以后还是会再来的棒棒的，缺点是排队比较蛋疼</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="item4mobile" class="mui-slider-item mui-control-content mui-active">
+                <div id="scroll4" class="mui-scroll-wrapper">
+                    <div class="mui-scroll">
+                        <ul class="mui-table-view fuwuxiangmu">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/common.js"></script>
+<script>
+    $(function(){
+        var openid = sessionStorage.getItem('openid');  //shequid  a1bfeb46147d69fdbb114d2e26478d4f
+        function UrlSearch(){
+            var name,value;
+            var str=location.href; //取得整个地址栏
+            var num=str.indexOf("?");
+            str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+            var arr=str.split("&"); //各个参数放到数组里
+            for(var i=0;i < arr.length;i++){
+                num=arr[i].indexOf("=");
+                if(num>0){
+                    name=arr[i].substring(0,num);
+                    value=arr[i].substr(num+1);
+                    this[name]=value;
+                }
+            }
+        }
+        var Request=new UrlSearch(); //实例化
+        var paramValue = Request.id;
+        var openpersonid = Request.openpersonid
+        //商户版聊天界面—服务列表接口
+        $.ajax({
+            type:"get",
+            url: fixurl + "bianminfuwu.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"shanghufuwuliebiao",
+                openid:openpersonid,//服务人员openid
+                shanghuid:paramValue // 商户id
+            },
+            success:function(json){
+                if(json.code==200){
+                    var obj= json.obj;
+                    var num = obj.zongtiaoshu;
+                    if(num !=0){   //有数据
+                        var content = obj.fuwu;
+                        for( var i = 0;i<content.length;i++){
+                            var jianjie = content[i].jianjie;
+                            var id = content[i].id;
+                            var name =content[i].name;
+                            var nickname = content[i].nickname;
+                            var avatar = content[i].avatar;
+                            var jine = content[i].jine;
+                            var mingcheng = content[i].mingcheng;
+                            $(".mui-title").text(mingcheng);
+                            var taskli = '<li class="mui-table-view-cell mui-media"><a href="javascript:;"><img class="mui-media-object mui-pull-left ShopHeadImg" src="'+avater+avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+name+'</h3><p class="mui-ellipsis shoplistcont">'+jianjie+'</p><div class="star-list">'+jine+'</div></div></a></li>';
+                            taskli=+
+                            $(".fuwuxiangmu").append(taskli);
+                        }
+                    }else{      //没有数据
+                        alert("没有服务项目")
+                    }
+
+                }else{
+                    alert("我的任务"+json.code);
+                }
+            },
+            error:function(){
+                alert("error");
+            }
+        });
+    })
+    mui.init({
+        swipeBack: false
+    });
+    (function($){
+        $('.mui-scroll-wrapper').scroll({
+            indicators: true //是否显示滚动条
+        });
+//        var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+//        var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
+//        var item2 = document.getElementById('item2mobile');
+//        var item3 = document.getElementById('item3mobile');
+//        document.getElementById('slider').addEventListener('slide', function(e) {
+//            if (e.detail.slideNumber === 1) {
+//                if (item2.querySelector('.mui-loading')) {
+//                    setTimeout(function() {
+//                        item2.querySelector('.mui-scroll').innerHTML = html2;
+//                    }, 500);
+//                }
+//            } else if (e.detail.slideNumber === 2) {
+//                if (item3.querySelector('.mui-loading')) {
+//                    setTimeout(function() {
+//                        item3.querySelector('.mui-scroll').innerHTML = html3;
+//                    }, 500);
+//                }
+//            }
+//        });
+//        var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+//        $('.mui-input-group').on('change', 'input', function() {
+//            if (this.checked) {
+//                sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+//                //force repaint
+//                sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+//            }
+//        });
+    })(mui);
+</script>
+
+</body>
+
+</html>

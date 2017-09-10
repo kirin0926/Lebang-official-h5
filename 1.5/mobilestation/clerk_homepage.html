@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>店员主页</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+</head>
+<style>
+    .project_list_img{
+        background-size: 80px 80px !important;
+        float: left;
+        background-repeat: no-repeat !important;
+    }
+    .pinglunli{
+        padding: 13px;
+    }
+    .starbox{
+        margin: 9px auto;
+    }
+    .project_price{
+        height: 20px;
+        line-height: 20px;
+    }
+    .project_li{
+        padding: 13px;
+    }
+    .project_li:last-child, .clerklist_li:last-child{
+        padding-bottom: 13px;
+    }
+</style>
+<body style="margin-bottom: 50px;display: none">
+<div class="title" style="margin-top: 50px;display:none"></div>
+    <div class="shopinfo_box" style="margin-top: 0;padding: 0;">
+        <div style="padding: 13px;border-bottom: 1px solid #e7e7e7;overflow: hidden;">
+            <!--<img class="" src="http://www.quanminlebang.com/photo/fuwu/1487066151822.jpg" alt=""/>-->
+            <div class="fl clerk_home_img"></div>
+            <div class="clerk_home_body">
+                <h3 class="clerk_body_name">---</h3>
+                <p class="clerk_body_cont">---</p>
+            </div>
+        </div>
+        <div style="padding: 13px;">
+            <div class="shopdetailone"><span class="servicename">----</span></div>
+            <div class="shopdetailtime">服务时间 <i class="kaishi">----</i> -- <i class="jieshu">----</i></div>
+            <div class="shopdetailtwo">
+                <div class="quyubox">
+                    <span class="quyu">-------------</span>
+                    <a class="tell_phone" href="tel:15525"><i class="icon-phone"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shopinfo_box project_box" style="padding: 0">
+        <div class="shopinfo_box_title" style="padding: 13px;border-bottom: 1px solid hsla(0, 0%, 93%, 0.7);">服务项目 </div>
+        <!--<a class="fr" href="javascript:;">查看全部服务</a>-->
+        <ul class="project_list"></ul>
+    </div>
+
+    <div class="shopinfo_box pinglun_box" style="padding: 0;">
+        <div class="shopinfo_box_title pjb" style="padding: 13px;border-bottom: 1px solid hsla(0, 0%, 93%, 0.7);"><i class="title_name">客户评价</i> </div>
+
+        <ul class="pinglun_ul"></ul>
+    </div>
+<!--<a class="tell_phones" href="">-->
+    <div class="footer_chiose">立即预约</div>
+<!--</a>-->
+</body>
+<div class="fix_top" style="display: none">
+    <div class="fix_left">
+        <img src="../asset/image/512.png" alt="全民乐帮"/>
+        <div class="fix_data">
+            <h3>全民乐帮</h3>
+            <h3 style="font-size: 12px">小区生活服务APP</h3>
+        </div>
+    </div>
+    <div class="fix_right">
+        <button onclick="openApp()">打开</button>
+    </div>
+</div>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/mui.min.js"></script>
+<script src="../asset/js/common.js"></script>
+<script src="../asset/js/main.js"></script>
+<script>
+    $(function(){
+        /*
+            店员主页接口
+         */
+        var Request = new UrlSearch(); //实例化
+//        var openid = "e377b1c2c28f2e8ae568fd34018f59a0";
+        var openid =Request.openid;
+        var share = Request.share;  //Share
+
+        if(share=="yes"){
+            $(".fix_top").css("display","block");
+            $(".title").css("display","block");
+        }
+        $.ajax({
+            type:"post",
+            url: fixurl + "bianminfuwu.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"dianyuanxiangqing",
+                openid:openid
+            },
+            success:function(json){
+                if(json.code==200){
+                    var obj= json.obj;
+                    localStorage.setItem('clerk_arry', JSON.stringify(obj));
+//                    服务列表
+                    var fuwu = obj.fuwu;
+                    if(fuwu !=null){
+                        for(var s =0;s<fuwu.length;s++){
+                            var projectLi='<li class="project_li"><a href="servicedetails.html?id='+fuwu[s].id+'"><div class="project_img project_list_img" style="background: url('+fuwuhoto+fuwu[s].photo+')"></div><div class="mui-media-body fl project_shop_content"><h3 class="mui-ellipsis project_name">'+fuwu[s].name+'</h3><p class="mui-ellipsis project_content">'+fuwu[s].jianjie+'</p><div class="project_price"><i class="fs16" style="color: #ff6600">'+fuwu[s].jine+'</i> <i class="fs12">'+fuwu[s].danwei+'</i></div></div></a></li>';
+                            $(".project_list").append(projectLi);
+                        }
+                    }else{
+                        $(".project_box").css("display","none");
+                    }
+//                    员工信息
+                    var user = obj.user;
+                    for(var f=0;f<user.length;f++){
+                        $(".clerk_body_name").text(user[f].shanghunicheng);
+                        $(".clerk_body_cont").text("");
+                        $(".footer_chiose").attr("data-fuwuopenid",openid);
+                        $(".footer_chiose").attr("data-fuwurenname",user[f].shanghunicheng);
+                        if(user[f].zhiyezhao==""){
+                            $(".clerk_home_img").attr("style","background-image:url('../asset/image/moren.png')")
+                        }else{
+                            $(".clerk_home_img").attr("style","background-image:url("+zhiyephoto+user[f].zhiyezhao+")")
+                        }
+                        if(user[f].fuwupingfen=="0"){
+                            var stasr ='<span class="fr starboxp"><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                        }else if("1.0000"<user[f].fuwupingfen&&user[f].fuwupingfen<="2.0000"){
+                            var stasr ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                        }else if("2.0000"<user[f].fuwupingfen&&user[f].fuwupingfen<="3.0000"){
+                            var stasr ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                        }else if("3.0000"<user[f].fuwupingfen&&user[f].fuwupingfen<="4.0000"){
+                            var stasr ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i></span>';
+                        }else if("4.0000"<user[f].fuwupingfen&&user[f].fuwupingfen<="5.0000"){
+                            var stasr ='<span class="fr starboxp"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span>';
+                        }
+                        $(".clerk_body_name").append(stasr);
+                    }
+                    localStorage.setItem('fuwuopenid', openid);
+                    localStorage.setItem('fuwurenname', $(".clerk_body_name").text());
+
+//                    店铺信息
+                    $(".servicename").text(json.obj.dianpu.mingcheng);
+                    $(".tell_phone").attr("href","tel:"+json.obj.dianpu.dianhua);  //
+//                    $(".tell_phones").attr("href","tel:"+json.obj.dianpu.dianhua);
+                    $(".kaishi").text(json.obj.dianpu.kaishishijian);
+                    $(".jieshu").text(json.obj.dianpu.jieshushijian);
+                    $(".quyu").text("服务地址 "+json.obj.dianpu.dizhi);
+                    if(json.obj.dianpu.pingfen=="0"){
+                        var stars ='<span class="fr"><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                    }else if(json.obj.dianpu.pingfen=="1"){
+                        var stars ='<span class="fr"><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                    }else if(json.obj.dianpu.pingfen=="2"){
+                        var stars ='<span class="fr"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                    }else if(json.obj.dianpu.pingfen=="3"){
+                        var stars ='<span class="fr"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i></span>';
+                    }else if(json.obj.dianpu.pingfen=="4"){
+                        var stars ='<span class="fr"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i></span>';
+                    }else if(json.obj.dianpu.pingfen=="5"){
+                        var stars ='<span class="fr"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span>';
+                    }
+                    $(".shopdetailone").append(stars);
+
+                    $(".footer_chiose").click(function(){
+                        localStorage.setItem('fuwuopenid', $(this).data("fuwuopenid"));
+                        localStorage.setItem('fuwurenname', $(this).data("fuwurenname"));
+                        localStorage.removeItem('fuwuname');
+                        localStorage.removeItem('online_order');
+                        var openid = localStorage.getItem('openid');
+                        if(openid ==null){
+                            window.location.href = "login.html";
+                        }else{
+                            window.location.href = "online_order.html";
+                        }
+                    });
+                    $("body").css("display","block");
+                }
+            }
+        });
+//        商户、服务详情评论列表
+        $.ajax({
+            type:"post",
+            url: fixurl + "bianminfuwu.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"shanghufuwupinglunliebiao",
+                openid:openid
+            },
+            success:function(json){
+                if(json.code==200){
+                    var obj= json.obj;
+//                    服务列表
+                    var pinglun = obj.list;
+                    $(".title_name").text("客户评价 ("+json.obj.zongtiaoshu+")");
+                    if(json.obj.zongtiaoshu>3 ){
+                        var a ='<a class="fr seeall" href="comment_list.html?openid='+openid+'">查看全部<i class="icon-right fr"></i></a>';
+                        $(".pjb").append(a);
+                    }else if(json.obj.zongtiaoshu ==0){
+                        $(".pinglun_box").css("display","none");
+                    }
+                    if(pinglun !=null){
+                        for(var s =0;s<3;s++){
+                            if(pinglun[s].pingfen =="0"){
+                                var star = '<i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i>';
+                            }else if(pinglun[s].pingfen =="1"){
+                                var star = '<i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i>';
+                            }else if(pinglun[s].pingfen =="2"){
+                                var star = '<i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i><i class="icon-star-null"></i>';
+                            }else if(pinglun[s].pingfen =="3"){
+                                var star = '<i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i><i class="icon-star-null"></i>';
+                            }else if(pinglun[s].pingfen =="4"){
+                                var star = '<i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-null"></i>';
+                            }else if(pinglun[s].pingfen =="5"){
+                                var star = '<i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>';
+                            }
+                            var pinglunliLi='<li class="pinglunli"><img class="mui-pull-left shop_sevice_pl" src="'+avater+pinglun[s].user.avatar+'"><div class="mui-media-body" style="overflow:hidden;"><h3 class="shoplistname">'+pinglun[s].user.nickname+'<div class="pinglunstar">'+star+'</div></h3><p class="shoplistcont">'+new Date(parseInt(pinglun[s].shijian) * 1000).toLocaleDateString().replace(/\//g, "-")+'</p><div class="plcontent">'+pinglun[s].neirong+'</div></div></li>';
+                            $(".pinglun_ul").append(pinglunliLi);
+                        }
+                        $(".pinglun_box").css("display","none");
+                    }else{
+                        $(".pinglun_box").css("display","none");
+                    }
+                }
+            }
+        });
+    })
+</script>
+<!--微信-->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script type="text/ecmascript" src="../asset/js/jquery.sha1.js"></script>
+<script>
+    /*
+     * 注意：
+     * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+     * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+     * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+     *
+     * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+     * 邮箱地址：weixin-open@qq.com
+     * 邮件主题：【微信JS-SDK反馈】具体问题
+     * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+     */
+    /*配置信息*/
+    $.ajax({
+        type:"get",
+        url:fixurl+"ajax.php?bs=ticket",
+        dataType:"json",
+        success:function(data){
+            var ticket = data.ticket;
+            var timestamp = Date.parse(new Date())/1000;
+            var nocestr = "Wm3WZYTPz1wzccnW";
+            var signature = $.sha1("jsapi_ticket="+ticket+"&noncestr="+nocestr+"&timestamp="+timestamp+"&url="+location.href);
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: 'wx37e994fa8a62b206', // 必填，公众号的唯一标识
+                timestamp:timestamp , // 必填，生成签名的时间戳
+                nonceStr:nocestr, // 必填，生成签名的随机串
+                signature:signature,// 必填，签名，见附录1
+                jsApiList:[
+                    // 所有要调用的 API 都要加到这个列表中
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQZone',
+                    'onMenuShareQQ'
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function(){
+                var xinxianshiarry = localStorage.getItem('clerk_arry');  //
+                var list = JSON.parse(xinxianshiarry);
+                // 在这里调用 API
+                var title = list.user[0].shanghunicheng+" · "+list.dianpu.mingcheng;
+                var descs  =  list.dianpu.jianjie; //分享描述
+                var imgurl = avater+list.user[0].avatar;  //分享图标
+                var links = "";//分享链接
+
+                /** 朋友圈 */
+                wx.onMenuShareTimeline({
+                    title: title, // 分享标题
+                    link: links, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+
+                /** 朋友 */
+                wx.onMenuShareAppMessage({
+                    title: title, // 分享标题
+                    desc: descs, // 分享描述
+                    link: links, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    type: 'link', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+
+                /** QQ空间 */
+                wx.onMenuShareQZone({
+                    title: title, // 分享标题
+                    desc: descs, // 分享描述
+                    link: links, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function(){
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+
+                /** QQ好友 */
+                wx.onMenuShareQQ({
+                    title: title, // 分享标题
+                    desc: descs, // 分享描述
+                    link: links, // 分享链接
+                    imgUrl: imgurl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                });
+            });
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head class="head" lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="asset/css/app.css"/>
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- 适应移动端end -->
+</head>
+<style>
+    body{
+        display: none;
+    }
+    .logo{
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<body>
+<div class="title" style="margin-top: 50px;display: none"></div>
+<nav>
+    <!--<div class="img-box"></div>-->
+    <img class="logo" src="" alt="商户服务logo"/>
+</nav>
+<section style="margin-top: -10px;">
+    <div class="mui-card-header mui-card-media card-head">
+        <div class="mui-media-body card-tit" style="margin-left:0;">
+            <h3 class="mingcheng"></h3>
+            <span class="danwei"></span>
+            <span class="sevice_time"> 服务时间 <i class="starttime" style="font-size: 12px"></i>-<i class="endtime" style="font-size: 12px"></i></span>
+        </div>
+    </div>
+    <ul class="mui-table-view bt1">
+        <li class="pa15">
+            <div class="mui-media-body">
+                <div class="huan jianjie conts" style="line-height: 25px;">
+
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="mui-media-body">
+                <div class="waring">
+                    <h3 style="    text-align: center;">取消订单须知</h3>
+                    <p>1.如果预约的服务尚未到达约定时间，可在线联系商家取消订单； </p>
+                    <p>2.取消成功后，之前支付成功的费用会在当日退回到“我的钱包”。</p>
+
+                    <h3 style="    text-align: center;">争议处理流程</h3>
+                    <p>1.用户致电全民乐帮客服（以下称客服）并提交申请事由；</p>
+                    <p>2.客服联系商家调查，核实情况； </p>
+                    <p>3.情况属实，客服协助商家退款； </p>
+                    <p>4.如有疑问，请咨询客服电话 010-57206260。 </p>
+                </div>
+            </div>
+        </li>
+        <li class="pa15 pinglunbox" style="padding: 5px 0;margin-bottom: 45px;">
+            <div class="mui-media-body">
+                <span class="comment_service_tit"><i class="icon-biaoq" style="margin-right: 0.05rem;"></i>服务评价</span>
+                <div id="wrapper">
+                    <div id="scroller">
+                        <ul class="cards mui-table-view" id="thelist"></ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+<div class="fix_top" style="display: none">
+    <div class="fix_left">
+        <img src="asset/image/512.png" alt="全民乐帮"/>
+        <div class="fix_data">
+            <h3>全民乐帮</h3>
+            <h3 style="font-size: 12px">小区生活服务APP</h3>
+        </div>
+    </div>
+    <div class="fix_right">
+        <button onclick="openApp()">打开APP</button>
+    </div>
+</div>
+<div class="footer_chiose">
+    <div class="fl tohome">预约到家</div>
+    <div class="fl toshop">预约到店</div>
+</div>
+</body>
+<script type="text/javascript" src="asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="asset/js/rem.js"></script>
+<script src="asset/js/mui.min.js"></script>
+<script src="asset/js/common.js"></script>
+<link rel="stylesheet" href="asset/js/pullToRefresh/dropload.css">
+<script src="asset/js/pullToRefresh/dropload.js"></script>
+<script type="text/javascript">
+    function openApp(){
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)){
+            window.location.href = "lebang://type=fuwu&json="+fuwuarry; /***打开app的协议，有ios同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "https://itunes.apple.com/cn/app/quan-min-le-bang/id1131512680?mt=8"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        } else if (/android/.test(ua)){
+            window.location.href = "qmlb://openapp.com/type=fuwu&json="+fuwuarry; /***打开app的协议，有安卓同事提供***/
+            window.setTimeout(function(){
+                window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.qinlin.lebang"; /***打开app的协议，有安卓同事提供***/
+            },2000);
+        }
+    }
+    function height(){
+        alert(document.body.clientHeight)
+    }
+        function UrlSearch(){
+            var name,value;
+            var str=location.href; //取得整个地址栏
+            var num=str.indexOf("?");
+            str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+            var arr=str.split("&"); //各个参数放到数组里
+            for(var i=0;i < arr.length;i++){
+                num=arr[i].indexOf("=");
+                if(num>0){
+                    name=arr[i].substring(0,num);
+                    value=arr[i].substr(num+1);
+                    this[name]=value;
+                }
+            }
+        }
+        $(".close_fix").click(function(){
+            $(".fix_top").css("display","none");
+            $(".title").css("display","none");
+        });
+        var fuwuarry = sessionStorage.getItem('fuwuhuarry');  //
+        var openid = sessionStorage.getItem('openid');  //用户的openid
+        var Request=new UrlSearch(); //实例化
+        var share = Request.share;
+        var paramValue = Request.id;
+        var src = Request.src;
+        if(src=="app"){
+            $(".footer_chiose").css("display","none");
+        }
+        if(share == "yes"){
+            $(".fix_top").css("display","block");
+            $(".title").css("display","block");
+            $(".footer_chiose").css("display","block");
+        }
+        $.ajax({
+            type:"get",
+            url: fixurl + "bianminfuwu.php",
+            async:true,
+            dataType:"json",
+            data:{
+                bs:"fuwuxiangqing",
+                id:paramValue
+            },
+            success:function(json){
+                var obj =json;
+                if(json.code==200){
+                    var ovj = json.obj;
+                    var shanghu = ovj.fuwu;
+                    for (var i=0;i<shanghu.length;i++){
+                        var arry =JSON.stringify(shanghu[i]);
+                        sessionStorage.setItem('fuwuhuarry', arry);
+                        var id = shanghu[i].id;    //商户id
+                        var name = shanghu[i].name; //服务名称
+                        var dianhua = shanghu[i].dianhua;      //电话
+                        var kaishishijian = shanghu[i].kaishishijian;  //服务开始时间
+                        var jieshushijian = shanghu[i].jieshushijian;  //服务结束时间
+                        var xiangmu = shanghu[i].xiangmu;      //服务项目id多个用，隔开
+                        var xiangmutxt = shanghu[i].xiangmutxt;      //服务项目名称多个用，隔开
+                        var danwei = shanghu[i].danwei;      //danwei
+                        var jine = shanghu[i].jine;      //danwei
+                        var logo = shanghu[i].photo;      //商户logo（封面）
+                        var quyu = shanghu[i].quyu;//商户服务小区id 多个，隔开
+                        var quyutxt = shanghu[i].quyutxt;         //区域
+                        var zhizhao = shanghu[i].zhizhao;      // 商户执照
+                        var xiangqing = shanghu[i].xiangqing;      //商户详情
+                        var nickname = shanghu[i].nickname;    //小米
+                        $(".img-box").attr("style","background: url("+fuwuhoto+logo+") no-repeat;");
+                        $(".logo").attr("src",fuwuhoto+logo);
+                        $(".starttime").html(kaishishijian);
+                        $(".endtime").html(jieshushijian);
+                        $(".danwei").html(jine+" "+danwei);
+                        $(".jianjie").html(xiangqing);
+                        $(".mingcheng").html(name);
+//                      标题 title 和
+                        var $body = $('body');
+                        document.title = name;
+                        var $iframe = $("<iframe style='display:none;'></iframe>");
+                        $iframe.on('load',function() {
+                            setTimeout(function() {
+                                $iframe.off('load').remove();
+                            }, 0);
+                        }).appendTo($body);
+//                        meta描述
+                        var oMeta = document.createElement('meta');
+                        oMeta.name = 'description';
+                        oMeta.content = shanghu[i].jianjie;
+                        document.getElementsByClassName('head')[0].appendChild(oMeta);
+                        $("body").css("display","block");
+                    }
+                    sessionStorage.setItem('fuwuid',paramValue);        //服务id
+                    $(".tohome").click(function(){      //预约到家
+                        if(openid ==null){
+                            sessionStorage.setItem('fuwuid', paramValue);
+                            sessionStorage.setItem('judge_login',"1");        //判断登录 1登录后进入下单页面 placeshop.html  2登录后进入 placeorder.html
+                            window.location.href="login.html";
+                        }else{
+                            window.location.href="placeorder.html?fuwuid="+paramValue;
+                        }
+                    });
+                    $(".toshop").click(function(){      //预约到店
+                        if(openid ==null){
+                            sessionStorage.setItem('fuwuid', paramValue);
+                            sessionStorage.setItem('judge_login',"1");        //判断登录 1登录后进入下单页面 placeshop.html  2登录后进入 placeorder.html
+                            window.location.href="login.html";
+                        }else{
+                            window.location.href="placeshop.html?fuwuid="+paramValue;
+                        }
+                    });
+                }else{
+                    alert(json.code)
+                }
+            }
+        });
+
+        var page = 1;
+        function getData(page,callback){
+            $.ajax({
+                type: "post",
+                async: true,
+                url: fixurl + "bianminfuwu.php",
+                dataType: "json",
+                data:{
+                    bs:"shanghufuwupinglunliebiao",
+                    page:page,
+                    fuwuid:paramValue
+                },
+                timeout: 0,
+                success: function(data, status, xhr){
+                    callback(data);
+                },
+                error: function(xhr, errorType, error){
+                    callback({data:[]});
+                }
+            });
+        }
+        var dropload = $('#wrapper').dropload({
+            domUp : {
+                domClass   : 'dropload-up',
+                domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+                domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+                domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+            },
+            domDown:{
+                domClass: 'dropload-down',
+                domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+                domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+                domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+            },
+            scrollArea : window,
+            loadDownFn:function(me){//下拉加载
+                getData(page,function(result){
+                    if(result.obj.zongyeshu == 0){
+                        $(".pinglunbox").css("display","none");
+                        me.lock();
+                        me.noData();
+                    }
+                    appendList(result);
+                    if(result.obj.zongyeshu < 10){
+                        me.lock();
+                        me.noData();
+                    }else if(result.obj.zongyeshu == 10 || result.obj.zongyeshu != 0){
+                        page++;
+                    }else {
+                        me.lock();
+                        me.noData();
+                    }
+                    dropload.resetload();
+                });
+            }
+        });
+        function appendList(json){
+            var obj = json.obj;
+            var list = obj.pinglun;
+            if(obj.zongtiaoshu =="0"){
+                $(".waring").css("margin-bottom","0.45rem");
+                $("")
+            }
+            for(var i=0;i<list.length;i++){
+                var user = list[i].user;
+                var avatar = user.avatar;
+                var nickname = user.nickname;
+                var location =  user.location;
+                var shijians =list[i].shijian;
+                var pingfen = list[i].pingfen;
+                var shijiand=new Date(parseInt(shijians) * 1000).toLocaleDateString();
+                var shijian = shijiand.replace(/\//g, "-");
+                if(pingfen == 1){
+                    var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left pjheadimg" src="'+avater+avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+nickname+'<div class="star-list fr"><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i></div></h3><p class="shoplistcont">'+shijian+' <i>'+location+'</i></p><div class="plcontent">'+list[i].neirong+'</div></div></li>';
+
+                }else if(pingfen ==2){
+                    var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left pjheadimg" src="'+avater+avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+nickname+'<div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i><i class="star-i-null"></i></div></h3><p class="shoplistcont">'+shijian+' <i>'+location+'</i></p><div class="plcontent">'+list[i].neirong+'</div></div></li>';
+
+                }else if(pingfen ==3){
+                    var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left pjheadimg" src="'+avater+avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+nickname+'<div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i><i class="star-i-null"></i></div></h3><p class="shoplistcont">'+shijian+' <i>'+location+'</i></p><div class="plcontent">'+list[i].neirong+'</div></div></li>';
+
+                }else if(pingfen ==4){
+                    var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left pjheadimg" src="'+avater+avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+nickname+'<div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i-null"></i></div></h3><p class="shoplistcont">'+shijian+' <i>'+location+'</i></p><div class="plcontent">'+list[i].neirong+'</div></div></li>';
+
+                }else if(pingfen ==5){
+                    var pinglunLi = '<li class="pinglunli"><img class="mui-pull-left pjheadimg" src="'+avater+avatar+'"><div class="mui-media-body"><h3 class="shoplistname">'+nickname+'<div class="star-list fr"><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i><i class="star-i"></i></div></h3><p class="shoplistcont">'+shijian+' <i>'+location+'</i></p><div class="plcontent">'+list[i].neirong+'</div></div></li>';
+
+                }
+                pinglunLi=+
+                        $("#thelist").append(pinglunLi);
+            }
+        }
+</script>
+
+</html>

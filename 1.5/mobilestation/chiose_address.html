@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>请选择小区</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../asset/css/app.css"/>
+    <link href="../asset/css/mui.min.css" rel="stylesheet"/>
+</head>
+<style>
+    .mui-table-view-cell:after{
+        background-color: inherit;
+    }
+    .local{
+        font-size: 14px;
+        color: #333333;
+    }
+    .search_address{
+        margin-bottom: 0 !important;
+        padding: 10px !important;
+        height: 35px !important;
+        font-size: 12px;
+        background-color: #eeeff3 !important;
+        color: #9e9e9e;
+        border: 1px solid #e7e7e7 !important;
+        padding-left: 25px !important;
+        background: url(../asset/image/lishisousuo.png) no-repeat;
+        background-position: 4px 8px;
+        width: 79% !important;
+    }
+    .serch_btn{
+        margin-left: 10px;
+        padding: 7px 15px;
+        color: #333;
+    }
+    .area_tit:after{
+        background: #ffffff;
+    }
+    .area:before{
+        background: #ffffff;
+    }
+</style>
+<body>
+<ul class="mui-table-view area_tit">
+    <li class="mui-table-view-cell mui-media" style="border: none;"><a href="javascript:;"><div class="mui-media-body"><input class="search_address" type="text" placeholder="搜索"/><button class="serch_btn">搜索</button></div></a></li>
+    <li class="mui-media" style="padding: 14px;border-bottom:1px solid hsla(0, 0%, 93%, 0.6);"><a href="javascript:;"><div class="mui-media-body"><div class="local" style="color: #ff6600;">附近小区</div></div></a></li>
+</ul>
+<ul class="mui-table-view area">
+
+</ul>
+</body>
+<script type="text/javascript" src="../asset/js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../asset/js/rem.js"></script>
+<script src="../asset/js/mui.min.js"></script>
+<script src="../asset/js/common.js"></script>
+<script>
+    $(function(){
+        //do something
+        var openid = localStorage.getItem('openid');
+        var local = localStorage.getItem('local');
+        selshequ()
+        function selshequ(){
+            $.ajax({
+                type:"get",
+                url: fixurl + "shequ.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"shequliebiao"
+                },
+                success:function(json){
+                    var obj =json;
+                    if(json.code==200){
+                        $(".area").html("");
+                        var ovj = json.obj;
+                        var list =ovj.shequ;
+                        for (var i=0;i<list.length;i++){
+                            var id = list[i].id;    //小区唯一编号
+                            var zuobiao   = list[i].zuobiao  ;    //小区坐标
+                            var weizhi  = list[i].weizhi ;      //小区地址
+                            var zhaopian  = list[i].zhaopian ; //小区照片，多张照片以“，”隔开
+                            var StoreListLi ='<li id="area'+id+'" class="mui-table-view-cell mui-media"><a href="javascript:;"><div class="mui-media-body"><div class="local">'+list[i].mingcheng+'</div></div></a></li>';
+                            StoreListLi=+
+                                    $(".area").append(StoreListLi);
+                        }
+
+                        $(".area li").click(function(){
+                            var shequids = $(this).attr("id");
+                            var shequid = shequids.replace(/area/,"");
+                            var location = $(this).find(".mui-media-body").text();
+                            var local = $(this).find(".local").text();
+                            localStorage.setItem('local', local);
+                            localStorage.setItem('shequid', shequid);
+                            window.location.href = "perfect_info.html";
+                        })
+
+                    }else{
+                        alert(json.code);
+                    }
+                },
+                error:function(){
+                    alert("error")
+                }
+            });
+        }
+        $('.search_address').bind('input propertychange', function(){
+            var length  = $(this).val().length;
+            if(length == "0"){
+                selshequ();
+            }
+        });
+        $(".serch_btn").click(function(){
+            $.ajax({
+                type:"post",
+                url: fixurl + "shequ.php",
+                async:true,
+                dataType:"json",
+                data:{
+                    bs:"shequliebiao",
+                    mingcheng:$(".search_address").val(),
+                    id:1
+                },
+                success:function(json){
+                    if(json.code==200){
+                        var list = json.obj.shequ;
+                        $(".area").html("");
+                        if(list !=null){
+                            for(var i=0;i<list.length;i++){
+                                var StoreListLi ='<li id="area'+list[i].id+'" class="mui-table-view-cell mui-media"><a href="javascript:;"><div class="mui-media-body"><div class="local">'+list[i].mingcheng+'</div></div></a></li>';
+                                StoreListLi=+
+                                        $(".area").append(StoreListLi);
+                            }
+                            $(".area li").click(function(){
+                                var shequids = $(this).attr("id");
+                                var shequid = shequids.replace(/area/,"");
+                                var location = $(this).find(".mui-media-body").text();
+                                var local = $(this).find(".local").text();
+                                localStorage.setItem('local', local);
+                                localStorage.setItem('shequid', shequid);
+                                window.location.href = "perfect_info.html";
+                            })
+                        }
+                    }
+                }
+            });
+
+        });
+
+    })
+</script>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>员工业绩排行</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="assets/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+</head>
+<style>
+    html,body{
+        background: #f2f2f2;
+    }
+    .clerk-view{
+        padding: 10px;
+    }
+    .clerk-view li{
+        background: #ffffff;
+        border-bottom: none;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    }
+    .clerk-view li:first-child{
+        background: -webkit-linear-gradient(right, #2fcab1, #2cd698);
+    }
+    .clerk-view li:first-child h3 ,.clerk-view li:first-child .clerk-order ,.clerk-view li:first-child .clerk-revenue{
+        color: #fff;
+    }
+    .gold{
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        background-size: 40px;
+        color: #fff;
+        font-size: 23px;
+        margin-top: 10px;
+        font-weight: 800;
+    }
+</style>
+<body>
+<div id="wrapper">
+    <div id="scroller">
+
+        <ul class="clerk-view"></ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="assets/js/rem.js"></script>
+<script type="text/javascript" src="assets/js/common.js"></script>
+
+<!--上拉刷新下拉加载 start-->
+<script src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" href="assets/js/pullToRefresh/dropload.css">
+<script src="assets/js/pullToRefresh/dropload.js"></script>
+<!--上拉刷新下拉加载 end-->
+<script>
+
+    function UrlSearch(){
+        var name,value;
+        var str = location.href; //取得整个地址栏
+        var num = str.indexOf("?");
+        str = str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr = str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                this[name]=value;
+            }
+        }
+    }
+    var Request = new UrlSearch(); //实例化
+      var kaishishijian = Request.shijian;
+      var jieshushijian = Request.shijian;
+      var shanghuid = Request.shanghuid;
+//  var kaishishijian = 1490979661;
+//  var jieshushijian = 1494493958;
+//  var shanghuid = 389;
+    var  page = 1;
+    function getData(page,callback){
+        $.ajax({
+            type: "get",
+            async: true,
+            url: fixurl + "user.php?bs=yuangong&shanghuid="+shanghuid+"&kaishishijian="+kaishishijian+"&jieshushijian="+jieshushijian,
+            dataType: "json",
+            timeout: 0,
+            success: function(data, status, xhr){
+                callback(data);
+            },
+            error: function(xhr, errorType, error){
+                callback({data:[]});
+            }
+        });
+    }
+    var dropload = $('#wrapper').dropload({
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh"><i class="iconfont icon-jiazaishang"></i>上拉加载更多</div>',
+            domLoad: '<div class="dropload-load"><i class="iconfont icon-jiazai1"></i>加载中...</div>',
+            domNoData: '<div class="dropload-noData">没有更多内容了</div>'
+        },
+        scrollArea : window,
+        loadDownFn:function(me){//下拉加载
+            getData(page,function(result){
+                appendList(result);
+                if(result.obj.num < 10){
+                    me.lock();
+                    me.noData();
+                }else if(result.obj.num == 10 || result.obj.num != 0){
+                    page++;
+                }else {
+                    me.lock();
+                    me.noData();
+                }
+                dropload.resetload();
+            });
+        }
+//        loadUpFn : function(me){//上拉刷新
+////                    window.onload.reload();
+//            dropload.resetload();
+//        }
+    });
+    //新鲜事列表
+    function appendList(json){
+        if(json.code==200){
+            console.log(json);
+
+            var clerklist = json.obj.list;
+            for(var i = 0;i<clerklist.length;i++){
+                var s = i+1
+                if(s==1){
+                    var ima = "background-image: url(assets/image/组-8@3x.png)";
+                    k = ""
+                }else if(s==2){
+                    var ima = "background-image: url(assets/image/组-9@3x.png)";
+                    k = ""
+                }else if(s==3){
+                    var ima = "background-image: url(assets/image/组-10@3x.png)";
+                    k = ""
+                }else{
+                    var ima = "background-image: url(assets/image/六边形-01@3x.png)";
+                    k = s
+                }
+                const li = '<li><img src="'+zhiyezhao+clerklist[i].zhiyezhao+'"/><div class="clerk-body"><h3>'+clerklist[i].shanghunicheng+'<span class="fr gold" style="'+ima+'">'+k+'</span></h3><div class="clerk-order">服务次数：'+clerklist[i].fuwushu+'次 </div><div class="clerk-revenue">营业收入：'+clerklist[i].yingyejine+'元 销售收入：'+clerklist[i].xiaoshoujine+'元</div></div></li>'
+                $(".clerk-view").append(li);
+            }
+
+
+        }
+    }
+</script>
+</html>
